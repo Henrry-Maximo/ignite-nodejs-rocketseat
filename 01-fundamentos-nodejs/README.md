@@ -1,0 +1,1 @@
+- anotações das aulas da plataforma de ensino: RocketSeat
