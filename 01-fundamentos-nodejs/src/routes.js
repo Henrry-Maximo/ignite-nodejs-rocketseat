@@ -5,7 +5,8 @@ const database = new Database();
 
 // um array de rotas (todas as rotas)
 // cada rota será um objeto
-// path || url
+// path || url - caminho
+// handler ==> o que vai acontecer caso a rota seja chamada
 export const routes = [
   {
     method: "GET",
