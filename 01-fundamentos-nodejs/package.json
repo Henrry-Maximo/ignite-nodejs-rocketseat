@@ -8,7 +8,7 @@
     "dev": "node --watch src/server.js --trace-warnings"
   },
   "keywords": [],
-  "author": "",
+  "author": "Henrique Maximo",
   "license": "ISC",
   "dependencies": {
     "httpie": "^1.1.2"
