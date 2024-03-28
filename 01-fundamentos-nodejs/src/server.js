@@ -1,6 +1,7 @@
 import http from "node:http";
 import { json } from "./middlewares/json.js";
 import { routes } from "./routes.js";
+import { extractQueryParams } from "./utils/extract-query-params.js";
 
 const server = http.createServer(async (request, response) => {
   const { method, url } = request;
@@ -35,8 +36,15 @@ const server = http.createServer(async (request, response) => {
     // quais foram os dados encontrados?
     const routeParams = request.url.match(route.path);
 
+    // console.log(extractQueryParams(routeParams.groups.query))
+
+    const { query, ...params } = routeParams.groups
+
+    request.params = params
+    request.query = query ? (extractQueryParams(query)) : {}
+
     // somente key e value de determinada propriedade
-    request.params = { ...routeParams.groups}
+    // request.params = { ...routeParams.groups}
 
     return route.handler(request, response);
   }

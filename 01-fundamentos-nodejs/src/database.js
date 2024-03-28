@@ -37,9 +37,23 @@ export class Database {
   }
 
   // select
-  select(table) {
+  select(table, search) {
     // se existi uma tabela com este nome, se não existir, retorna vazio
-    const data = this.#database[table] ?? [];
+    let data = this.#database[table] ?? [];
+    // let it change
+
+    // { name: "Diego", email: "Diego"}
+    // [ [ "name", "Diego" ], ["email", "Diego"] ]
+    // some: desestruturar
+
+    if (search) {
+      data = data.filter(row => {
+        return Object.entries(search).some(([key, value]) => {
+          // linha na propriedade key incluir value
+          return row[key].toLowerCase().includes(value.toLowerCase());
+        })
+      })
+    }
 
     return data;
   }

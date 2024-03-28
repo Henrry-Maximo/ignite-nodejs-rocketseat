@@ -13,7 +13,13 @@ export const routes = [
     method: "GET",
     path: buildRoutePath("/users"),
     handler: (request, response) => {
-      const users = database.select("users");
+      const { search } = request.query
+
+      // envio de um object
+      const users = database.select("users", search ? {
+        name: search,
+        email: search,
+      } : null);
 
       return response.end(JSON.stringify(users));
     }
@@ -59,7 +65,6 @@ export const routes = [
         name, email,
       })
 
-      console.log(request.params)
       return response.writeHead(204).end();
     },
   }
