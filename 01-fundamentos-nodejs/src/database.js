@@ -56,4 +56,28 @@ export class Database {
 
     return data;
   }
+
+  // método
+  delete(table, id) {
+    const rowIndex = this.#database[table].findIndex(row => row.id === id);
+
+    if (rowIndex > -1) {
+      // selecionando a tabela e removendo a linha retornada, somente está linha
+      this.#database[table].splice(rowIndex, 1)
+      // salvar no banco de dados
+      this.#persist();
+    }
+  }
+
+  update(table, id, data) {
+    const rowIndex = this.#database[table].findIndex(row => row.id === id);
+
+    if (rowIndex > -1) {
+      // enviando o id e as informações
+      // acessando a key users e o indice do array (id)
+      this.#database[table][rowIndex] = { id, ...data }
+      // salvar no banco de dados
+      this.#persist();
+    }
+  }
 }

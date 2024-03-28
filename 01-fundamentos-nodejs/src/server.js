@@ -25,11 +25,19 @@ const server = http.createServer(async (request, response) => {
   // Base de Rotas
   // encontrar uma rota aonde o método seja igual ao método que esteja sendo requisitado
   // e que o path também seja igual a url que está sendo requisitada
+  // toda regex tem um métdo test, ou seja, para verificar se o valor passado é True || False (retornar booleano)
   const route = routes.find((route) => {
     return route.method === method && route.path.test(url);
   });
 
+  // se conseguiu encontrar a rota
   if (route) {
+    // quais foram os dados encontrados?
+    const routeParams = request.url.match(route.path);
+
+    // somente key e value de determinada propriedade
+    request.params = { ...routeParams.groups}
+
     return route.handler(request, response);
   }
 
