@@ -1,13 +1,8 @@
-// buffer: dados armazenados em binário na memória para serem chamados, usandos
-// e eliminados
-
+// Buffer: data stored in binary in memory to be recalled, used and deleted
 const buf = Buffer.from(
-  "Feliz domingo a todos e @Sonic."
+  "RocketSeat Is Very Good!"
 );
 
+// Binário && Hexadecimal
 console.log(buf.toJSON("utf8"));
-
-// Binário
-// Hexadecimal
-
-// Os buffers são populados com strings
+// The Buffers are populated with strings

@@ -1,11 +1,11 @@
 export async function json(request, response) {
-  // Leitura de Streams Completa
+  // complete Streams reading
   const buffers = [];
   for await (const chunk of request) {
     buffers.push(chunk);
   } 
   
-  // receber os dados - tratar o corpo da requisição / convertendo de buffer para json
+  // receive the data: treat the body of request /buffer for json
   try {
     request.body  = JSON.parse(Buffer.concat(buffers).toString());
   } catch {

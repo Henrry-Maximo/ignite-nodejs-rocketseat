@@ -1,10 +1,12 @@
 import http from "node:http";
-// UUID => Unique Universal ID
-import { randomUUID } from 'node:crypto'
+import { randomUUID } from 'node:crypto'; // UUID => Unique Universal ID
 import { json } from "./middlewares/json.js";
 import { Database } from "./database.js";
-// quando se está trabalhando com type module, 
-// precisa específicar a extensão do arquivo nas exportações
+
+/* 
+when working with type module,
+need to specify the file extension in exports
+*/
 
 // const users = [];
 // const database = new Database();
@@ -12,10 +14,8 @@ import { Database } from "./database.js";
 const server = http.createServer( async (request, response) => {
   const { method, url } = request;
 
-  // middleware = interceptar a requisição
-  // Funções que interceptam e manipulam a requisição e a resposta de uma rota
-  // é necessário aguardar a resposta para prosseguir (await)
-  await json(request, response)
+  // using "await" to wait for the response
+  await json(request, response) // middleware = intercept a request/response of an route
   
   if (method === "GET" && url === "/users") {
     const users = database.select("users");
@@ -27,11 +27,12 @@ const server = http.createServer( async (request, response) => {
    try {
     const { name, email } = request.body;
 
-    // Math.random (números aleatórios) => não é legal
-    // Short Unique Id
-    // Utilizando randomUUID, pois é nativo do NodeJS.
-    const user = { id: randomUUID(), name, email };
+    /*
+    Math.random (numbers random) ==> not is cool
+    Using randomUUID, because is native of NodeJS (Short-Unique-Id)
+    */
 
+    const user = { id: randomUUID(), name, email };
     database.insert("users", user)
 
     return response.writeHead(201).end();
@@ -40,7 +41,6 @@ const server = http.createServer( async (request, response) => {
     return response.writeHead(400).end();
     // return res.writeHead(404).end('Defina uma rota de URL!')
    }
-
   }
   return response.writeHead(404).end();
 });

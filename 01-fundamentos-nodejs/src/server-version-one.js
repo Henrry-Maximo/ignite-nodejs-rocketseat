@@ -1,7 +1,7 @@
 // módulo padrão do NodeJS
 // const http = require('http');
 import http from "node:http";
-// obs.: colocar um prefixo interno para evidenciar os módulos nativos = interno do NodeJS
+// obs.: prefixo interno - módulos nativos = interno do NodeJS
 
 // Módulo mais famoso: Fastify
 // import fastify from "fastify";
@@ -9,7 +9,7 @@ import http from "node:http";
 // ------------------------------------------------------------
 
 // Padrões de Importação:
-// CommonJS => REQUIRE
+// CommonJS => require
 // ESModules => import/export
 
 // ------------------------------------------------------------
@@ -35,12 +35,12 @@ const users = [];
 
 // ------------------------------------------------------------
 
-// Criando o Servidor
-// primeiro e único parâmetro = uma arrow fucntion
+// server startup
+// first and only parameter = an arrow function
 const server = http.createServer((request, response) => {
   // const method = req.method;
   const { method, url } = request;
-  // chaves = desentruturação do objeto req
+  // keys = destructuring the Req object
 
   if (method === "GET" && url === "/users") {
     return response
@@ -60,14 +60,13 @@ const server = http.createServer((request, response) => {
   }
 
   // console.log(method, url);
-
   return response.writeHead(404).end();
 });
 
-// Imagine: através do req é possível obter todas as informações de quem está chamando nosso servidor;
-// já o res é pra responder quem está chamando
-
-// ------------------------------------------------------------
+/* 
+Req: get the data of who is calling our server
+Res: respond to whoever is requesting it.
+*/
 
 // acesso a porta, executa a função server
 server.listen(4444);

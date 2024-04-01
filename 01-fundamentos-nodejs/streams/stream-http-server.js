@@ -14,11 +14,13 @@ class InverseNumberStream extends Transform {
 // req ==> ReadableStream
 // res ==> WritableStream 
 
-// inicialização do servidor 
+// server startup 
 const server = http.createServer( async (request, response) => {
     // ler todos os dados da stream para manipular:
     const buffers = [];
-    // pedacinhos que vai receber da stream / percorrer e popular os buffers / trabalhar com o array de forma completa.
+    // pedacinhos que vai receber da stream
+    // percorrer e popular os buffers 
+    // trabalhar com o array de forma completa.
 
     // async/await - promisses
     // aguarda cada pedaço da Stream ser retornado
@@ -27,11 +29,9 @@ const server = http.createServer( async (request, response) => {
       buffers.push(chunk);
     } 
 
-    // concat() = unir vários pedacinhos em vários pedaços
+    // concat(): unir vários pedacinhos em vários pedaços
     const fullStreamContent  = Buffer.concat(buffers).toString();
-
     console.log(fullStreamContent);
-
     return response.end(fullStreamContent);
 
   // try {

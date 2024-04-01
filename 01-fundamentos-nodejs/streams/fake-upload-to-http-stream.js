@@ -1,7 +1,9 @@
 import { Readable } from "node:stream";
 
-// FRONT-END: Enviando os dados para o BACK-END
-// Featch API | Nativo NodeJS = é uma API completa para trabalhar com requisições e respostas
+/* 
+front: sending the data to the backend
+observation: featch (API) - is a API full for work with request and response 
+*/
 
 class OneToHundredStream extends Readable {
   index = 1;
@@ -11,41 +13,46 @@ class OneToHundredStream extends Readable {
 
     setTimeout(() => {
       if (i > 5) {
-        this.push(null)
+        this.push(null);
       } else {
-        // criar uma buffer apartir de uma string
+        // creating a buffer from a string
         const buf = Buffer.from(String(i));
 
         this.push(`\n${buf}`);
       }
-    }, 1000)
-
+    }, 1000);
   }
 }
 
-// A Stream só pode ser enviada se o método POST ou PUT
-// fetch("http://localhost:4444", {
-//   method: "POST",
-//   body: new OneToHundredStream(),
-//   duplex: 'half'
-// }).then(response => {
-//   response.text().then(data => {console.log(data)
-//   })
-// })
+/*
+sending of Stream only if the method is POST or PUT
 
+#01-example:
 fetch("http://localhost:4444", {
   method: "POST",
   body: new OneToHundredStream(),
   duplex: 'half'
 }).then(response => {
-  return response.text()
-}).then(data => {
-  console.log(data);
+  response.text().then(data => {console.log(data)
+  })
 })
+*/
 
-// Isso pode ser feito no lado do servidor utilizando o header "Content-Length". 
-// Por exemplo, em Node.js com o framework Express, você pode acessá-lo dentro do objeto "req" da seguinte forma:
-// const contentLength = parseInt(req.headers['content-length']);
+// #02-example:
+fetch("http://localhost:4444", {
+  method: "POST",
+  body: new OneToHundredStream(),
+  duplex: "half",
+})
+.then((response) => { return response.text();})
+.then((data) => {console.log(data);});
 
+/* 
+in server is possible use the header: "Content-Length"
+example: in NodeJS with the framework - Express, you can 
+access it inside a "req" object as follows:
+const contentLength = parseInt(req.headers['content-length']);
 
-// REST CLIENT - INSOMNIA: PERMITE FAZER CHAMADAS HTTP DENTRO DA NOSSA MÁQUINA EM ALGUMA API
+observartion: rest-client(Postman/Insomnia) - allows us to make 
+HTTP calls within our machine using some API.
+*/

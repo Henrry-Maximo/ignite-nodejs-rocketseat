@@ -2,9 +2,9 @@
 // /users/:id
 export function buildRoutePath(path) {
   const routeParametersRegex = /:([a-zA-Z]+)/g
-  // $1 = pegar o nome da route parameters declarada na route após a vírgula
+  
   const pathWithParams = path.replaceAll(routeParametersRegex, '(?<$1>[a-z0-9-\-_]+)');
-
+// $1 = pegar o nome da route parameters declarada na route após a vírgula
   // console.log(pathWithParams)
   // const test = /\/users\/([a-z0-9--_]+)/
 
@@ -25,7 +25,7 @@ export function buildRoutePath(path) {
 // Extension: Regex Previewer
 
 
-// Obs.: dificilmente você criará uma aplicação do zero
+// Obs.: It is unlikely that you will create an application from scratch
 // Frameworks (micro)
 // express
 // fastify

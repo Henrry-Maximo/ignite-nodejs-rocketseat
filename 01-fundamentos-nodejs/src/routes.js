@@ -4,10 +4,13 @@ import { buildRoutePath } from "./utils/build-route-path.js";
 
 const database = new Database();
 
-// um array de rotas (todas as rotas)
-// cada rota será um objeto
-// path || url - caminho
-// handler ==> o que vai acontecer caso a rota seja chamada
+/* 
+an array of route: all routes
+each route will be an object
+property: path || url
+handler ==> response if the route is requested
+*/
+
 export const routes = [
   {
     method: "GET",
@@ -15,7 +18,7 @@ export const routes = [
     handler: (request, response) => {
       const { search } = request.query
 
-      // envio de um object
+      // sending of an object
       const users = database.select("users", search ? {
         name: search,
         email: search,
@@ -32,28 +35,25 @@ export const routes = [
       const user = { id: randomUUID(), name, email };
   
       database.insert("users", user)
-  
       return response.writeHead(201).end();
     }
   },
   {
-    // identificar o parâmetro da rota com dois pontos (":")
-    // se receber mais de um route parameters = renomear grupos
+    /* 
+    route parameter identified with two dots: ":"    
+    if receive more of an route parameters: rename for "groups"
+    */
     method: "DELETE",
     path: buildRoutePath("/users/:id"),
     handler: (request, response) => {
-
       const { id } = request.params;
 
       database.delete("users", id)
-
       // console.log(request.params)
       return response.writeHead(204).end();
     },
   },
   {
-    // identificar o parâmetro da rota com dois pontos (":")
-    // se receber mais de um route parameters = renomear grupos
     method: "PUT",
     path: buildRoutePath("/users/:id"),
     handler: (request, response) => {

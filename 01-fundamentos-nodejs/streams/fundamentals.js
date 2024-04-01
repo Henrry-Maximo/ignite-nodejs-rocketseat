@@ -1,57 +1,53 @@
-// Netflix & Spotify
+/*
+Stream: view content in small parts of something and 
+work with the file without fully charging.
 
-// Stream: visualizar o conteúdo em pequenas partes de alguma coisa, e conseguir trabalhar com aquele arquivo
-// sem ter o carregamento completo
+Examples that use Streams: Netflix and Spotify. 
+Netflix & Spotify
 
-// Importação de Clientes via CSV (Excel)
-// 1GB - 1.000.000
-// POST /upload import.csv
+importing customers via CSV (Excel)
+1GB: 1.000.000
+POST /upload import.csv
+10mb/s - 100s
+100s -> Inserções no banco de dados
+10mb/s --> 10.000
 
-// 10mb/s - 100s
+read the data little by little and continue 
+processing while the file is being uploaded.
 
-// 100s -> Inserções no banco de dados
+Readable Streams: user sent the demand, and we are slowly reading it
+Writable Streams: back-end sent little by little tha information for the front
+Door of Input/Output: req, res;
+Streams --> Treat the DATA / stdin (Duplex Stream)
 
-// 10mb/s --> 10.000
-
-// ler os dados recebidos aos poucos e ir processando enquanto o arquivo ainda está em upload. 
-
-// Readable Streams: usuário enviou a demanda, e estamos lendo aos poucos 
-// Writable Streams: back enviando aos poucos a informação ao front
-
-
-// Porta de Entrada/Saída: req, res;
-
-// Streams -> Tratar os Dados / stdin (Duplex Stream)
-// stream conectada ao terminal:
-// "process.stdin": receber o que vem da entrada / "pipe()": encaminhando para / "process.stdout": uma stream de saída - escrevendo
-// process.stdin.pipe(process.stdout)
-// Stream Read / Stream Write
+Stream connected to the terminal:
+"process.stdin": entrada / 
+"pipe()": para / 
+"process.stdout": saída /
+process.stdin.pipe(process.stdout)
+*/
 
 // Stream Read / Stream Write
 import { Readable, Writable, Transform, Duplex } from 'node:stream';
 
-// class que manterá funções e herdará os método do Readable interno do NodeJS
-// Stream de dados: tem como objetivo enviar dados/fornecer informações
+// class: which hold functions and will inherit Node Js internal Readable methods
+// Stream: aims to send data/provide information
 class OneToHundredStream extends Readable {
   index = 1;
 
   _read() {
     const i = this.index++;
-
-    // Executar o código depois de um tempo
+    // setTimeout to run after a while
     setTimeout(() => {
-      // Stream: trabalhando com os dados antes mesmo de estarem completos
+      // stream: working with the data before they are even complete
       if (i > 100) {
-        // fornecer informações para quem estiver consumindo (quando se utilizar Readable Stream): método push()
+        // provide information to those who are consuming (Readable Stream): method push()
         this.push(null)
       } else {
         const buf = Buffer.from(String(i));
-
         this.push(`\n${buf}`);
       }
     }, 1000)
-
-    // console.log(i);
   }
 }
 
