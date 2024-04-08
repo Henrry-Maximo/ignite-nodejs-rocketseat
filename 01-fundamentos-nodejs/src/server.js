@@ -33,6 +33,7 @@ const server = http.createServer(async (request, response) => {
   sendo requisitada
   */
   
+  // utilizar método find para encontrar rotas, verificadndo method and path
   const route = routes.find((route) => {
     // regex: há um método test - verificar o valor (booleano)
     return route.method === method && route.path.test(url);
