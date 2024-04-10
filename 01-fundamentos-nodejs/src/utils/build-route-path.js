@@ -1,4 +1,4 @@
-// criando regex dos parâmetros (expressão regular)
+// criando regex dos parâmetros (expressão regular): encontrar texto dentro de um texto
 // /users/:id
 export function buildRoutePath(path) {
   const routeParametersRegex = /:([a-zA-Z]+)/g
