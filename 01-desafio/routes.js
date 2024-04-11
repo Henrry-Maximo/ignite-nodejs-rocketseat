@@ -18,7 +18,7 @@ function formatDate(date = new Date(), format = "dd/mm/aaaa") {
 export const routes = [
   {
     method: "GET",
-    path: "/tasks",
+    path: buildRoutePath("/tasks"),
     handler: (request, response) => {
       console.log(request.query)
       const task = db.select("tasks");
@@ -28,7 +28,7 @@ export const routes = [
   },
   {
     method: "POST",
-    path: "/tasks",
+    path: buildRoutePath("/tasks"),
     handler: (request, response) => {
       const { title, description } = request.body
       const completed_at = null;
@@ -38,6 +38,16 @@ export const routes = [
 
       db.insert("tasks", task);
       return response.writeHead(201).end();
+    }
+  },
+  {
+    method: "DELETE",
+    path: buildRoutePath("/tasks/:id"),
+    handler: (request, response) => {
+      const {  id } = request.params;
+      db.delete("tasks", id)
+
+      return response.writeHead(204).end();
     }
   },
 ]
