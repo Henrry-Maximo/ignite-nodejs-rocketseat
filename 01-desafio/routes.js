@@ -66,9 +66,26 @@ export const routes = [
     method: "PUT",
     path: buildRoutePath("/tasks/:id"),
     handler: (request, response) => {
+      // qual task?
       const { id } = request.params;
+
+      // qual dados serão atualizados?
       const { title, description } = request.body;
 
+      // verificar se title e description foram retornados
+      if (!title && !description) {
+        return response.writeHead(400).end({ message: "título ou descrição são requisitados." })
+      }
+
+      // verificar se os dados já existem
+      const [task] = db.select('tasks', { id })
+
+      if (!task) {
+        return response.writeHead(404).end({ message: "task não encontrada." }) 
+      }
+
+
+      // chave: valor (body) e valor (select)
       db.update("tasks", id, {
         title, description
       })
