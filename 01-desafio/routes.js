@@ -48,7 +48,8 @@ export const routes = [
       };
 
       db.insert("tasks", task);
-      return response.writeHead(201).end();
+
+      return response.writeHead(201).end(JSON.stringify({ msg: "Tarefa inserida com sucesso" }));
     },
   },
   {
@@ -73,24 +74,30 @@ export const routes = [
       const { title, description } = request.body;
 
       // verificar se title e description foram retornados
-      if (!title && !description) {
-        return response.writeHead(400).end({ message: "título ou descrição são requisitados." })
+      if (!title || !description) {
+        return response.writeHead(400).end(JSON.stringify({ msg: "falta parâmetro, título ou descrição" }));
       }
 
       // verificar se os dados já existem
       const [task] = db.select('tasks', { id })
 
+      // responder case task não seja encontrada
       if (!task) {
-        return response.writeHead(404).end({ message: "task não encontrada." }) 
+        return response.writeHead(404).end(JSON.stringify({ msg: "task não encontrada" })) 
       }
 
 
       // chave: valor (body) e valor (select)
+      // operador de coalescência
       db.update("tasks", id, {
-        title, description
+        title: title ?? task.title, 
+        description: description ?? task.description,
+        completed_at: task.completed_at,
+        created_at: task.created_at,
+        updated_at: new Date(),
       })
 
-      return response.writeHead(204).end();
+      return response.writeHead(200).end(JSON.stringify({ msg: "atualizado com sucesso" }));
     },
   },
 ];
