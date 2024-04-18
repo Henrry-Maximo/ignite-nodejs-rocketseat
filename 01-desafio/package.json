@@ -4,11 +4,13 @@
   "description": "",
   "type": "module",
   "main": "database.js",
-  "devDependencies": {},
   "scripts": {
     "dev": "node --watch ./server.js --trace-warnings"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^3.6.0"
+  }
 }
