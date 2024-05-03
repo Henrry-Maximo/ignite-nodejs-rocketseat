@@ -8,9 +8,7 @@ export function buildRoutePath(path) {
 }
 
 // método matchAll(): retorna uma classe Iterator do JS (sem log - object)
-
 // Extension: Regex Previewer
-
 
 // Obs.: It is unlikely that you will create an application from scratch
 // Frameworks (micro)
