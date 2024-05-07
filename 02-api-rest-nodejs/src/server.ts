@@ -4,6 +4,7 @@ import fastify from "fastify";
 import crypto from 'node:crypto';
 
 import { knex } from "./database";
+import { env } from "./env";
 
 // base of application
 const app = fastify();
@@ -35,7 +36,7 @@ app.get("/hello", async () => {
 
 app
   .listen({
-    port: 3332,
+    port: env.PORT,
   })
   .then(() => {
     console.log("HTTP Server Running!");
