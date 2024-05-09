@@ -6,7 +6,7 @@ import { z } from "zod";
 // todo plugin do fastify, obrigatoriamente, precisa ser uma função assíncrona (await)
 // funcionalidade de plugins
 
-// marcação em app: específicar o formato
+// marcação em app: específicar o formato / inferir automaticamente
 export async function transactionsRoutes(app: FastifyInstance) {
   // app.get("/hello", async () => {
   //   const transactions = await knex("transactions")
@@ -37,7 +37,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
     const createTransacationBodySchema = z.object({
       title: z.string(),
       amount: z.number(),
-      type: z.enum(['credit', 'debit']),
+      type: z.enum(['credit', 'debit']), // enum => um dos dois
     }); 
 
     const { title, amount, type } = createTransacationBodySchema.parse(req.body);
@@ -65,6 +65,8 @@ export async function transactionsRoutes(app: FastifyInstance) {
 
     // express => response
     // resposta vazia
+
+    // Query Builders limitação => ele não sugere os campos existentes no bd
     return reply.status(201).send();
   });
 }
