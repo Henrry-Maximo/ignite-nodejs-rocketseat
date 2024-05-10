@@ -2,6 +2,7 @@ import fastify from "fastify";
 
 // módulo interno
 import crypto from 'node:crypto';
+import cookie from '@fastify/cookie';
 
 import { knex } from "./database";
 import { env } from "./env";
@@ -9,6 +10,9 @@ import { transactionsRoutes } from "./routes/transactions";
 
 // base of application
 const app = fastify();
+
+// antes das rotas / cadastro precisa acontecer antes de inicializar as rotas
+app.register(cookie);
 
 // obs.: ordem que o fastify vai executar / ordem correta
 // segundo parâmetro: configuração

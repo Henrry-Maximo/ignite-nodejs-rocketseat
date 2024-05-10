@@ -82,6 +82,22 @@ export async function transactionsRoutes(app: FastifyInstance) {
     );
     // obs.: possível desestruturação
 
+    // procurando dentro dos cookies (metadados) se já existe, se existir, é só inserir 
+    let sessionId = req.cookies.sessionId
+
+    // porém, se não existir
+    if (!sessionId) {
+      sessionId = randomUUID();
+
+      // salvar no cookie o id criado / possível passar configurações
+      reply.cookie('sessionId', sessionId, {
+        path: '/',
+        // primeira dica: não colocar um número gigante pela calculadora (ninguém vai entender)
+        maxAge: 1000 * 60 * 60 * 24 * 7, // segunda dica: 7 days - colocar um comentário (clean code) 
+        // expires: new Date('2023-12-01T08:00:00') - CHATO!
+      });
+    } 
+
     // alternativa => importar somente o módulo:
     // import { randomUUID } from  "crypto"
     // ou => import crypto from "crypto" = id: crypto.randomUUID()
@@ -90,6 +106,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
       title,
       // amount => debito = valor negativo / facilitar a soma (overview)
       amount: type === "credit" ? amount : amount * -1,
+      session_id: sessionId,
     });
     // returning => geralmenta não utilizado em rotas de criação
 

@@ -3,7 +3,6 @@
 /* 
 tipos inferidos: aumentar interface Tables no módulo 'knex/types/tables'.
 reduzir a quantidade de código necessário para trabalhar com tabelas (menos código repetitivo e mais eficiência no desenvolvimento)
-
 */
 
 // ignorar a próxima linha (reaproveitar os tipos knex):
