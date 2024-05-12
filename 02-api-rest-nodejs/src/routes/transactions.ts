@@ -2,12 +2,22 @@ import fastify, { FastifyInstance } from "fastify";
 import { knex } from "../database";
 import { randomUUID } from "crypto";
 import { z } from "zod";
+import { checkSessionIdExists } from "../middlewares/check-session-id-exists";
+import { request } from "http";
 
 // todo plugin do fastify, obrigatoriamente, precisa ser uma função assíncrona (await)
 // funcionalidade de plugins
 
 // marcação em app: específicar o formato / inferir automaticamente
 export async function transactionsRoutes(app: FastifyInstance) {
+
+  // middlewares globaias
+  // declaração do Handler Global / só serve para este plugin
+  app.addHook('preHandler', async (req, reply) => {
+    console.log(`[${req.method}], ${req.url}`)
+  })
+
+
   // app.get("/hello", async () => {
   //   const transactions = await knex("transactions")
   //     .where("amount", 500)
@@ -22,8 +32,24 @@ export async function transactionsRoutes(app: FastifyInstance) {
   // listar uma única transaction
   // app.get('/transact/:id')
 
-  app.get("/", async (req, reply) => {
-    const transactions = await knex("transactions").select("*");
+  // segundo parâmetro: configuração
+  // preHandler - executa antes do handler (funcionamento da rota)
+  // lógica: estabelecer em várias rotas, executa antes e verifica se existi
+  app.get("/", { preHandler: [checkSessionIdExists] }, async (req, reply) => {
+    // utilizar cookie para buscar somente as transações do usuário que fez o envio
+    const { sessionId } = req.cookies;
+
+    // if (!sessionId) {
+    //   return reply.status(401).send({ error: "Unauthorizad" });
+    // }
+
+    // buscar todos os dados
+    // const transactions = await knex("transactions").select("*");
+
+    // buscar dados do usuário que tem cookie associado
+    const transactions = await knex("transactions")
+      .where("session_id", sessionId)
+      .select("*");
 
     // evitar envar direto o array, pois se um dia quiseres retornar mais um dado
     // vai ser difícil, porque não há onde inserir a informação
@@ -37,32 +63,41 @@ export async function transactionsRoutes(app: FastifyInstance) {
   });
 
   // resumo da conta do usuário
-  app.get('/summary', async () => {
-    const summary = await knex('transactions').sum('amount', { as: 'amount' }).first();
+  app.get("/summary", async (req, reply) => {
+    const { sessionId } = req.cookies
 
-    return { summary }
-  })
+    // buscar as transações onde a transação tenha o mesmo sessionId dos Cookies
+    // e somar todos os valores de amount
+    const summary = await knex("transactions").where('sessionId', sessionId)
+    .sum("amount", { as: "amount" })
+      .first();
+
+    return { summary };
+  });
 
   // receber um parâmetro da minha rota
   // ex.: http://localhost:3333/transactions/sadasd-123123as-asdas-12312
 
   // request => params (parâmetros renomeados)
-  app.get("/:id", async (req, reply) => {
+  app.get("/:id", { preHandler: [checkSessionIdExists] }, async (req, reply) => {
     // z.object => espera receber um objecto
     const getTransactionsParamsSchema = z.object({
-      // O Zod permite realizar a verificação do id (Universe Unique Id) 
+      // O Zod permite realizar a verificação do id (Universe Unique Id)
       id: z.string().uuid(),
     });
 
     // parse: validando e transformando os dados da requisição (formato)
     // se quiseres, pode desestruturar
-    const { id } = getTransactionsParamsSchema.parse(req.params)
+    const { id } = getTransactionsParamsSchema.parse(req.params);
+
+    const { sessionId } = req.cookies;
 
     // buscar uma única transação:
     // método first() = só vai ter um resulado, pois queremos apenas uma transação
-    const transaction = await knex('transactions').where('id', id).first();
+    // const transaction = await knex("transactions").where("id", id).andWhere('session_id', sessionId).first();
+    const transaction = await knex("transactions").where({ session_id: sessionId, id }).first();
 
-    return { transaction }; 
+    return { transaction };
   });
 
   // rota para criação de uma nova transaction
@@ -82,21 +117,21 @@ export async function transactionsRoutes(app: FastifyInstance) {
     );
     // obs.: possível desestruturação
 
-    // procurando dentro dos cookies (metadados) se já existe, se existir, é só inserir 
-    let sessionId = req.cookies.sessionId
+    // procurando dentro dos cookies (metadados) se já existe, se existir, é só inserir
+    let sessionId = req.cookies.sessionId;
 
     // porém, se não existir
     if (!sessionId) {
       sessionId = randomUUID();
 
       // salvar no cookie o id criado / possível passar configurações
-      reply.cookie('sessionId', sessionId, {
-        path: '/',
+      reply.cookie("sessionId", sessionId, {
+        path: "/",
         // primeira dica: não colocar um número gigante pela calculadora (ninguém vai entender)
-        maxAge: 1000 * 60 * 60 * 24 * 7, // segunda dica: 7 days - colocar um comentário (clean code) 
+        maxAge: 60 * 60 * 24 * 7, // segunda dica: 7 days - colocar um comentário (clean code)
         // expires: new Date('2023-12-01T08:00:00') - CHATO!
       });
-    } 
+    }
 
     // alternativa => importar somente o módulo:
     // import { randomUUID } from  "crypto"
