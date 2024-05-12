@@ -1,4 +1,5 @@
 import fastify from "fastify";
+import { app } from './app'
 
 // módulo interno
 import crypto from 'node:crypto';
@@ -9,17 +10,17 @@ import { env } from "./env";
 import { transactionsRoutes } from "./routes/transactions";
 
 // base of application
-const app = fastify();
+// const app = fastify();
 
 // antes das rotas / cadastro precisa acontecer antes de inicializar as rotas
-app.register(cookie);
+// app.register(cookie);
 
 // obs.: ordem que o fastify vai executar / ordem correta
 // segundo parâmetro: configuração
 // prefix => todas as rotas que comerarem com 'transactions' vai cair no plugin
-app.register(transactionsRoutes, {
-  prefix: 'transactions'
-});
+// app.register(transactionsRoutes, {
+//   prefix: 'transactions'
+// });
 
 // GET, POST, PUT, PATCH, DELETE
 // http://localhost:333/hello
