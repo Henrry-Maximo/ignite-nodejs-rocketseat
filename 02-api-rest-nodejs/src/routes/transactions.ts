@@ -3,8 +3,22 @@ import { knex } from "../database";
 import { randomUUID } from "crypto";
 import { z } from "zod";
 import { checkSessionIdExists } from "../middlewares/check-session-id-exists";
-import { request } from "http";
 
+// ## Testes Automatizados:
+// - Unitários: unidade da sua aplicação
+// - Integração: comunicação entre duas ou mais unidades
+// - e2e - ponta a ponta: simulam um usuário operando na nossa aplicação
+
+// Aplicações Front-end:
+
+// - abre página de login, digite o texto [diego@rocketseat.com.br](mailto:diego@rocketseat.com.br) no campo com ID email, clique no botão
+// - back-end: chamadas HTTP, websockets (camadas que se comunicam)
+
+// Pirâmide de testes: E2E (não dependem de nenhuma tecnologia, não dependem de arquitetura)
+
+// rocketseat back-end testes —> Testes E2E ⇒ 16min
+
+// ## Plugin:
 // todo plugin do fastify, obrigatoriamente, precisa ser uma função assíncrona (await)
 // funcionalidade de plugins
 
@@ -16,7 +30,6 @@ export async function transactionsRoutes(app: FastifyInstance) {
   app.addHook('preHandler', async (req, reply) => {
     console.log(`[${req.method}], ${req.url}`)
   })
-
 
   // app.get("/hello", async () => {
   //   const transactions = await knex("transactions")
