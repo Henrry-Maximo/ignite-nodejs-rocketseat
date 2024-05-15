@@ -9,6 +9,7 @@ const envSchema = z.object({
   // devolopment, test, production
   // em qual ambiente está rodando? | informado automaticamente pelas ferramentas (em algumas não)
   // z.enum => um dentre as opções
+  DATABASE_CLIENT: z.string().default('sqlite'),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
   // é obrigatoriamente uma string
   DATABASE_URL: z.string(), // nullable() => valor vazio / default: obrigatório

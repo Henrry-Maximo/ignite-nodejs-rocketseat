@@ -11,7 +11,7 @@ import { env } from './env';
 // importar interface > definir formato
 
 export const config: Knex.Config = {
-  client: 'sqlite',
+  client: env.DATABASE_CLIENT,
   connection: {
     // se for declarado, mas não usado (undefined), dará erro;
     // zod => env: tipado (todas as variáveis)
