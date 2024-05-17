@@ -1,7 +1,21 @@
-import 'dotenv/config';
+// import 'dotenv/config'; - carregar variáveis ambiente do .env
+import { config } from 'dotenv' 
 import { z } from 'zod'; // criar um schema
 
 // process.env
+
+// se o NODE_ENV for igual a teste, executar método config
+if (process.env.NODE_ENV === "test") {
+  config({ path: ".env.test" })
+} else {
+  config();
+}
+
+// console.log(process.env.NODE_ENV);
+// importante: não precisa declarar no .env o NODE_ENV, pois é preenchido
+// automaticamente ao executar um teste
+// para que o restante do código não seja executado
+// throw new Error();;
 
 // schema: formato de dado
 // z.object: process.env => DATABASE_URL (chave&valor)

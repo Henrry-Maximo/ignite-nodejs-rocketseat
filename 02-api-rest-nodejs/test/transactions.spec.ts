@@ -44,14 +44,40 @@ describe("Transactions routes", () => {
     const createTransactionResponse = await request(app.server)
       .post("/transactions")
       .send({ title: "New transaction", amount: 5000, type: "credit" });
-    const cookies = createTransactionResponse.get("Set-Cookie");
+    // se cookies estiver vazio, retornar um array vazio
+    const cookies = createTransactionResponse.get("Set-Cookie") ?? [];
 
     // sessionId:
     console.log(cookies);
 
     // nova requisição / rota de listagem / set: enviar um cookie (passando o cookie)
     // informação retirada da documentação do supetest
-    await request(app.server).get('/transactions').set('Cookie', cookies).expect(200);
+    const listTransactionsResponse = await request(app.server)
+      .get("/transactions")
+      .set("Cookie", cookies)
+      .expect(200);
+
+    // retornar a transação criada
+    // console.log(listTransactionsResponse.body);
+
+    /*
+    validar que o body está retornando os dados imaginados (transação criada acima esteja contida na lista de transações)
+    espero que o corpo da minha requisição seja um json (uma transação com id do tipo string - espero que meu id seja qualquer string)
+    */
+    // expect(listTransactionsResponse.body).toEqual([
+    //   { 
+    //     id: expect.any(String) 
+    //   }
+    // ]);
+
+    // forma two:
+    // espero que tenha um obejto que contém os dados (title, amount)
+    expect(listTransactionsResponse.body.transactions).toEqual([
+      expect.objectContaining({
+        title: "New transaction",
+        amount: 5000,
+      },)
+    ]);
   });
 });
 
