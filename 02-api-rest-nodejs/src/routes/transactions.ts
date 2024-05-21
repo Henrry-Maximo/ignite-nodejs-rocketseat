@@ -81,7 +81,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
 
     // buscar as transações onde a transação tenha o mesmo sessionId dos Cookies
     // e somar todos os valores de amount
-    const summary = await knex("transactions").where('sessionId', sessionId)
+    const summary = await knex("transactions").where('session_id', sessionId)
     .sum("amount", { as: "amount" })
       .first();
 

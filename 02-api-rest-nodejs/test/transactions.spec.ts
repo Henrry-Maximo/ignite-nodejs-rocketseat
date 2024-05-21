@@ -1,4 +1,15 @@
-import { expect, test, beforeAll, afterAll, describe, it } from "vitest";
+import {
+  expect,
+  test,
+  beforeAll,
+  afterAll,
+  beforeEach,
+  describe,
+  it,
+} from "vitest";
+
+// obter diferentes funções para executar scripts de forma paralela
+import { execSync } from "node:child_process";
 
 // typescript: supertest for construída em js / DT = mantido pela comunidade
 // npm i --save-dev @types/supertest
@@ -10,12 +21,28 @@ import { app } from "../src/app";
 // contexto de execução dos testes
 describe("Transactions routes", () => {
   beforeAll(async () => {
+    // cenário (testes e2e): ambiente totalmente zerado (database)
+    // ou seja, desfazer as migrations em cada teste e montar novamente
+    // execSync('npm run knex migrate:latest');
+
     await app.ready();
   });
 
   afterAll(async () => {
     await app.close();
   });
+
+  // iniciar as migrations para o banco teste.db
+  beforeEach(() => {
+    // para cada teste, apaga o banco e cria de novo
+    execSync("npm run knex migrate:rollback --all");
+
+    // comandos do terminal dentro da aplicação
+    execSync("npm run knex migrate:latest");
+  });
+
+  // Ex.: e2e => amigo => poucos e bons
+  // Observação: um teste pode influenciar o outro
 
   // deve...
   it("should be able to create a new transaction", async () => {
@@ -65,8 +92,8 @@ describe("Transactions routes", () => {
     espero que o corpo da minha requisição seja um json (uma transação com id do tipo string - espero que meu id seja qualquer string)
     */
     // expect(listTransactionsResponse.body).toEqual([
-    //   { 
-    //     id: expect.any(String) 
+    //   {
+    //     id: expect.any(String)
     //   }
     // ]);
 
@@ -76,8 +103,58 @@ describe("Transactions routes", () => {
       expect.objectContaining({
         title: "New transaction",
         amount: 5000,
-      },)
+      }),
     ]);
+  });
+
+  // obter o id da transação
+  // obs.: o meu teste tem que se adaptar ao código, não vice-versa.
+  it("should be able to get a specific transaction", async () => {
+    const createTransactionResponse = await request(app.server)
+      .post("/transactions")
+      .send({ title: "New transaction", amount: 5000, type: "credit" });
+
+    const cookies = createTransactionResponse.get("Set-Cookie") ?? [];
+
+    const listTransactionsResponse = await request(app.server)
+      .get("/transactions")
+      .set("Cookie", cookies)
+      .expect(200);
+
+    const transactionId = listTransactionsResponse.body.transactions[0].id;
+
+    const getTransactionResponse = await request(app.server)
+      .get(`/transactions/${transactionId}`)
+      .set("Cookie", cookies)
+      .expect(200);
+
+    expect(getTransactionResponse.body.transaction).toEqual(
+      expect.objectContaining({
+        title: "New transaction",
+        amount: 5000,
+      })
+    );
+  });
+
+  // resumo das transações
+  it("should be able to get he summary", async () => {
+    const createTransactionResponse = await request(app.server)
+      .post("/transactions")
+      .send({ title: "Credit transaction", amount: 5000, type: "credit" });
+
+    const cookies = createTransactionResponse.get("Set-Cookie") ?? [];
+
+    await request(app.server)
+      .post("/transactions")
+      .set("Cookie", cookies)
+      .send({ title: "Debit transaction", amount: 2000, type: "debit" });
+
+    const summaryResponse = await request(app.server)
+      .get("/transactions/summary")
+      .set("Cookie", cookies)
+      .expect(200);
+
+    expect(summaryResponse.body.summary).toEqual({amount: 3000});
   });
 });
 

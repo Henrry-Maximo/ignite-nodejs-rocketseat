@@ -1,7 +1,7 @@
 // working with sqlite3 using knex
-import 'dotenv/config'; // ler o arquivo .env (valores em process.env - variável global)
-import { knex as setupKnex, Knex } from 'knex';
 import { env } from './env';
+import { knex as setupKnex, Knex } from 'knex';
+import 'dotenv/config'; // ler o arquivo .env (valores em process.env - variável global)
 
 // se process.env.DATABASE_URL não existe: dá erro e finaliza
 // if (!process.env.DATABASE_URL) {

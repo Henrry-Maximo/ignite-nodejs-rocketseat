@@ -2,8 +2,10 @@
 import { config } from 'dotenv' 
 import { z } from 'zod'; // criar um schema
 
-// process.env
+// process.env / variás variáveis do computador
+// console.log(process.env.NODE_ENV);
 
+// por padrão, o NODE_ENV é test
 // se o NODE_ENV for igual a teste, executar método config
 if (process.env.NODE_ENV === "test") {
   config({ path: ".env.test" })
