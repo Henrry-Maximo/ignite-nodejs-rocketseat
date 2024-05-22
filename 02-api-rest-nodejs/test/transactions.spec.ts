@@ -11,7 +11,7 @@ import {
 // obter diferentes funções para executar scripts de forma paralela
 import { execSync } from "node:child_process";
 
-// typescript: supertest for construída em js / DT = mantido pela comunidade
+// typescript: supertest foi construída em js / DT = mantido pela comunidade
 // npm i --save-dev @types/supertest
 import request from "supertest";
 // importar = vai tentar subir um servidor na porta 3333
