@@ -25,11 +25,12 @@ const envSchema = z.object({
   // devolopment, test, production
   // em qual ambiente está rodando? | informado automaticamente pelas ferramentas (em algumas não)
   // z.enum => um dentre as opções
-  DATABASE_CLIENT: z.string().default('sqlite'),
+  DATABASE_CLIENT: z.enum(['sqlite', 'pg']),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
   // é obrigatoriamente uma string
   DATABASE_URL: z.string(), // nullable() => valor vazio / default: obrigatório
-  PORT: z.number().default(5000),
+  // coerce: transforme isso em algo, não importa o tipo
+  PORT: z.coerce.number().default(3333),
 });
 
 // parse => checar se as informações são compatíveis

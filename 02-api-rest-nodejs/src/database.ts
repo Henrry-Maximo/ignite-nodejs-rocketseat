@@ -12,11 +12,14 @@ import 'dotenv/config'; // ler o arquivo .env (valores em process.env - variáve
 
 export const config: Knex.Config = {
   client: env.DATABASE_CLIENT,
-  connection: {
-    // se for declarado, mas não usado (undefined), dará erro;
-    // zod => env: tipado (todas as variáveis)
+  connection: env.DATABASE_CLIENT === "sqlite" ? {
     filename: env.DATABASE_URL,
-  },
+  } : env.DATABASE_URL
+  // {
+  //   // se for declarado, mas não usado (undefined), dará erro;
+  //   // zod => env: tipado (todas as variáveis)
+  //   filename: env.DATABASE_URL,
+  // },
   // aplicar nas tabelas
   useNullAsDefault: true,
   migrations: {
