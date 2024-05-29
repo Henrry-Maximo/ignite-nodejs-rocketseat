@@ -1,8 +1,13 @@
 import fastify from 'fastify';
 import axios from 'axios';
 
+// interface animeType {
+//   row: string,
+// }
+
 interface animeType {
-  row: string,
+  id: number,
+  type: string
 }
 
 const app = fastify();
@@ -20,7 +25,25 @@ async function getAnime() {
 
 app.get('/anime', async function(request, reply) {
   const data = await getAnime();
-  return reply.send(data);
+  const dataContentAnime = [];
+  
+  if (!data || data.length === 0) {
+    return reply.status(204).send();
+  }
+
+  for (const row of data) {
+    // console.log(Object.keys(row));
+    const data:Array<animeType> = [
+      {
+        id: row.id,
+        type: row.type
+      }
+    ];
+
+    dataContentAnime.push(data);
+  }
+
+  return reply.send(dataContentAnime);
 })
 
 app.listen({port: 3334}).then(() => {
