@@ -25,7 +25,7 @@ import { checkSessionIdExists } from "../middlewares/check-session-id-exists";
 // marcação em app: específicar o formato / inferir automaticamente
 export async function transactionsRoutes(app: FastifyInstance) {
 
-  // middlewares globaias
+  // middlewares globais
   // declaração do Handler Global / só serve para este plugin
   app.addHook('preHandler', async (req, reply) => {
     console.log(`[${req.method}], ${req.url}`)
