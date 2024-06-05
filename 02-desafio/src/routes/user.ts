@@ -1,4 +1,5 @@
 import { FastifyInstance } from "fastify";
+import { knex } from "../database";
 
 interface userType {
   user: string;
@@ -18,6 +19,11 @@ const data:userArrayType[] = [
 ];
 
 export async function userRoutes(app: FastifyInstance) {
+  app.get("/hello", async () => {
+    const tables = await knex('sqlite_schema').select('*')    
+    return tables;
+  })
+
   app.post("/", (req, reply) => {
     try {
       const { user, password } = req.body as userType;
