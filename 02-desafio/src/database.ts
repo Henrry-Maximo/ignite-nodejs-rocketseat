@@ -5,6 +5,10 @@ export const config = {
   connection: {
     filename: "./src/db/app.db"
   },
+  migrations: {
+    extension: 'ts',
+    directory: './src/db'
+  },
   useNullAsDefault: true,
 }
 
