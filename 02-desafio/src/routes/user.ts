@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { knex } from "../database";
+import { randomUUID } from "crypto";
 
 interface userType {
   user: string;
@@ -19,12 +20,12 @@ const data:userArrayType[] = [
 ];
 
 export async function userRoutes(app: FastifyInstance) {
-  app.get("/hello", async () => {
-    const tables = await knex('sqlite_schema').select('*')    
+  app.get("/", async () => {
+    const tables = await knex('daily_users').select('*')    
     return tables;
   })
 
-  app.post("/", (req, reply) => {
+  app.post("/register", async (req, reply) => {
     try {
       const { user, password } = req.body as userType;
 
@@ -34,24 +35,27 @@ export async function userRoutes(app: FastifyInstance) {
         .send({ message: "usuário ou senha são requeridos." });
     }
 
-    const { userInDatabase, passwordInDatabase } = data[0];
-    console.log(data[0])
+    // inserir na tabela 'daily_users'
+    await knex("daily_users").insert({
+     id: randomUUID(),
+     name: user,
+     password: password,
+     created_at: Date.now(),
+    })
 
-    if (user == userInDatabase && password == passwordInDatabase) {
-      return reply
-        .status(200)
-        .send({
-          dados: `usuário: ${userInDatabase}, senha: ${passwordInDatabase}`,
-          message: "Login feito com sucesso!",
-        });
-    } else {
-      return reply
-        .status(401)
-        .send({
-          message: "Falha no login!",
-        });
-    }
-    
+    // if (user == userInDatabase && password == passwordInDatabase) {
+    //   return reply
+    //     .status(200)
+    //     .send({
+    //       dados: `usuário: ${userInDatabase}, senha: ${passwordInDatabase}`,
+    //       message: "Login feito com sucesso!",
+    //     });
+    // } else {
+    //   return reply
+    //     .status(401)
+    //     .send({
+    //       message: "Falha no login!",
+    //     });
     } catch(err) {
       console.error(err);
     }
