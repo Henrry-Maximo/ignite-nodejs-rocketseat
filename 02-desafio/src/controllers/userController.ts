@@ -7,19 +7,7 @@ interface userType {
   password: string;
 }
 
-interface userArrayType {
-  userInDatabase: string;
-  passwordInDatabase: string;
-}
-
-const data:userArrayType[] = [
-  {
-    userInDatabase: "Henrique",
-    passwordInDatabase: "@123",
-  },
-];
-
-export async function userRoutes(app: FastifyInstance) {
+export async function userController(app: FastifyInstance) {
   app.get("/", async () => {
     const tables = await knex('daily_users').select('*')    
     return tables;

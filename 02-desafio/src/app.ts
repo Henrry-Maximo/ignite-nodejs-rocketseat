@@ -1,12 +1,12 @@
 import fastify from "fastify";
 import cookie from "@fastify/cookie";
 
-import { userRoutes } from "./routes/user";
+import { routes } from "./routes/routes";
 
 export const app = fastify();
 
 app.register(cookie);
 
-app.register(userRoutes, {
+app.register(routes, {
   prefix: "daily-diet"
 });
