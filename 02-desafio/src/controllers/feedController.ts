@@ -3,39 +3,43 @@ import { knex } from "../database";
 import { randomUUID } from "crypto";
 
 interface FeedType {
-  name: string,
-  description: string,
-  diet: boolean
+  name: string;
+  description: string;
+  diet: boolean;
 }
 
 export async function feedController(app: FastifyInstance) {
-  app.get("/", async (req, reply) =>  {
-    const feedAllInDatabase = await  knex("daily_feed").select('*');
+  app.get("/", async (req, reply) => {
+    const feedAllInDatabase = await knex("daily_feed").select("*");
     return feedAllInDatabase;
   });
 
   app.post("/register-feed", async (req, reply) => {
     try {
-      // tratar error ✔
-      // obter dados da requisição ✔
-      // verificar integridade dos dados ✔
-      // cadastrar refeição ✔
-      // responder a requsição ✔
-      const {name, description, diet} = req.body as FeedType;
+      const { name, description, diet } = req.body as FeedType;
 
       if (name.length == 0 || description.length == 0 || diet == undefined) {
-        reply.status(402).send({ message: "Um dos campos encontra-se não preenchido." })
+        reply
+          .status(402)
+          .send({ message: "Um dos campos encontra-se não preenchido." });
       } else {
         await knex("daily_feed").insert({
           id: randomUUID(),
           name: name,
           description: description,
-          inDiet: diet
-        })
-        reply.status(200).send({ nome: `${name}`, descrição: `${description}`, emDieta: `${diet}`, message: "Refeição cadastrada com sucesso!" });
+          inDiet: diet,
+        });
+        reply
+          .status(200)
+          .send({
+            nome: `${name}`,
+            descrição: `${description}`,
+            emDieta: `${diet}`,
+            message: "Refeição cadastrada com sucesso!",
+          });
       }
-    } catch(err) {
-      console.error(`Houve um problema no cadastro da refeição: ${err}`)
+    } catch (err) {
+      console.error(`Houve um problema no cadastro da refeição: ${err}`);
     }
   });
 
