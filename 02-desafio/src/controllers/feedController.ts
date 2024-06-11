@@ -10,8 +10,20 @@ interface FeedType {
 
 export async function feedController(app: FastifyInstance) {
   app.get("/", async (req, reply) => {
-    const feedAllInDatabase = await knex("daily_feed").select("*");
-    return feedAllInDatabase;
+    let { id_usuario } = req.cookies;
+
+    if (!id_usuario) {
+      id_usuario = randomUUID();
+    }
+
+    reply.cookie("id_usuario", id_usuario, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7
+    })
+
+    return reply.status(200).send({ message: `${id_usuario}` })
+    // const feedAllInDatabase = await knex("daily_feed").select("*");
+    // return feedAllInDatabase;
   });
 
   app.post("/register-feed", async (req, reply) => {
