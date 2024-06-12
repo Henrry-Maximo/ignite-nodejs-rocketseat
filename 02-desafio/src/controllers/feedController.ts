@@ -1,6 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import { knex } from '../database'
 import { randomUUID } from 'crypto'
+import { z } from 'zod'
 
 interface FeedType {
   name: string
@@ -21,9 +22,9 @@ export async function feedController(app: FastifyInstance) {
       maxAge: 60 * 60 * 24 * 7,
     })
 
-    return reply.status(200).send({ message: `${idUser}` })
-    // const feedAllInDatabase = await knex("daily_feed").select("*");
-    // return feedAllInDatabase;
+    // return reply.status(200).send({ message: `${idUser}` })
+    const feedAllInDatabase = await knex('daily_feed').select('*')
+    return feedAllInDatabase
   })
 
   app.post('/register-feed', async (req, reply) => {
@@ -53,9 +54,16 @@ export async function feedController(app: FastifyInstance) {
     }
   })
 
-  // app.put('/edit-feed', () => {
+  app.get('/edit-feed/:id', async (req, reply) => {
+    const getFeedsParamsSchema = z.object({
+      id: z.string().uuid(),
+    })
 
-  // })
+    const { id } = getFeedsParamsSchema.parse(req.params)
+    const feeds = await knex('daily_feed').where({ id }).first()
+
+    return { feeds }
+  })
 
   // app.delete('/delete-feed', () => {
 
