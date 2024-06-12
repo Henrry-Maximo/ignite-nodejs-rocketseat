@@ -1,59 +1,57 @@
-import { FastifyInstance } from "fastify";
-import { knex } from "../database";
-import { randomUUID } from "crypto";
+import { FastifyInstance } from 'fastify'
+import { knex } from '../database'
+import { randomUUID } from 'crypto'
 
 interface FeedType {
-  name: string;
-  description: string;
-  diet: boolean;
+  name: string
+  description: string
+  diet: boolean
 }
 
 export async function feedController(app: FastifyInstance) {
-  app.get("/", async (req, reply) => {
-    let { id_usuario } = req.cookies;
+  app.get('/', async (req, reply) => {
+    let { idUser } = req.cookies
 
-    if (!id_usuario) {
-      id_usuario = randomUUID();
+    if (!idUser) {
+      idUser = randomUUID()
     }
 
-    reply.cookie("id_usuario", id_usuario, {
+    reply.cookie('id_usuario', idUser, {
       path: '/',
-      maxAge: 60 * 60 * 24 * 7
+      maxAge: 60 * 60 * 24 * 7,
     })
 
-    return reply.status(200).send({ message: `${id_usuario}` })
+    return reply.status(200).send({ message: `${idUser}` })
     // const feedAllInDatabase = await knex("daily_feed").select("*");
     // return feedAllInDatabase;
-  });
+  })
 
-  app.post("/register-feed", async (req, reply) => {
+  app.post('/register-feed', async (req, reply) => {
     try {
-      const { name, description, diet } = req.body as FeedType;
+      const { name, description, diet } = req.body as FeedType
 
-      if (name.length == 0 || description.length == 0 || diet == undefined) {
+      if (name.length === 0 || description.length === 0 || diet === undefined) {
         reply
           .status(402)
-          .send({ message: "Um dos campos encontra-se não preenchido." });
+          .send({ message: 'Um dos campos encontra-se não preenchido.' })
       } else {
-        await knex("daily_feed").insert({
+        await knex('daily_feed').insert({
           id: randomUUID(),
-          name: name,
-          description: description,
+          name,
+          description,
           inDiet: diet,
-        });
-        reply
-          .status(200)
-          .send({
-            nome: `${name}`,
-            descrição: `${description}`,
-            emDieta: `${diet}`,
-            message: "Refeição cadastrada com sucesso!",
-          });
+        })
+        reply.status(200).send({
+          nome: `${name}`,
+          descrição: `${description}`,
+          emDieta: `${diet}`,
+          message: 'Refeição cadastrada com sucesso!',
+        })
       }
     } catch (err) {
-      console.error(`Houve um problema no cadastro da refeição: ${err}`);
+      console.error(`Houve um problema no cadastro da refeição: ${err}`)
     }
-  });
+  })
 
   // app.put('/edit-feed', () => {
 
