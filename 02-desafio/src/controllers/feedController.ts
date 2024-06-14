@@ -54,15 +54,37 @@ export async function feedController(app: FastifyInstance) {
     }
   })
 
-  app.get('/edit-feed/:id', async (req, reply) => {
+  app.put('/edit-feed/:id', async (req, reply) => {
     const getFeedsParamsSchema = z.object({
       id: z.string().uuid(),
     })
 
-    const { id } = getFeedsParamsSchema.parse(req.params)
-    const feeds = await knex('daily_feed').where({ id }).first()
+    const getFeedsBodySchema = z.object({
+      name: z.string(),
+      description: z.string(),
+      diet: z.boolean(),
+    })
 
-    return { feeds }
+    const { id } = getFeedsParamsSchema.parse(req.params)
+    const { name, description, diet } = getFeedsBodySchema.parse(req.body)
+
+    // const feedOneOnlyInDatabase = await knex('daily_feed')
+    //   .where('id', id)
+    //   .first()
+
+    await knex('daily_feed').where({ id }).update({
+      name,
+      description,
+      inDiet: diet,
+    })
+
+    const feedUpdateRecent = await knex('daily_feed').where('id', id)
+    reply
+      .status(200)
+      .send({ message: 'Atualizado com sucesso!', body: feedUpdateRecent })
+
+    // const feeds = await knex('daily_feed').where({ id }).first()
+    // return { feeds }
   })
 
   // app.delete('/delete-feed', () => {
