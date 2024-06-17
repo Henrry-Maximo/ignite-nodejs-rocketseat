@@ -87,7 +87,18 @@ export async function feedController(app: FastifyInstance) {
     // return { feeds }
   })
 
-  // app.delete('/delete-feed', () => {
+  app.delete('/delete-feed/:id', async (req, reply) => {
+    const getFeedsParamsSchema = z.object({
+      id: z.string().uuid(),
+    })
+    const { id } = getFeedsParamsSchema.parse(req.params)
 
-  // })
+    if (id) {
+      await knex('daily_feed').delete().where('id', id).returning(id)
+    } else {
+      return reply
+        .status(400)
+        .send({ message: 'id especificado não encontrado.' })
+    }
+  })
 }
