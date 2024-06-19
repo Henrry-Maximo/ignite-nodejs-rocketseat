@@ -10,18 +10,7 @@ interface FeedType {
 }
 
 export async function feedController(app: FastifyInstance) {
-  app.get('/', async (req, reply) => {
-    let { idUser } = req.cookies
-
-    if (!idUser) {
-      idUser = randomUUID()
-    }
-
-    reply.cookie('id_usuario', idUser, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-    })
-
+  app.get('/', async () => {
     // return reply.status(200).send({ message: `${idUser}` })
     const feedAllInDatabase = await knex('daily_feed').select('*')
     return feedAllInDatabase
@@ -42,6 +31,18 @@ export async function feedController(app: FastifyInstance) {
           description,
           inDiet: diet,
         })
+
+        let { idUser } = req.cookies
+
+        if (!idUser) {
+          idUser = randomUUID()
+        }
+
+        reply.cookie('id_usuario', idUser, {
+          path: '/',
+          maxAge: 60 * 60 * 24 * 7,
+        })
+
         reply.status(200).send({
           nome: `${name}`,
           descrição: `${description}`,
