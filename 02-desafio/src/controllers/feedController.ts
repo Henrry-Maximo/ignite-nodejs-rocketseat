@@ -12,7 +12,18 @@ export async function feedController(app: FastifyInstance) {
       .where('session_id', idUsuario)
       .select('*')
 
-    reply.status(200).send({ feedAllUser })
+    reply.status(200).send(feedAllUser)
+  })
+
+  app.get('/search/:id', async (req, reply) => {
+    const getIdFeedsParamsSchema = z.object({
+      id: z.string().uuid(),
+    })
+
+    const { id } = getIdFeedsParamsSchema.parse(req.params)
+
+    const [rows] = await knex('daily_feed').where({ id })
+    reply.status(200).send(rows)
   })
 
   app.post('/register-feed', async (req, reply) => {
