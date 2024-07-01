@@ -23,19 +23,26 @@ export async function feedController(app: FastifyInstance) {
         message: 'user is not logging. please, created a feed for get an id.',
       })
     } catch (err) {
-      reply.status(500).send(err)
+      reply.status(500).send({ message: `Erro: ${err}` })
     }
   })
 
+  // retornar informações da refeição por id
   app.get('/search/:id', async (req, reply) => {
-    const getIdFeedsParamsSchema = z.object({
-      id: z.string().uuid(),
-    })
+    try {
+      const getIdFeedsParamsSchema = z.object({
+        id: z.string().uuid(),
+      })
 
-    const { id } = getIdFeedsParamsSchema.parse(req.params)
+      const { id } = getIdFeedsParamsSchema.parse(req.params)
 
-    const [rows] = await knex('daily_feed').where({ id })
-    reply.status(200).send(rows)
+      if (id) {
+        const [rows] = await knex('daily_feed').where({ id })
+        reply.status(200).send(rows)
+      }
+    } catch (err) {
+      return reply.status(500).send({ message: `Erro: ${err}` })
+    }
   })
 
   app.post('/register-feed', async (req, reply) => {
