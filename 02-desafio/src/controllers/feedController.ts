@@ -4,15 +4,27 @@ import { randomUUID } from 'crypto'
 import { z } from 'zod'
 
 export async function feedController(app: FastifyInstance) {
+  // retornar lista de cadastro de itens do usuário
   app.get('/', async (req, reply) => {
-    const { idUsuario } = req.cookies
+    try {
+      // id_cookie_user
+      const { idUsuario } = req.cookies
 
-    // return reply.status(200).send({ message: `${idUser}` })
-    const feedAllUser = await knex('daily_feed')
-      .where('session_id', idUsuario)
-      .select('*')
+      if (idUsuario) {
+        const feedAllUser = await knex('daily_feed')
+          .where('session_id', idUsuario)
+          .select('*')
 
-    reply.status(200).send(feedAllUser)
+        reply.status(200).send(feedAllUser)
+      }
+
+      // if not exists id_cookie_user
+      reply.status(200).send({
+        message: 'user is not logging. please, created a feed for get an id.',
+      })
+    } catch (err) {
+      reply.status(500).send(err)
+    }
   })
 
   app.get('/search/:id', async (req, reply) => {
