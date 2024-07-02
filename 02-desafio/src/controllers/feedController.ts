@@ -45,6 +45,23 @@ export async function feedController(app: FastifyInstance) {
     }
   })
 
+  // retornar todas as refeições do usuário pelo session_id
+  app.get('/search-by-user/:id', async (req, reply) => {
+    try {
+      const getIdUserParamsSchema = z.object({
+        id: z.string().uuid(),
+      })
+
+      const { id } = getIdUserParamsSchema.parse(req.params)
+
+      const rows = await knex('daily_feed').where('session_id', id).select('*')
+      reply.status(200).send(rows)
+    } catch (err) {
+      console.error(err)
+    }
+  })
+
+  // registrar refeição no database e criar id_cookie_user
   app.post('/register-feed', async (req, reply) => {
     try {
       const createFeedBodySchema = z.object({
