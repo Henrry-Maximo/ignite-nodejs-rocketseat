@@ -61,6 +61,37 @@ export async function feedController(app: FastifyInstance) {
     }
   })
 
+  // retornar todas as refeições do usuário pelo session_id
+  app.get('/search-by-user-sum/:id', async (req, reply) => {
+    try {
+      const getIdUserParamsSchema = z.object({
+        id: z.string().uuid(),
+      })
+
+      const { id } = getIdUserParamsSchema.parse(req.params)
+
+      // total de refeições
+      // total de refeições dentro da dieta
+      // total de refeições fora da dieta
+      // melhor sequência de refeições dentro da dieta
+
+      const rows = await knex('daily_feed')
+        .where('session_id', id)
+        .select(
+          knex.raw('COUNT(*) as total'),
+          knex.raw(
+            'SUM(CASE WHEN inDiet = 1 THEN 1 ELSE 0 END) as total_dentro_dieta',
+          ),
+          knex.raw(
+            'SUM(CASE WHEN inDiet = 0 THEN 1 ELSE 0 END) as total_fora_dieta',
+          ),
+        )
+      reply.status(200).send({ feeds: rows })
+    } catch (err) {
+      console.error(err)
+    }
+  })
+
   // registrar refeição no database e criar id_cookie_user
   app.post('/register-feed', async (req, reply) => {
     try {
