@@ -101,6 +101,7 @@ export async function feedController(app: FastifyInstance) {
     }
   })
 
+  // editar uma refeição do usuário
   app.put('/edit-feed/:id', async (req, reply) => {
     const getFeedsParamsSchema = z.object({
       id: z.string().uuid(),
