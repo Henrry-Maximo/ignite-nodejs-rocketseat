@@ -1,11 +1,7 @@
 import { FastifyInstance } from 'fastify'
 import { knex } from '../database'
 import { randomUUID } from 'crypto'
-
-interface userType {
-  user: string
-  password: string
-}
+import { z } from 'zod'
 
 export async function userController(app: FastifyInstance) {
   app.get('/', async () => {
@@ -15,13 +11,22 @@ export async function userController(app: FastifyInstance) {
 
   app.post('/register', async (req, reply) => {
     try {
-      const { user, password } = req.body as userType
+      const getCredentialsBodyRequest = z
+        .object({
+          user: z.string(),
+          password: z.string().min(4).max(12),
+        })
+        .superRefine(({ user, password }, ctx) => {
+          if (!user || !password) {
+            ctx.addIssue({
+              code: 'custom',
+              message: 'The user/passwords did not match',
+              path: ['password'],
+            })
+          }
+        })
 
-      if (!user || !password) {
-        return reply
-          .status(401)
-          .send({ message: 'usuário ou senha são requeridos.' })
-      }
+      const { user, password } = getCredentialsBodyRequest.parse(req.body)
 
       // inserir na tabela 'daily_users'
       await knex('daily_users').insert({
@@ -30,26 +35,16 @@ export async function userController(app: FastifyInstance) {
         password,
         created_at: Date.now(),
       })
-
-      // if (user == userInDatabase && password == passwordInDatabase) {
-      //   return reply
-      //     .status(200)
-      //     .send({
-      //       dados: `usuário: ${userInDatabase}, senha: ${passwordInDatabase}`,
-      //       message: "Login feito com sucesso!",
-      //     });
-      // } else {
-      //   return reply
-      //     .status(401)
-      //     .send({
-      //       message: "Falha no login!",
-      //     });
+      reply.status(200).send({ registration: user })
     } catch (err) {
-      console.error(err)
+      if (err instanceof z.ZodError) {
+        reply.status(400).send({
+          message: 'Validation failed',
+        })
+      } else {
+        // Handle other types of errors (optional)
+        reply.status(500).send({ message: 'Internal Server Error' })
+      }
     }
   })
-
-  // app.post("/registration", (req, reply) => {
-  //   const { user, password } = req.body;
-  // });
 }
