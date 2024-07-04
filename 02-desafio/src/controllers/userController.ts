@@ -4,11 +4,12 @@ import { randomUUID } from 'crypto'
 import { z } from 'zod'
 
 export async function userController(app: FastifyInstance) {
+  // retorna todos os usuários
   app.get('/', async () => {
-    const tables = await knex('daily_users').select('*')
-    return tables
+    return await knex('daily_users').select('*')
   })
 
+  // registra um usuário
   app.post('/register', async (req, reply) => {
     try {
       const getCredentialsBodyRequest = z
@@ -21,7 +22,6 @@ export async function userController(app: FastifyInstance) {
             ctx.addIssue({
               code: 'custom',
               message: 'The user/passwords did not match',
-              path: ['password'],
             })
           }
         })
@@ -38,11 +38,8 @@ export async function userController(app: FastifyInstance) {
       reply.status(200).send({ registration: user })
     } catch (err) {
       if (err instanceof z.ZodError) {
-        reply.status(400).send({
-          message: 'Validation failed',
-        })
+        reply.status(400).send({ message: 'Validation failed' })
       } else {
-        // Handle other types of errors (optional)
         reply.status(500).send({ message: 'Internal Server Error' })
       }
     }
