@@ -155,6 +155,7 @@ export async function feedController(app: FastifyInstance) {
       name,
       description,
       inDiet: diet,
+      updated_at: knex.fn.now(),
     })
 
     const feedUpdateRecent = await knex('daily_feed').where('id', id)
