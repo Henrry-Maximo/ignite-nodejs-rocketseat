@@ -86,7 +86,24 @@ export async function feedController(app: FastifyInstance) {
             'SUM(CASE WHEN inDiet = 0 THEN 1 ELSE 0 END) as total_fora_dieta',
           ),
         )
-      reply.status(200).send({ feeds: rows })
+      // const { bestOnDietSequence } = rows.reduce(
+      //   (acc, meal) => {
+      //     console.log(meal)
+      //     if (meal.total_dentro_dieta === 1) {
+      //       acc.currentSequence += 1
+      //     } else {
+      //       acc.currentSequence = 0
+      //     }
+
+      //     if (acc.currentSequence > acc.bestOnDietSequence) {
+      //       acc.bestOnDietSequence = acc.currentSequence
+      //     }
+
+      //     return acc
+      //   },
+      //   { bestOnDietSequence: 0, currentSequence: 0 },
+      // )
+      return reply.status(200).send(rows)
     } catch (err) {
       console.error(err)
     }
