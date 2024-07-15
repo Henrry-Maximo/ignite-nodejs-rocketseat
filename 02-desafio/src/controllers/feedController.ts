@@ -80,12 +80,22 @@ export async function feedController(app: FastifyInstance) {
         .select(
           knex.raw('COUNT(*) as total'),
           knex.raw(
-            'SUM(CASE WHEN inDiet = 1 THEN 1 ELSE 0 END) as total_dentro_dieta',
+            'SUM(CASE WHEN ?? = ? THEN 1 ELSE 0 END) as total_dentro_dieta',
+            ['inDiet', 1],
           ),
           knex.raw(
-            'SUM(CASE WHEN inDiet = 0 THEN 1 ELSE 0 END) as total_fora_dieta',
+            'SUM(CASE WHEN ?? = ? THEN 1 ELSE 0 END) as total_fora_dieta',
+            ['inDiet', 0],
           ),
         )
+        .first()
+      // knex.raw('COUNT(*) as total'),
+      // knex.raw(
+      //   'SUM(CASE WHEN inDiet = 1 THEN 1 ELSE 0 END) as total_dentro_dieta',
+      // ),
+      // knex.raw(
+      //   'SUM(CASE WHEN inDiet = 0 THEN 1 ELSE 0 END) as total_fora_dieta',
+      // ),
       // const { bestOnDietSequence } = rows.reduce(
       //   (acc, meal) => {
       //     console.log(meal)
