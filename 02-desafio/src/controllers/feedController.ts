@@ -78,24 +78,14 @@ export async function feedController(app: FastifyInstance) {
       const rows = await knex('daily_feed')
         .where('session_id', id)
         .select(
-          knex.raw('COUNT(*) as total'),
-          knex.raw(
-            'SUM(CASE WHEN ?? = ? THEN 1 ELSE 0 END) as total_dentro_dieta',
-            ['inDiet', 1],
-          ),
-          knex.raw(
-            'SUM(CASE WHEN ?? = ? THEN 1 ELSE 0 END) as total_fora_dieta',
-            ['inDiet', 0],
-          ),
+          knex.count('id').as('total'),
+          knex
+            .sum(knex.raw('CASE WHEN ?? = ? THEN 1 ELSE 0 END', ['inDiet', 1]))
+            .as('total_dentro_dieta'),
+          knex
+            .sum(knex.raw('CASE WHEN ?? = ? THEN 1 ELSE 0 END', ['inDiet', 0]))
+            .as('total_fora_dieta'),
         )
-        .first()
-      // knex.raw('COUNT(*) as total'),
-      // knex.raw(
-      //   'SUM(CASE WHEN inDiet = 1 THEN 1 ELSE 0 END) as total_dentro_dieta',
-      // ),
-      // knex.raw(
-      //   'SUM(CASE WHEN inDiet = 0 THEN 1 ELSE 0 END) as total_fora_dieta',
-      // ),
       // const { bestOnDietSequence } = rows.reduce(
       //   (acc, meal) => {
       //     console.log(meal)
