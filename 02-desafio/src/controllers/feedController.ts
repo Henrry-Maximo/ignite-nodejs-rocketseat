@@ -86,24 +86,23 @@ export async function feedController(app: FastifyInstance) {
             .sum(knex.raw('CASE WHEN ?? = ? THEN 1 ELSE 0 END', ['inDiet', 0]))
             .as('total_fora_dieta'),
         )
-      // const { bestOnDietSequence } = rows.reduce(
-      //   (acc, meal) => {
-      //     console.log(meal)
-      //     if (meal.total_dentro_dieta === 1) {
-      //       acc.currentSequence += 1
-      //     } else {
-      //       acc.currentSequence = 0
-      //     }
+      const bestSequenceDiet = rows.reduce(
+        (acc, currentValue) => {
+          if (currentValue.total_dentro_dieta === 1) {
+            acc.currentSequence += currentValue.total_dentro_dieta
+          } else {
+            acc.currentSequence = 0
+          }
 
-      //     if (acc.currentSequence > acc.bestOnDietSequence) {
-      //       acc.bestOnDietSequence = acc.currentSequence
-      //     }
+          if (acc.currentSequence > acc.bestSequenceDiet) {
+            acc.bestSequenceDiet = acc.currentSequence
+          }
 
-      //     return acc
-      //   },
-      //   { bestOnDietSequence: 0, currentSequence: 0 },
-      // )
-      return reply.status(200).send(rows)
+          return acc
+        },
+        { bestSequenceDiet: 0, currentSequence: 0 },
+      )
+      return reply.status(200).send({ rows, bestSequenceDiet })
     } catch (err) {
       console.error(err)
     }
