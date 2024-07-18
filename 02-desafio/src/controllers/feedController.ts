@@ -70,39 +70,41 @@ export async function feedController(app: FastifyInstance) {
 
       const { id } = getIdUserParamsSchema.parse(req.params)
 
-      // total de refeições
-      // total de refeições dentro da dieta
-      // total de refeições fora da dieta
       // melhor sequência de refeições dentro da dieta
-
-      const rows = await knex('daily_feed')
+      const totalFeeds = await knex('daily_feed')
         .where('session_id', id)
-        .select(
-          knex.count('id').as('total'),
-          knex
-            .sum(knex.raw('CASE WHEN ?? = ? THEN 1 ELSE 0 END', ['inDiet', 1]))
-            .as('total_dentro_dieta'),
-          knex
-            .sum(knex.raw('CASE WHEN ?? = ? THEN 1 ELSE 0 END', ['inDiet', 0]))
-            .as('total_fora_dieta'),
-        )
-      const bestSequenceDiet = rows.reduce(
-        (acc, currentValue) => {
-          if (currentValue.total_dentro_dieta === 1) {
-            acc.currentSequence += currentValue.total_dentro_dieta
-          } else {
-            acc.currentSequence = 0
-          }
+        .orderBy('created_at')
+        .select('inDiet')
 
-          if (acc.currentSequence > acc.bestSequenceDiet) {
-            acc.bestSequenceDiet = acc.currentSequence
-          }
+      // const rows = await knex('daily_feed')
+      //   .where('session_id', id)
+      //   .orderBy('created_at')
+      //   .select(
+      //     knex.count('id').as('total'),
+      //     knex
+      //       .sum(knex.raw('CASE WHEN ?? = ? THEN 1 ELSE 0 END', ['inDiet', 1]))
+      //       .as('total_dentro_dieta'),
+      //     knex
+      //       .sum(knex.raw('CASE WHEN ?? = ? THEN 1 ELSE 0 END', ['inDiet', 0]))
+      //       .as('total_fora_dieta'),
+      //   )
+      // const bestSequenceDiet = rows.reduce(
+      //   (acc, currentValue) => {
+      //     if (currentValue.total_dentro_dieta === 1) {
+      //       acc.currentSequence += currentValue.total_dentro_dieta
+      //     } else {
+      //       acc.currentSequence = 0
+      //     }
 
-          return acc
-        },
-        { bestSequenceDiet: 0, currentSequence: 0 },
-      )
-      return reply.status(200).send({ rows, bestSequenceDiet })
+      //     if (acc.currentSequence > acc.bestSequenceDiet) {
+      //       acc.bestSequenceDiet = acc.currentSequence
+      //     }
+
+      //     return acc
+      //   },
+      //   { bestSequenceDiet: 0, currentSequence: 0 },
+      // )
+      return reply.status(200).send(totalFeeds)
     } catch (err) {
       console.error(err)
     }
