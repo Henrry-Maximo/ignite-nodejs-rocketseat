@@ -74,37 +74,41 @@ export async function feedController(app: FastifyInstance) {
       const totalFeeds = await knex('daily_feed')
         .where('session_id', id)
         .orderBy('created_at')
-        .select('inDiet')
 
-      // const rows = await knex('daily_feed')
-      //   .where('session_id', id)
-      //   .orderBy('created_at')
-      //   .select(
-      //     knex.count('id').as('total'),
-      //     knex
-      //       .sum(knex.raw('CASE WHEN ?? = ? THEN 1 ELSE 0 END', ['inDiet', 1]))
-      //       .as('total_dentro_dieta'),
-      //     knex
-      //       .sum(knex.raw('CASE WHEN ?? = ? THEN 1 ELSE 0 END', ['inDiet', 0]))
-      //       .as('total_fora_dieta'),
-      //   )
-      // const bestSequenceDiet = rows.reduce(
-      //   (acc, currentValue) => {
-      //     if (currentValue.total_dentro_dieta === 1) {
-      //       acc.currentSequence += currentValue.total_dentro_dieta
-      //     } else {
-      //       acc.currentSequence = 0
-      //     }
+      const totalOnDiet = await knex('daily_feed')
+        .where('session_id', id)
+        .where('inDiet', true)
+        .count('id as total')
+        .first()
 
-      //     if (acc.currentSequence > acc.bestSequenceDiet) {
-      //       acc.bestSequenceDiet = acc.currentSequence
-      //     }
+      const totalOffDiet = await knex('daily_feed')
+        .where('session_id', id)
+        .where('inDiet', false)
+        .count('id as total')
+        .first()
 
-      //     return acc
-      //   },
-      //   { bestSequenceDiet: 0, currentSequence: 0 },
-      // )
-      return reply.status(200).send(totalFeeds)
+      const { bestOnDietSequence } = totalFeeds.reduce(
+        (acc, currentValue) => {
+          if (currentValue.inDiet === true) {
+            acc.currentSequence += 1
+          } else {
+            acc.currentSequence = 0
+          }
+
+          if (acc.currentSequence > acc.bestSequenceDiet) {
+            acc.bestSequenceDiet = acc.currentSequence
+          }
+
+          return acc
+        },
+        { bestSequenceDiet: 0, currentSequence: 0 },
+      )
+      return reply.send({
+        totalMeals: totalFeeds.length,
+        totalMealsOnDiet: totalOnDiet?.total,
+        totalMealsOffDiet: totalOffDiet?.total,
+        bestOnDietSequence,
+      })
     } catch (err) {
       console.error(err)
     }
