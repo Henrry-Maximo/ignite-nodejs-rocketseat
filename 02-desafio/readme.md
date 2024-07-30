@@ -2,8 +2,9 @@
 ## API ENDPOINTS
 
 # USER
-- [x] api-glpi/user/ - lista com todos os usuários
-- [x] api-glpi/user/register - registrar/cadastrar um usuário
+- [x] daily-diet/user/ - lista com todos os usuários
+- [x] daily-diet/user/register - registrar/cadastrar um usuário
+    - Nome, senha e email.
 
 # FEED
 - [x] daily-diet/feed/ - lista de cadastro do usuário (id_cookie)
