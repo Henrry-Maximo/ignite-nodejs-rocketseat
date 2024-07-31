@@ -36,22 +36,23 @@ export async function userController(app: FastifyInstance) {
           path: '/',
           maxAge: 60 * 60 * 24 * 7, // 8 days
         })
+
+        const { user, password, email } = getCredentialsBodyRequest.parse(
+          req.body,
+        )
+  
+        // inserir na tabela 'daily_users'
+        await knex('daily_users').insert({
+          id: randomUUID(),
+          name: user,
+          password,
+          email,
+          created_at: Date.now(),
+          session_id: sessionId,
+        })
+        reply.status(201).send({ message: "User Created with Successful" })
       }
-
-      const { user, password, email } = getCredentialsBodyRequest.parse(
-        req.body,
-      )
-
-      // inserir na tabela 'daily_users'
-      await knex('daily_users').insert({
-        id: randomUUID(),
-        name: user,
-        password,
-        email,
-        created_at: Date.now(),
-        session_id: sessionId,
-      })
-      reply.status(200).send({ user })
+      reply.status(200).send({ message: "You are already registered" })
     } catch (err) {
       if (err instanceof z.ZodError) {
         reply.status(400).send({ message: 'Validation failed' })

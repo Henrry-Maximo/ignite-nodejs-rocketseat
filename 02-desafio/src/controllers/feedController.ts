@@ -8,11 +8,11 @@ export async function feedController(app: FastifyInstance) {
   app.get('/', async (req, reply) => {
     try {
       // id_cookie_user
-      const { idUsuario } = req.cookies
+      const { sessionId } = req.cookies
 
-      if (idUsuario) {
+      if (sessionId) {
         const feedAllUser = await knex('daily_feed')
-          .where('session_id', idUsuario)
+          .where('session_id', sessionId)
           .select('*')
 
         reply.status(200).send(feedAllUser)
@@ -124,17 +124,9 @@ export async function feedController(app: FastifyInstance) {
       })
 
       const { name, description, diet } = createFeedBodySchema.parse(req.body)
-      let idUser = req.cookies.idUsuario
+      let idUser = req.cookies.sessionId
 
-      if (!idUser) {
-        idUser = randomUUID()
-      }
-
-      reply.cookie('idUsuario', idUser, {
-        path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 8 days
-      })
-
+     if (idUser) {
       await knex('daily_feed').insert({
         id: randomUUID(),
         name,
@@ -149,6 +141,8 @@ export async function feedController(app: FastifyInstance) {
         emDieta: `${diet}`,
         message: 'Refeição cadastrada com sucesso!',
       })
+     }
+     reply.status(200).send({ message: "User is not a id cookie" })
     } catch (err) {
       console.error(`Houve um problema no cadastro da refeição: ${err}`)
     }
