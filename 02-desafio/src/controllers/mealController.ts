@@ -86,7 +86,7 @@ export async function mealController(app: FastifyInstance) {
         .count("id as total")
         .first();
 
-      const { bestOnDietSequence } = totalFeeds.reduce(
+      const bestOnDietSequence = totalFeeds.reduce(
         (acc, currentValue) => {
           if (currentValue.inDiet === true) {
             acc.currentSequence += 1;
@@ -102,10 +102,11 @@ export async function mealController(app: FastifyInstance) {
         },
         { bestSequenceDiet: 0, currentSequence: 0 }
       );
+
       return reply.send({
         totalMeals: totalFeeds.length,
-        totalMealsOnDiet: totalOnDiet?.total,
-        totalMealsOffDiet: totalOffDiet?.total,
+        totalMealsOnDiet: totalOnDiet,
+        totalMealsOffDiet: totalOffDiet,
         bestOnDietSequence,
       });
     } catch (err) {

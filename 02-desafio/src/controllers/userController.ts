@@ -53,7 +53,7 @@ export async function userController(app: FastifyInstance) {
         name: user,
         password,
         email,
-        created_at: new Date(),
+        created_at: new Date().getTime(),
         session_id: sessionId,
       });
 
