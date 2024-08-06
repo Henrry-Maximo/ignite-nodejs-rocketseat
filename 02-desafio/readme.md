@@ -4,7 +4,7 @@
 # USER
 - [x] daily-diet/user/ - lista com todos os usuários
 - [x] daily-diet/user/register - registrar/cadastrar um usuário
-    - Nome, senha e email.
+    - user, password e email.
 
 # FEED
 - [x] daily-diet/feed/ - lista de cadastro do usuário (id_cookie)
