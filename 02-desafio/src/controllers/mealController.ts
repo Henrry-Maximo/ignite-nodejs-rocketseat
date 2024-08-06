@@ -10,16 +10,16 @@ export async function mealController(app: FastifyInstance) {
       const { sessionId } = req.cookies
 
       if (sessionId) {
-        const dailyMeals = await knex('daily_feed')
+        const overviewMeals = await knex('daily_feed')
           .where('session_id', sessionId)
           .select('*')
 
-        reply.status(200).send(dailyMeals)
+        reply.status(200).send(overviewMeals)
       }
 
       // if not exists sessionId
       reply.status(200).send({
-        message: 'User is not logging. Please, log into the system.',
+        message: 'User not have id cookie. Please, log into the system.',
       })
     } catch (err) {
       reply.status(500).send({ message: `Error: ${err}` })
@@ -29,18 +29,18 @@ export async function mealController(app: FastifyInstance) {
   // retornar informações da refeição por id
   app.get('/search/:id', async (req, reply) => {
     try {
-      const getIdFeedsParamsSchema = z.object({
+      const getIdMealsParamsSchema = z.object({
         id: z.string().uuid(),
       })
 
-      const { id } = getIdFeedsParamsSchema.parse(req.params)
+      const { id } = getIdMealsParamsSchema.parse(req.params)
 
       if (id) {
-        const [rows] = await knex('daily_feed').where({ id })
-        reply.status(200).send(rows)
+        const [overviewByUser] = await knex('daily_feed').where({ id })
+        reply.status(200).send(overviewByUser)
       }
     } catch (err) {
-      return reply.status(500).send({ message: `Erro: ${err}` })
+      return reply.status(500).send({ message: `Error: ${err}` })
     }
   })
 
@@ -115,36 +115,39 @@ export async function mealController(app: FastifyInstance) {
   })
 
   // registrar refeição no database e criar id_cookie_user
-  app.post('/register-feed', async (req, reply) => {
+  app.post('/register', async (req, reply) => {
     try {
-      const createFeedBodySchema = z.object({
+      const createMealsBodySchema = z.object({
         name: z.string(),
         description: z.string(),
         diet: z.boolean(),
+        created: z.string(),
       })
 
-      const { name, description, diet } = createFeedBodySchema.parse(req.body)
-      const idUser = req.cookies.sessionId
+      const { name, description, diet, created } = createMealsBodySchema.parse(
+        req.body,
+      )
 
+      const idUser = req.cookies.sessionId
       if (idUser) {
         await knex('daily_feed').insert({
           id: randomUUID(),
           name,
           description,
           inDiet: diet,
+          created_at: created,
           session_id: idUser,
         })
-
         reply.status(200).send({
-          nome: `${name}`,
-          descrição: `${description}`,
-          emDieta: `${diet}`,
-          message: 'Refeição cadastrada com sucesso!',
+          message: 'Meal registered with success.',
         })
       }
-      reply.status(200).send({ message: 'User is not a id cookie' })
+
+      reply.status(200).send({ message: 'User not have a id cookie.' })
     } catch (err) {
-      console.error(`Houve um problema no cadastro da refeição: ${err}`)
+      return reply
+        .status(400)
+        .send({ message: 'Error at registration of meal.' })
     }
   })
 
@@ -180,11 +183,11 @@ export async function mealController(app: FastifyInstance) {
     reply.status(200).send(mealUpdateNow)
   })
 
-  app.delete('/delete-feed/:id', async (req, reply) => {
-    const getFeedsParamsSchema = z.object({
+  app.delete('/delete/:id', async (req, reply) => {
+    const getMealsParamsSchema = z.object({
       id: z.string().uuid(),
     })
-    const { id } = getFeedsParamsSchema.parse(req.params)
+    const { id } = getMealsParamsSchema.parse(req.params)
 
     if (id) {
       await knex('daily_feed').delete().where('id', id).returning(id)
