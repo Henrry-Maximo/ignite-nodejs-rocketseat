@@ -1,10 +1,9 @@
-// eslit-disable-next-line
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Knex } from 'knex'
 
 /* 
 knex.d.ts -> definição de tipos (apenas typescript)
 */
-
 declare module 'knex/types/tables' {
   export interface Tables {
     daily_users: {

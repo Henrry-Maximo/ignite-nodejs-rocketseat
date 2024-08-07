@@ -2,10 +2,11 @@ import { FastifyInstance } from 'fastify'
 import { knex } from '../database'
 import { randomUUID } from 'crypto'
 import { z } from 'zod'
+import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 
 export async function userController(app: FastifyInstance) {
   // retorna todos os usuários
-  app.get('/', async (req, reply) => {
+  app.get('/', { preHandler: [checkSessionIdExists] }, async (req, reply) => {
     try {
       return await knex('daily_users').select('*')
     } catch (err) {
@@ -65,9 +66,10 @@ export async function userController(app: FastifyInstance) {
       reply.status(201).send({ message: 'User Created with Successful' })
     } catch (err) {
       if (err instanceof z.ZodError) {
-        reply
-          .status(400)
-          .send({ message: 'Validation failed', error: err.issues[0].message })
+        reply.status(400).send({
+          message: 'Validation failed',
+          error: err.issues[0].message,
+        })
       } else {
         reply.status(500).send({ message: 'Internal Server Error' })
       }
