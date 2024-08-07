@@ -4,8 +4,19 @@ import { randomUUID } from 'crypto'
 import { z } from 'zod'
 
 export async function mealController(app: FastifyInstance) {
-  // retornar lista de cadastro de itens do usuário
+  // retornar todas as refeições
   app.get('/', async (req, reply) => {
+    try {
+      const meals = await knex('daily_feed').select()
+
+      return reply.status(200).send(meals)
+    } catch (err) {
+      return reply.status(500).send({ message: 'Server Internal Error' })
+    }
+  })
+
+  // retornar lista de refeições do usuário logado
+  app.get('/user', async (req, reply) => {
     try {
       const { sessionId } = req.cookies
 
@@ -153,48 +164,64 @@ export async function mealController(app: FastifyInstance) {
 
   // editar uma refeição do usuário
   app.put('/edit-meal/:id', async (req, reply) => {
-    const getMealsParamsSchema = z.object({
-      id: z.string().uuid(),
-    })
-
-    const getMealsBodySchema = z.object({
-      name: z.string(),
-      description: z.string(),
-      diet: z.boolean(),
-      created: z.string().date(),
-    })
-
-    const { id } = getMealsParamsSchema.parse(req.params)
-    const { name, description, diet, created } = getMealsBodySchema.parse(
-      req.body,
-    )
-
-    const mealUpdateNow = await knex('daily_feed')
-      .where({ id })
-      .update({
-        name,
-        description,
-        inDiet: diet,
-        created_at: created,
-        updated_at: knex.fn.now(),
+    try {
+      const getMealsParamsSchema = z.object({
+        id: z.string().uuid(),
       })
-      .returning('*')
 
-    reply.status(200).send(mealUpdateNow)
+      const getMealsBodySchema = z.object({
+        name: z.string(),
+        description: z.string(),
+        diet: z.boolean(),
+        created: z.string().date(),
+      })
+
+      const { id } = getMealsParamsSchema.parse(req.params)
+      const { name, description, diet, created } = getMealsBodySchema.parse(
+        req.body,
+      )
+
+      const mealUpdateNow = await knex('daily_feed')
+        .where({ id })
+        .update({
+          name,
+          description,
+          inDiet: diet,
+          created_at: created,
+          updated_at: knex.fn.now(),
+        })
+        .returning('*')
+
+      reply.status(200).send(mealUpdateNow)
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return reply.status(400).send({ message: 'Id not Found.' })
+      } else {
+        app.log.error(err)
+        return reply.status(500).send({ message: 'Internal Server Error' })
+      }
+    }
   })
 
   app.delete('/delete/:id', async (req, reply) => {
-    const getMealsParamsSchema = z.object({
-      id: z.string().uuid(),
-    })
-    const { id } = getMealsParamsSchema.parse(req.params)
+    try {
+      const getMealsParamsSchema = z.object({
+        id: z.string().uuid(),
+      })
 
-    if (id) {
-      await knex('daily_feed').delete().where('id', id).returning(id)
-    } else {
-      return reply
-        .status(400)
-        .send({ message: 'id especificado não encontrado.' })
+      const { id } = getMealsParamsSchema.parse(req.params)
+      if (id) {
+        await knex('daily_feed').delete().where('id', id).returning(id)
+      }
+
+      return reply.status(204).send()
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return reply.status(400).send({ message: 'Id not Found.' })
+      } else {
+        app.log.error(err)
+        return reply.status(500).send({ message: 'Internal Server Error' })
+      }
     }
   })
 }
