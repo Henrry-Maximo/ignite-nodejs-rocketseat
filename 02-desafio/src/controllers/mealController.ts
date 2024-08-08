@@ -185,7 +185,7 @@ export async function mealController(app: FastifyInstance) {
 
   // editar uma refeição do usuário
   app.put(
-    '/edit-meal/:id',
+    '/edit/:id',
     { preHandler: [checkSessionIdExists] },
     async (req, reply) => {
       try {
@@ -238,18 +238,25 @@ export async function mealController(app: FastifyInstance) {
         })
 
         const { id } = getMealsParamsSchema.parse(req.params)
-        if (id) {
-          await knex('daily_feed').delete().where('id', id).returning(id)
-        }
+        const sessionId = req.cookies.sessionId
 
-        return reply.status(204).send()
-      } catch (err) {
-        if (err instanceof z.ZodError) {
-          return reply.status(400).send({ message: 'Id not Found.' })
+        const mealDelete = await knex('daily_feed')
+          .where({
+            id,
+            session_id: sessionId,
+          })
+          .del()
+
+        if (mealDelete) {
+          return reply
+            .status(200)
+            .send({ message: 'Meal deleted successfully.' })
         } else {
-          app.log.error(err)
-          return reply.status(500).send({ message: 'Internal Server Error' })
+          return reply.status(204).send()
         }
+      } catch (err) {
+        app.log.error(err)
+        return reply.status(500).send({ message: 'Internal Server Error' })
       }
     },
   )

@@ -6,14 +6,14 @@
 - [x] daily-diet/user/register - registrar/cadastrar um usuário
     - user, password e email.
 
-# FEED
-- [x] daily-diet/feed/ - lista de cadastro do usuário (id_cookie)
-- [x] daily-diet/feed/search/:id - lista de informações sobre uma refeição do usuário (id_feed)
-- [x] daily-diet/feed/search-by-user/:id - lista de informações sobre refeições do usuário (id_cookie)
-- [x] daily-diet/feed/search-by-user-sum/:id - lista de total de refeições, total dieta (em/fora da dieta), [] total melhor sequência de refeições em dieta
-- [x] daily-diet/feed/register-feed - registrar uma refeição/criar cookie do usuário
-- [x] daily-diet/feed/edit-feed/:id - editar uma refeição do usuário
-- [x] daily-diet/feed/delete-feed/:id - deletar uma refeição do usuário
+# MEAL
+- [x] daily-diet/meal/ - lista de cadastro do usuário (id_cookie)
+- [x] daily-diet/meal/search/:id - lista de informações sobre uma refeição do usuário (id_meal)
+- [x] daily-diet/meal/search-by-user/:id - lista de informações sobre refeições do usuário (id_cookie)
+- [x] daily-diet/meal/search-by-user-sum/:id - lista de total de refeições, total dieta (em/fora da dieta), [x] total melhor sequência de refeições em dieta
+- [x] daily-diet/meal/register-meal - registrar uma refeição/criar cookie do usuário
+- [x] daily-diet/meal/edit-meal/:id - editar uma refeição do usuário
+- [x] daily-diet/meal/delete/:id - O usuário só pode visualizar, editar e apagar as refeições o qual ele criou
 
 
 
