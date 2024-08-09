@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 
 export async function mealController(app: FastifyInstance) {
-  // retornar todas as refeições
+  // retornar as refeições de todos os usuários
   app.get('/', { preHandler: [checkSessionIdExists] }, async (req, reply) => {
     try {
       const meals = await knex('daily_feed').select()
@@ -16,7 +16,7 @@ export async function mealController(app: FastifyInstance) {
     }
   })
 
-  // retornar lista de refeições do usuário logado
+  // retornar as refeições do usuário logado
   app.get(
     '/user',
     { preHandler: [checkSessionIdExists] },
@@ -52,10 +52,19 @@ export async function mealController(app: FastifyInstance) {
         })
 
         const { id } = getIdMealsParamsSchema.parse(req.params)
+        const { sessionId } = req.cookies
 
-        if (id) {
-          const [overviewByUser] = await knex('daily_feed').where({ id })
-          reply.status(200).send(overviewByUser)
+        const uniqueMealUser = await knex('daily_feed')
+          .where({
+            id,
+            session_id: sessionId,
+          })
+          .returning('*')
+
+        if (uniqueMealUser.length > 0) {
+          return reply.status(200).send(uniqueMealUser)
+        } else {
+          return reply.status(401).send({ message: 'Unauthorized.' })
         }
       } catch (err) {
         return reply.status(500).send({ message: `Error: ${err}` })
@@ -63,7 +72,7 @@ export async function mealController(app: FastifyInstance) {
     },
   )
 
-  // retornar todas as refeições do usuário pelo session_id
+  // retornar as refeições do usuário pelo session_id
   app.get(
     '/search-by-user/:id',
     { preHandler: [checkSessionIdExists] },
@@ -72,7 +81,6 @@ export async function mealController(app: FastifyInstance) {
         const getIdUserParamsSchema = z.object({
           id: z.string().uuid(),
         })
-
         const { id } = getIdUserParamsSchema.parse(req.params)
 
         const rows = await knex('daily_feed')
@@ -85,7 +93,7 @@ export async function mealController(app: FastifyInstance) {
     },
   )
 
-  // retornar todas as refeições do usuário pelo session_id
+  // retornar as métricas do usuário pelo session_id
   app.get(
     '/search-by-user-sum/:id',
     { preHandler: [checkSessionIdExists] },
@@ -143,7 +151,7 @@ export async function mealController(app: FastifyInstance) {
     },
   )
 
-  // registrar refeição no database e criar id_cookie_user
+  // registrar refeição
   app.post(
     '/register',
     { preHandler: [checkSessionIdExists] },
@@ -158,23 +166,26 @@ export async function mealController(app: FastifyInstance) {
 
         const { name, description, diet, created } =
           createMealsBodySchema.parse(req.body)
+        const sessionId = req.cookies.sessionId
 
-        const idUser = req.cookies.sessionId
-        if (idUser) {
-          await knex('daily_feed').insert({
+        const listUpdateMeal = await knex('daily_feed')
+          .insert({
             id: randomUUID(),
             name,
             description,
             inDiet: diet,
             created_at: created,
-            session_id: idUser,
+            session_id: sessionId,
           })
+          .returning('*')
+
+        if (listUpdateMeal) {
           reply.status(200).send({
             message: 'Meal registered with success.',
           })
+        } else {
+          reply.status(204).send()
         }
-
-        reply.status(200).send({ message: 'User not have a id cookie.' })
       } catch (err) {
         return reply
           .status(400)
@@ -183,7 +194,7 @@ export async function mealController(app: FastifyInstance) {
     },
   )
 
-  // editar uma refeição do usuário
+  // editar refeição
   app.put(
     '/edit/:id',
     { preHandler: [checkSessionIdExists] },
@@ -205,8 +216,9 @@ export async function mealController(app: FastifyInstance) {
           req.body,
         )
 
+        const { sessionId } = req.cookies
         const mealUpdateNow = await knex('daily_feed')
-          .where({ id })
+          .where({ id, session_id: sessionId })
           .update({
             name,
             description,
@@ -216,7 +228,11 @@ export async function mealController(app: FastifyInstance) {
           })
           .returning('*')
 
-        reply.status(200).send(mealUpdateNow)
+        if (mealUpdateNow.length > 0) {
+          reply.status(200).send(mealUpdateNow)
+        } else {
+          reply.status(204).send()
+        }
       } catch (err) {
         if (err instanceof z.ZodError) {
           return reply.status(400).send({ message: 'Id not Found.' })
@@ -228,6 +244,7 @@ export async function mealController(app: FastifyInstance) {
     },
   )
 
+  // deletar refeição
   app.delete(
     '/delete/:id',
     { preHandler: [checkSessionIdExists] },
@@ -238,7 +255,7 @@ export async function mealController(app: FastifyInstance) {
         })
 
         const { id } = getMealsParamsSchema.parse(req.params)
-        const sessionId = req.cookies.sessionId
+        const { sessionId } = req.cookies
 
         const mealDelete = await knex('daily_feed')
           .where({

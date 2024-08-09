@@ -10,10 +10,12 @@
 - [x] daily-diet/meal/ - lista de cadastro do usuário (id_cookie)
 - [x] daily-diet/meal/search/:id - lista de informações sobre uma refeição do usuário (id_meal)
 - [x] daily-diet/meal/search-by-user/:id - lista de informações sobre refeições do usuário (id_cookie)
-- [x] daily-diet/meal/search-by-user-sum/:id - lista de total de refeições, total dieta (em/fora da dieta), [x] total melhor sequência de refeições em dieta
+- [x] daily-diet/meal/search-by-user-sum/:id - lista de total de refeições, total dieta (em/fora da dieta), [] total melhor sequência de refeições em dieta
 - [x] daily-diet/meal/register-meal - registrar uma refeição/criar cookie do usuário
-- [x] daily-diet/meal/edit-meal/:id - editar uma refeição do usuário
-- [x] daily-diet/meal/delete/:id - O usuário só pode visualizar, editar e apagar as refeições o qual ele criou
+- [x] daily-diet/meal/edit/:id - editar uma refeição do usuário
+- [x] daily-diet/meal/delete/:id - remover uma refeição cadastrada
+
+-O usuário só pode visualizar, editar e apagar as refeições o qual ele criou
 
 
 
