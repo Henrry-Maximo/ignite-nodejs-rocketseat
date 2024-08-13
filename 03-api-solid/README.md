@@ -46,3 +46,27 @@ GymPass style app.
 - .npmrc - versões exatas: save-exact=true
 - npm install dotenv
 - "baseUrl": "./", module names. */ "paths": { "@/*": ["./src/*"]},    
+
+## ORMs
+
+- ORM - Object Relational Mapper
+- Sequeliza
+class User {
+  name: string
+  email: string
+}
+- TypeORM
+@Entity() - decoretor (table database)
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number
+
+  @Column()
+  firstName: string
+}
+
+## Prisma ORM
+- Duplicidade/Integração-TS/Inferir database/Column
+- Supported Languages: JS/TS
+- Supported Databases: PostgreSQL/MySQL/SQLite/SQLServer/MongoDB/CockroachDB
+- Automated Migrations
