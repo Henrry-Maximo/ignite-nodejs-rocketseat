@@ -70,3 +70,5 @@ export class User {
 - Supported Languages: JS/TS
 - Supported Databases: PostgreSQL/MySQL/SQLite/SQLServer/MongoDB/CockroachDB
 - Automated Migrations
+- npm i prisma -D
+- npx prisma generate
