@@ -72,3 +72,21 @@ export class User {
 - Automated Migrations
 - npm i prisma -D
 - npx prisma generate
+- wsl --list --online
+- wsl -l -v
+- wsl --install -d Ubuntu
+- docker -v
+- docker ps
+- docker ps -a
+- docker start [name]
+- docker stop [name]
+- dicker rm [name]
+- docker logs [name]
+- docker run --name api-solid-pg -e POSTGRESQL_USERNAME=docker -e POSTGRESQL_PASSWORD=docker -e POSTGRESQL_DATABASE=apisolid -p 5432:5432 bitnami/postgresql
+- docker compose up -d (read file yml)
+- docker compose stop (stop all containers)
+- docker compose down (delete all containers)
+
+## Prisma ORM Migrations Automated
+- npx prisma migrate dev
+- npx prisma studio
