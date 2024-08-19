@@ -90,3 +90,16 @@ export class User {
 ## Prisma ORM Migrations Automated
 - npx prisma migrate dev
 - npx prisma studio
+
+## HTTP (Controllers)
+- Fastify Plugin Routes
+
+## Layered Structure
+- Typing of data using zod
+- Parseamento
+- Return
+
+## Password Hash
+- npm i bcryptjs
+- npm i -D @types/bcryptjs
+- salt -> random string/number
