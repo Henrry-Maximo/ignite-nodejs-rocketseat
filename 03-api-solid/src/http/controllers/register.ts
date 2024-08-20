@@ -9,7 +9,7 @@ import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists";
 export async function register(req: FastifyRequest, reply: FastifyReply) {
   const formatRegisterBody = z.object({
     name: z.string(),
-    password: z.string(),
+    password: z.string().max(3),
     email: z.coerce.string().email().min(5),
   });
 
@@ -29,7 +29,8 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
       return reply.status(409).send({ message: err.message });
     }
 
-    return reply.status(500).send();
+    throw err;
+    // return reply.status(500).send(); // TODO: fix me
   }
 
   return reply.status(201).send();
