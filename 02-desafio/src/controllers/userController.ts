@@ -42,6 +42,7 @@ export async function userController(app: FastifyInstance) {
       let sessionId = req.cookies.sessionId
       if (!sessionId) {
         sessionId = randomUUID()
+        await knex('daily_users').select('')
 
         reply.setCookie('sessionId', sessionId, {
           path: '/',
