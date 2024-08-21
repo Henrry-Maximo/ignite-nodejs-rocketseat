@@ -4,7 +4,7 @@ import { RegisterUseCase } from "./register";
 import { compare } from "bcryptjs";
 
 describe("Register Use Case", () => {
-  it("should has user password upon registration", async () => {
+  it("should has user password up on registration", async () => {
     // const prismaUsersRepository = new PrismaUserRepository();
     const registerUseCase = new RegisterUseCase({
       async findByEmail() {
