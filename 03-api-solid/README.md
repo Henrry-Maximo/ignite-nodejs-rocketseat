@@ -13,7 +13,7 @@ GymPass style app.
 - [] Deve ser possível o usuário obter seu histórico de check-ins;
 - [] Deve ser possível o usuário buscar academias próximas;
 - [] Deve ser possível o usuário buscar academias pelo nome;
-- [] Deve ser possível o usuário realizar check-in em uma academia (core);
+- [x] Deve ser possível o usuário realizar check-in em uma academia (core);
 - [] Deve ser possível validar o check-in de um usuário; 
 - [] Deve ser possível cadastrar uma academia;
 
@@ -103,3 +103,8 @@ export class User {
 - npm i bcryptjs
 - npm i -D @types/bcryptjs
 - salt -> random string/number
+
+## TDD (Test Driven Development)
+- Entender e desenvolver a regra de negócio de uma funcionalidade, 
+durante o desenvolvimento, tratando principalmente, de funcionalidades
+complexas
