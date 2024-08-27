@@ -19,8 +19,8 @@ describe("Check-in Use Case", () => {
       title: "JavaScript GYM",
       description: "",
       phone: "",
-      latitude: new Decimal(0),
-      longitude: new Decimal(0),
+      latitude: new Decimal(-27.2092052),
+      longitude: new Decimal(-49.6401091),
     });
 
     vi.useRealTimers();
@@ -34,8 +34,8 @@ describe("Check-in Use Case", () => {
     const { checkIn } = await sut.execute({
       gymId: "gym-01",
       userId: "user-01",
-      userLantitude: -27.2092052,
-      userLongitude: 0,
+      userLatitude: -27.2092052,
+      userLongitude: -49.6401091,
     });
 
     expect(checkIn.id).toEqual(expect.any(String));
@@ -48,7 +48,7 @@ describe("Check-in Use Case", () => {
     await sut.execute({
       gymId: "gym-01",
       userId: "user-01",
-      userLantitude: -27.2092052,
+      userLatitude: -27.2092052,
       userLongitude: -49.6401091,
     });
 
@@ -56,7 +56,7 @@ describe("Check-in Use Case", () => {
       sut.execute({
         gymId: "gym-01",
         userId: "user-01",
-        userLantitude: -27.2092052,
+        userLatitude: -27.2092052,
         userLongitude: -49.6401091,
       }),
     ).rejects.toBeInstanceOf(Error);
@@ -69,7 +69,7 @@ describe("Check-in Use Case", () => {
     await sut.execute({
       gymId: "gym-01",
       userId: "user-01",
-      userLantitude: -27.2092052,
+      userLatitude: -27.2092052,
       userLongitude: -49.6401091,
     });
 
@@ -79,7 +79,7 @@ describe("Check-in Use Case", () => {
       sut.execute({
         gymId: "gym-01",
         userId: "user-01",
-        userLantitude: -27.2092052,
+        userLatitude: -27.2092052,
         userLongitude: -49.6401091,
       }),
     ).rejects.toBeInstanceOf(Error);
@@ -90,5 +90,25 @@ describe("Check-in Use Case", () => {
     // });
 
     // expect(checkIn.id).toEqual(expect.any(String));
+  });
+
+  it("should not be able to check in on distant gym", async () => {
+    gymsRepository.items.push({
+      id: "gym-02",
+      title: "JavaScript GYM",
+      description: "",
+      phone: "",
+      latitude: new Decimal(-23.6420711),
+      longitude: new Decimal(-46.8070985),
+    });
+
+    expect(() =>
+      sut.execute({
+        gymId: "gym-02",
+        userId: "user-01",
+        userLatitude: -27.2092052,
+        userLongitude: -49.6401091,
+      }),
+    ).rejects.toBeInstanceOf(Error);
   });
 });
