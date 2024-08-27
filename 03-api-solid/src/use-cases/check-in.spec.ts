@@ -55,11 +55,18 @@ describe("Check-in Use Case", () => {
 
     vi.setSystemTime(new Date(2022, 0, 20, 8, 0, 0));
 
-    const { checkIn } = await sut.execute({
-      gymId: "gym-01",
-      userId: "user-01",
-    });
+    await expect(() =>
+      sut.execute({
+        gymId: "gym-01",
+        userId: "user-01",
+      }),
+    ).rejects.toBeInstanceOf(Error);
 
-    expect(checkIn.id).toEqual(expect.any(String));
+    // const { checkIn } = await sut.execute({
+    //   gymId: "gym-01",
+    //   userId: "user-01",
+    // });
+
+    // expect(checkIn.id).toEqual(expect.any(String));
   });
 });
