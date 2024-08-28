@@ -4,8 +4,6 @@ import { randomUUID } from "node:crypto";
 import dayjs from "dayjs";
 
 export class InMemoryCheckInsRespository implements CheckInsRepository {
-  public items: CheckIn[] = [];
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async findByUserIdOnDate(userId: string, date: Date) {
     const startOfTheDay = dayjs(date).startOf("date");
@@ -25,6 +23,12 @@ export class InMemoryCheckInsRespository implements CheckInsRepository {
 
     return checkInOnSameDate;
   }
+
+  async findManyByUserId(userId: string) {
+    return this.items.filter((item) => item.user_id === userId);
+  }
+
+  public items: CheckIn[] = [];
 
   async create(data: Prisma.CheckInUncheckedCreateInput) {
     const checkIn = {
