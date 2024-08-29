@@ -4,6 +4,8 @@ import { randomUUID } from "node:crypto";
 import dayjs from "dayjs";
 
 export class InMemoryCheckInsRespository implements CheckInsRepository {
+  public items: CheckIn[] = [];
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async findByUserIdOnDate(userId: string, date: Date) {
     const startOfTheDay = dayjs(date).startOf("date");
@@ -24,6 +26,16 @@ export class InMemoryCheckInsRespository implements CheckInsRepository {
     return checkInOnSameDate;
   }
 
+  async findById(id: string) {
+    const checkIn = this.items.find((item) => item.id === id);
+
+    if (!checkIn) {
+      return null;
+    }
+
+    return checkIn;
+  }
+
   async findManyByUserId(userId: string, page: number) {
     return this.items
       .filter((item) => item.user_id === userId)
@@ -33,8 +45,6 @@ export class InMemoryCheckInsRespository implements CheckInsRepository {
   async countByUserId(userId: string) {
     return this.items.filter((item) => item.user_id === userId).length;
   }
-
-  public items: CheckIn[] = [];
 
   async create(data: Prisma.CheckInUncheckedCreateInput) {
     const checkIn = {
@@ -47,6 +57,15 @@ export class InMemoryCheckInsRespository implements CheckInsRepository {
 
     this.items.push(checkIn);
 
+    return checkIn;
+  }
+
+  async save(checkIn: CheckIn) {
+    const checkInIndex = this.items.findIndex((item) => item.id === checkIn.id);
+
+    if (checkInIndex >= 0) {
+      this.items[checkInIndex] = checkIn;
+    }
     return checkIn;
   }
 }
