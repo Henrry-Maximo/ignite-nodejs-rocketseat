@@ -33,8 +33,6 @@ describe("Search Gyms Use Case", () => {
       page: 1,
     });
 
-    console.log(`search: ${gyms}`);
-
     expect(gyms).toHaveLength(1);
     expect(gyms).toEqual([expect.objectContaining({ title: "JavaScript" })]);
   });
@@ -54,8 +52,6 @@ describe("Search Gyms Use Case", () => {
       query: "JavaScript",
       page: 2,
     });
-
-    console.log(`search with paginated: ${JSON.stringify(gyms, null, 2)}`);
 
     expect(gyms).toHaveLength(2);
     expect(gyms).toEqual([
