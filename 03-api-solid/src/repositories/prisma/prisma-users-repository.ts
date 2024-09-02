@@ -1,11 +1,17 @@
 import { prisma } from "@/lib";
-import { Prisma, User } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { UsersRepository } from "../users-repository";
 
 export class PrismaUsersRepository implements UsersRepository {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async findById(id: string): Promise<User | null> {
-    throw new Error("Method not implemented.");
+  async findById(id: string) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return user;
   }
 
   async findByEmail(email: string) {
