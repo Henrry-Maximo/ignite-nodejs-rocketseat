@@ -10,8 +10,8 @@ import { makeRegisterUseCase } from "@/use-cases/factories/make-register-use-cas
 export async function register(req: FastifyRequest, reply: FastifyReply) {
   const formatRegisterBody = z.object({
     name: z.string(),
-    password: z.string().max(3),
-    email: z.coerce.string().email().min(5),
+    password: z.string().min(7),
+    email: z.coerce.string().email(),
   });
 
   const { name, password, email } = formatRegisterBody.parse(req.body);

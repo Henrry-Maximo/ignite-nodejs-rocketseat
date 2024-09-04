@@ -7,8 +7,8 @@ import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate
 
 export async function authenticate(req: FastifyRequest, reply: FastifyReply) {
   const authenticateBodySchema = z.object({
-    password: z.string().max(3),
-    email: z.coerce.string().email().min(5),
+    email: z.coerce.string().email(),
+    password: z.string().min(3),
   });
 
   const { password, email } = authenticateBodySchema.parse(req.body);
@@ -16,10 +16,21 @@ export async function authenticate(req: FastifyRequest, reply: FastifyReply) {
   try {
     const authenticateUseCase = makeAuthenticateUseCase();
 
-    await authenticateUseCase.execute({
+    const { user } = await authenticateUseCase.execute({
       email,
       password,
     });
+
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id,
+        },
+      },
+    );
+
+    return reply.status(200).send({ token });
   } catch (err) {
     if (err instanceof UserAlreadyExistsError) {
       // bad request
@@ -29,6 +40,4 @@ export async function authenticate(req: FastifyRequest, reply: FastifyReply) {
     throw err;
     // return reply.status(500).send(); // TODO: fix me
   }
-
-  return reply.status(200).send();
 }
