@@ -108,3 +108,8 @@ export class User {
 - Entender e desenvolver a regra de negócio de uma funcionalidade, 
 durante o desenvolvimento, tratando principalmente, de funcionalidades
 complexas
+
+## Refresh JWT Tokens
+- Criação de dois tokens, um de 10 minutos e outro de 7 dias.
+- Verificar se usuário acesso a aplicação.
+- npm i @fastify/cookie
