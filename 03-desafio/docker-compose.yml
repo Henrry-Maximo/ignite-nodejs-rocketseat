@@ -1,0 +1,11 @@
+name: desafio-03-server
+
+services:
+  api-find-a-friend-pg:
+    image: bitnami/postgresql:13.16.0
+    ports:
+      - 5435:5435
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=apifindafriend
