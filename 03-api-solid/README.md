@@ -1,6 +1,6 @@
 # App (técnicas de design)
 
-GymPass style app.
+GymPass style app (course of rocketseat).
 
 ## RFs (Requisitos funcionais - funcionalidades)
 
