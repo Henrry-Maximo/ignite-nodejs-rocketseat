@@ -1,3 +1,8 @@
+## Orientações Desenvolvimento API
+- Regras e requisitos disponibilizados;
+- API para a adoção de animais;
+- Aplicação utilizando SOLID e testes.
+
 ### Regras da aplicação
 
 - [] Deve ser possível cadastrar um pet
