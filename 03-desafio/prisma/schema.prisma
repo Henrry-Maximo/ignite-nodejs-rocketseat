@@ -12,3 +12,65 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Age {
+  FILHOTE
+  ADULTO
+  IDOSO
+}
+
+enum Size {
+  PEQUENINO
+  MEDIANO
+  GRANDINHO
+}
+
+enum Power {
+  BAIXA
+  MEDIA
+  ALTA
+}
+
+enum Independence {
+  BAIXO
+  MEDIA
+  ALTA
+}
+
+enum Ambience {
+  PEQUENO
+  AMPLO
+}
+
+model User {
+  id String @id @default(uuid())
+
+  name  String
+  email String @unique
+
+  @@map("users")
+}
+
+model Pet {
+  id String @id @default(uuid())
+
+  name         String
+  description  String?
+  age          Age
+  size         Size
+  power        Power
+  independence Independence
+  ambience     Ambience
+  requisite    String
+
+  @@map("pets")
+}
+
+// name: z.string(),
+// description: z.string().max(300),
+// age: z.enum([""]),
+// size: z.enum([""]),
+// power: z.enum([""]),
+// independence: z.enum([""]),
+// ambience: z.enum([""]),
+// requisite: z.string(),

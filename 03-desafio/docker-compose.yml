@@ -1,7 +1,8 @@
+version: "3"
 name: desafio-03-server
 
 services:
-  api-find-a-friend-pg:
+  api-solid-find-a-friend:
     image: bitnami/postgresql:13.16.0
     ports:
       - 5435:5435
