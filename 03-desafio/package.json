@@ -12,15 +12,20 @@
   "license": "ISC",
   "description": "Desafio-03 por Rocketseat",
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^22.7.2",
-    "tsup": "^8.3.0",
-    "tsx": "^4.19.1",
-    "typescript": "^5.6.2"
+    "@eslint/js": "9.15.0",
+    "@types/node": "22.9.1",
+    "eslint": "9.15.0",
+    "globals": "15.12.0",
+    "prisma": "5.22.0",
+    "tsup": "8.3.5",
+    "tsx": "4.19.2",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.15.0"
   },
   "dependencies": {
+    "@prisma/client": "5.22.0",
     "dotenv": "16.4.5",
-    "fastify": "^5.0.0",
+    "fastify": "5.1.0",
     "zod": "3.23.8"
   }
 }
