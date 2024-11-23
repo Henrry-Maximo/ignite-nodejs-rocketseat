@@ -5,7 +5,7 @@ services:
   api-solid-find-a-friend:
     image: bitnami/postgresql:13.16.0
     ports:
-      - 5435:5435
+      - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker

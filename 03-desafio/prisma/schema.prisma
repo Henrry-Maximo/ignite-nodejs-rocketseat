@@ -45,8 +45,14 @@ enum Ambience {
 model User {
   id String @id @default(uuid())
 
-  name  String
-  email String @unique
+  name          String
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+  postal_code   String
+  address       String
+  phone         String
+  Pets          Pet[]
 
   @@map("users")
 }
@@ -55,7 +61,7 @@ model Pet {
   id String @id @default(uuid())
 
   name         String
-  description  String?
+  description  String
   age          Age
   size         Size
   power        Power
@@ -63,14 +69,8 @@ model Pet {
   ambience     Ambience
   requisite    String
 
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
   @@map("pets")
 }
-
-// name: z.string(),
-// description: z.string().max(300),
-// age: z.enum([""]),
-// size: z.enum([""]),
-// power: z.enum([""]),
-// independence: z.enum([""]),
-// ambience: z.enum([""]),
-// requisite: z.string(),
