@@ -6,11 +6,11 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
   const petsSchemaRequest = z.object({
     name: z.string(),
     description: z.string().max(300),
-    age: z.enum([""]),
-    size: z.enum([""]),
-    power: z.enum([""]),
-    independence: z.enum([""]),
-    ambience: z.enum([""]),
+    age: z.enum(["FILHOTE", "ADULTO", "IDOSO"]),
+    size: z.enum(["PEQUENINO", "MEDIANO", "GRANDINHO"]),
+    power: z.enum(["BAIXA", "MEDIA", "ALTA"]),
+    independence: z.enum(["BAIXO", "MEDIA", "ALTA"]),
+    ambience: z.enum(["PEQUENO", "AMPLO"]),
     requisite: z.string(),
   });
 
@@ -25,22 +25,18 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
     requisite,
   } = petsSchemaRequest.parse(req.body);
 
-  try {
-    await prisma.user.create({
-      data: {
-        name,
-        description,
-        age,
-        size,
-        power,
-        independence,
-        ambience,
-        requisite,
-      }
-    });
-  } catch (error) {
-    return reply.status(500).send({
-      error,
-    });
-  }
+  const pet = await prisma.pet.create({
+    data: {
+      name,
+      description,
+      age,
+      size,
+      power,
+      independence,
+      ambience,
+      requisite,
+    },
+  });
+
+  return reply.status(201).send({ pet });
 }

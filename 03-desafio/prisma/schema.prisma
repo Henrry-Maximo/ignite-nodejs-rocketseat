@@ -52,7 +52,7 @@ model User {
   postal_code   String
   address       String
   phone         String
-  Pets          Pet[]
+  // Pets          Pet[]
 
   @@map("users")
 }
@@ -69,8 +69,8 @@ model Pet {
   ambience     Ambience
   requisite    String
 
-  user    User   @relation(fields: [user_id], references: [id])
-  user_id String
+  // user    User   @relation(fields: [user_id], references: [id])
+  // user_id String
 
   @@map("pets")
 }
