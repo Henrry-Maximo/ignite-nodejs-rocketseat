@@ -1,4 +1,4 @@
-import { FastifyRequest, FastifyReply } from "fastify";
+import type { FastifyRequest, FastifyReply } from "fastify";
 import { z } from "zod";
 // import { AuthenticateUseCase } from "@/use-cases/authenticate";
 // import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository";
