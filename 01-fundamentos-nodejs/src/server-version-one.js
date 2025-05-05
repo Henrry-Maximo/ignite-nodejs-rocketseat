@@ -43,8 +43,10 @@ const server = http.createServer((request, response) => {
   // keys = destructuring the Req object
 
   if (method === "GET" && url === "/users") {
+    // the response returning can't be a array, is necessary be string, Buffer or Unit8Array
+
     return response
-      .setHeader("Content-type", "application/json")
+      .setHeader("Content-Type", "application/json")
       .end(JSON.stringify(users));
 
     // Early return
@@ -52,7 +54,13 @@ const server = http.createServer((request, response) => {
   }
 
   if (method === "POST" && url === "/users") {
-    users.push({ id: 1, name: "José", email: "Josesilvadias@gmail.com" });
+    users.push(
+      { 
+        id: 1, 
+        name: "José", 
+        email: "Josesilvadias@gmail.com" 
+      }
+    );
 
     // return response.status(200).end(`Usuário ${users[0].name} criado com sucesso!`);
     return response.writeHead(201).end();
