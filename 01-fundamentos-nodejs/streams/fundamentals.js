@@ -61,7 +61,7 @@ class InverseNumberStream extends Transform {
     callback(null, Buffer.from(String(transformed)))
     // this.push(Buffer.from(String(transformed)));
     // callback();
-    // precisa enviar como Buffer / Buffer: um módulo do node utilizado para transitar informações
+    // precisa enviar como Buffer / Buffer: um módulo do node utilizado para transitar informações entre streams
   }
 }
 
@@ -83,7 +83,9 @@ class MultiplyByTenStream extends Writable {
 // new OneToHundredStream().pipe(process.stdout);
 
 // Stream Read encaminha para a Stream Write
-new OneToHundredStream().pipe(new InverseNumberStream()).pipe(new MultiplyByTenStream());
+new OneToHundredStream()
+  .pipe(new InverseNumberStream())
+  .pipe(new MultiplyByTenStream());
 
 // Stream Duplex: Abrange os métodos de Leitura e Escrita
 // Arquivo físico: ler/escrever; porém não pode transformar
