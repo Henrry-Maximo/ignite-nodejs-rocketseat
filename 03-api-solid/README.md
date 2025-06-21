@@ -137,4 +137,4 @@ complexas
 - Isolar as operações do banco dos casos de uso, de forma que eventualmente, se for realizar a troca de ferramenta (prisma), apenas terá que alterar os arquivos de `repositories`
 
 ## SOLID
-- D - Dependency Inversion Principle
+- D - Dependency Inversion Principle: na utilização, realizamos a instância da class, mas isso é ruim na hora de trocar o banco de dados. Portanto, criamos uma class com o método `constructor` para receber como parâmetro, a nossa conexão ao banco de dados
