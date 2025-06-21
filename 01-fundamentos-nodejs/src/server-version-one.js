@@ -1,6 +1,7 @@
 // módulo padrão do NodeJS
 // const http = require('http');
 import http from "node:http";
+import { json } from "./middlewares/json.js";
 // obs.: prefixo interno - módulos nativos = interno do NodeJS
 
 // Módulo mais famoso: Fastify
@@ -37,10 +38,12 @@ const users = [];
 
 // server startup
 // first and only parameter = an arrow function
-const server = http.createServer((request, response) => {
+const server = http.createServer(async (request, response) => {
   // const method = req.method;
   const { method, url } = request;
   // keys = destructuring the Req object
+
+  await json(request, response);
 
   if (method === "GET" && url === "/users") {
     // the response returning can't be a array, is necessary be string, Buffer or Unit8Array
@@ -77,7 +80,13 @@ Res: respond to whoever is requesting it.
 */
 
 // acesso a porta, executa a função server
-server.listen(4444);
+try {
+  server.listen(4445, () => {
+    console.log("Server is 👌");
+  });
+} catch(err) {
+  console.log('Server is Error: ', err);
+}
 
 // ------------------------------------------------------------
 

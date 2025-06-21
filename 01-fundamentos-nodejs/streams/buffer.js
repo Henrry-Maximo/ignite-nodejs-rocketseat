@@ -1,4 +1,5 @@
 // Buffer: data stored in binary in memory to be recalled, used and deleted
+// ler parcialmente os dados de forma binária
 const buf = Buffer.from(
   "RocketSeat Is Very Good!"
 );

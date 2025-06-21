@@ -2,7 +2,8 @@ import { Readable } from "node:stream";
 
 /* 
 front: sending the data to the backend
-observation: featch (API) - is a API full for work with request and response 
+observation: featch (API) - is a API full for work with request and response
+availble: nodejs version 18 
 */
 
 class OneToHundredStream extends Readable {
