@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "dotenv/config"; // carregar variáveis
 import { z } from "zod";
 
 // process.env: { NODE_ENV: 'dev', ... }
