@@ -123,6 +123,25 @@ export class User {
 - npm i -D @types/bcryptjs
 - salt -> random string/number
 
+## Testes
+- npm i vitest vite-tsconfig-paths -D
+
+## Testes Unitários
+- Testa uma unidade isolada, testar de forma desconectada das dependências
+- Teste unitário nunca irá tocar em banco de dados / camada externa da aplicação
+- Teste que batem no banco de dados são lentos, além  de problemas de conflito
+- Teste E2E/Integração podem, mas unitário não
+
+## Testes Coverage
+- @vitest/coverage-c8
+- vitest run --coverage : `run` para ficar observando
+- fornecer um feedback dos testes rodados
+
+## Vitest UI
+- npm i -D @vitest/ui
+- Visualizar os testes
+- Relacionamento entre módulos
+
 ## TDD (Test Driven Development)
 - Entender e desenvolver a regra de negócio de uma funcionalidade, 
 durante o desenvolvimento, tratando principalmente, de funcionalidades
