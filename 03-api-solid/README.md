@@ -131,6 +131,7 @@ export class User {
 - Teste unitário nunca irá tocar em banco de dados / camada externa da aplicação
 - Teste que batem no banco de dados são lentos, além  de problemas de conflito
 - Teste E2E/Integração podem, mas unitário não
+- Cada teste unitário precisa rodar em um contexto isolado, ou seja, sem já existir persistência de dados (ambiente limpo)
 
 ## Testes Coverage
 - @vitest/coverage-c8
@@ -141,6 +142,10 @@ export class User {
 - npm i -D @vitest/ui
 - Visualizar os testes
 - Relacionamento entre módulos
+
+## Factory Pattern
+- Utilizado quando temos uma repetição, pois teremos vários casos de uso e para usar eles, precisamos instância nosso repositório. No entanto, teremos casos de usos que receberam mais que 5 dependências
+- Fábrica de criação de coisas comuns, ou seja, se tivermos um código que será utilizando em diferentes lugares, e este código tem várias dependências. Podemos aplicar o Factory Pattern.
 
 ## TDD (Test Driven Development)
 - Entender e desenvolver a regra de negócio de uma funcionalidade, 

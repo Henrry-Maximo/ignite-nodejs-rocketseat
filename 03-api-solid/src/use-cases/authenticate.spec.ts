@@ -4,6 +4,7 @@ import { AuthenticateUseCase } from "./authenticate";
 import { hash } from "bcryptjs";
 import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 
+// apenas inicializando e declarando o tipo (acesso global)
 let usersRepository: InMemoryUsersRespository;
 let sut: AuthenticateUseCase;
 
