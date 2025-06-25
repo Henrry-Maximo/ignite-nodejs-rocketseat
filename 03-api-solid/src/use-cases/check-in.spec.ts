@@ -25,6 +25,7 @@ describe("Check-in Use Case", () => {
       longitude: -49.6401091,
     });
 
+    // usando vi mocking para obter data (datas fictícias)
     vi.useRealTimers();
   });
 
@@ -45,6 +46,7 @@ describe("Check-in Use Case", () => {
 
   // red, green, refacotor
   it("should not be able to check in twice in the same day", async () => {
+    // o index 0 é o mês de Janeiro em JS
     vi.setSystemTime(new Date(2022, 0, 20, 8, 0, 0));
 
     await sut.execute({
