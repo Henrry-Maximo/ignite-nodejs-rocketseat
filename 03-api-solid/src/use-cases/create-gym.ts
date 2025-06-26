@@ -1,6 +1,9 @@
 import { Gym } from "@prisma/client";
 import { GymsRepository } from "@/repositories/gyms-repository";
 
+// undefined: não fará nada vs null: limpar valor existente vs value: atualizar
+// valor existente
+
 interface CreateGymUseCaseRequest {
   title: string;
   description?: string | null;
