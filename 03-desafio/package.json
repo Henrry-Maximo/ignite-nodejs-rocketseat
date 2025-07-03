@@ -13,6 +13,7 @@
   "description": "Desafio-03 por Rocketseat",
   "devDependencies": {
     "@eslint/js": "9.15.0",
+    "@rocketseat/eslint-config": "2.2.2",
     "@types/node": "22.9.1",
     "eslint": "9.15.0",
     "globals": "15.12.0",

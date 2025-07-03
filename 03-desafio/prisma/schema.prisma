@@ -32,7 +32,7 @@ enum Power {
 }
 
 enum Independence {
-  BAIXO
+  BAIXA
   MEDIA
   ALTA
 }
@@ -42,9 +42,13 @@ enum Ambience {
   AMPLO
 }
 
-model User {
-  id String @id @default(uuid())
+enum Status {
+  Disponível
+  Indisponível
+}
 
+model User {
+  id            String   @id @default(uuid())
   name          String
   email         String   @unique
   password_hash String
@@ -52,25 +56,36 @@ model User {
   postal_code   String
   address       String
   phone         String
-  // Pets          Pet[]
 
-  @@map("users")
+  @@map("pet_users")
 }
 
 model Pet {
-  id String @id @default(uuid())
-
+  id           String       @id @default(uuid())
   name         String
   description  String
+  status       Status
   age          Age
   size         Size
   power        Power
   independence Independence
   ambience     Ambience
   requisite    String
+  created_at   DateTime     @default(now())
 
-  // user    User   @relation(fields: [user_id], references: [id])
-  // user_id String
+  @@map("pet_pets")
+}
 
-  @@map("pets")
+model Org {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  address       String
+  postal_code   String
+  city          String
+  phone         String
+  created_at    DateTime @default(now())
+
+  @@map("pet_orgs")
 }
