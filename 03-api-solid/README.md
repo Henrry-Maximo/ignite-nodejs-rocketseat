@@ -134,7 +134,7 @@ export class User {
 - Cada teste unitário precisa rodar em um contexto isolado, ou seja, sem já existir persistência de dados (ambiente limpo)
 
 ## Testes Coverage
-- @vitest/coverage-c8
+- @vitest/coverage-v8
 - vitest run --coverage : `run` para ficar observando
 - fornecer um feedback dos testes rodados
 
@@ -162,3 +162,13 @@ complexas
 
 ## SOLID
 - D - Dependency Inversion Principle: na utilização, realizamos a instância da class, mas isso é ruim na hora de trocar o banco de dados. Portanto, criamos uma class com o método `constructor` para receber como parâmetro, a nossa conexão ao banco de dados
+
+## ENVIRONMENT:
+- Ambiente individualizado para execução de qualquer coisa
+- npm i vitest@latest vite-tsconfig-paths@latest @vitest/ui@latest @vitest/coverage-v8@latest -D
+- Alterar vite.config.js -> vite.config.mjs
+- "test": "vitest run --dir src/use-cases",
+
+## FAZER TESTES SIMULANDO O FRONT-END
+- npm i supertest -D
+- npm i @types/supertest -D
