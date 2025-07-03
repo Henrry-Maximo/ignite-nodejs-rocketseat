@@ -1,10 +1,11 @@
 # App (técnicas de design)
 
-GymPass style app.
+GymPass style app (course of rocketseat).
 
 ## RFs (Requisitos funcionais - funcionalidades)
 
 - Usuário deve conseguir fazer checking (Deve ser possível X)
+- O que pode fazer
 
 - [x] Deve ser possível se cadastrar;
 - [x] Deve ser possível se autenticar;
@@ -20,6 +21,7 @@ GymPass style app.
 ## RNs (Regras de Negócio - verficações)
 
 - Usuário deve conseguir fazer checking estando a 10 km de distância da academia
+- Pode fazer, mas seguindo uma condição
 
 - [x] O usuário não deve poder se cadastrar com um e-mail duplicado;
 - [x] O usuário não pode fazer 2 check-ins no mesmo dia;
@@ -45,7 +47,12 @@ GymPass style app.
 - "start:dev": "tsx watch src/server.ts", "start": "node build/server.js", "build": "tsup src --out-dir build"
 - .npmrc - versões exatas: save-exact=true
 - npm install dotenv
-- "baseUrl": "./", module names. */ "paths": { "@/*": ["./src/*"]},    
+- "baseUrl": "./", module names. */ "paths": { "@/*": ["./src/*"]},
+
+## Formas - Níveis de Abstração:
+- Drive Native (forma nativa de sql, querys)
+- Query Builder (knex): sintaxe em js para sql
+- ORM (PrismaORM, SequelizeORM, TypeORM)
 
 ## ORMs
 
@@ -71,11 +78,15 @@ export class User {
 - Supported Databases: PostgreSQL/MySQL/SQLite/SQLServer/MongoDB/CockroachDB
 - Automated Migrations
 - npm i prisma -D
-- npx prisma generate
+- npx prisma init
+- Extension Prisma and settings.json => "[prisma]": { "editor.formatOnSave": true }
+- npx prisma generate (criar tipagem, integração com o ts)
+- npm i @prisma/client (trabalhar com os arquivos gerados, depen. de prod)
 - wsl --list --online
 - wsl -l -v
 - wsl --install -d Ubuntu
 - docker -v
+- https://hub.docker.com/search?q=bitnami
 - docker ps
 - docker ps -a
 - docker start [name]
@@ -83,13 +94,21 @@ export class User {
 - dicker rm [name]
 - docker logs [name]
 - docker run --name api-solid-pg -e POSTGRESQL_USERNAME=docker -e POSTGRESQL_PASSWORD=docker -e POSTGRESQL_DATABASE=apisolid -p 5432:5432 bitnami/postgresql
-- docker compose up -d (read file yml)
+- docker-compose.yml (estabelece quais containers devem ser criados)
+- docker compose up -d (read file yml, sem mostrar logs usando `-d`)
 - docker compose stop (stop all containers)
 - docker compose down (delete all containers)
 
 ## Prisma ORM Migrations Automated
-- npx prisma migrate dev
-- npx prisma studio
+- npx prisma migrate dev (buscar por alterações em prisma schema)
+- npx prisma migrate deploy (pega todas as migrations e gera o banco)
+- npx prisma studio (interface para nav/ entre tabelas)
+
+## Lógica
+- Não é possível inserir uma coluna como obrigatória se já existir dados no banco (deixar como opcional ou já com um valor)
+
+## Framework - Model / View / Controller
+- NestJS: controller respovesáveis por cuida da requisição e resposta ao cliente
 
 ## HTTP (Controllers)
 - Fastify Plugin Routes
@@ -104,6 +123,30 @@ export class User {
 - npm i -D @types/bcryptjs
 - salt -> random string/number
 
+## Testes
+- npm i vitest vite-tsconfig-paths -D
+
+## Testes Unitários
+- Testa uma unidade isolada, testar de forma desconectada das dependências
+- Teste unitário nunca irá tocar em banco de dados / camada externa da aplicação
+- Teste que batem no banco de dados são lentos, além  de problemas de conflito
+- Teste E2E/Integração podem, mas unitário não
+- Cada teste unitário precisa rodar em um contexto isolado, ou seja, sem já existir persistência de dados (ambiente limpo)
+
+## Testes Coverage
+- @vitest/coverage-v8
+- vitest run --coverage : `run` para ficar observando
+- fornecer um feedback dos testes rodados
+
+## Vitest UI
+- npm i -D @vitest/ui
+- Visualizar os testes
+- Relacionamento entre módulos
+
+## Factory Pattern
+- Utilizado quando temos uma repetição, pois teremos vários casos de uso e para usar eles, precisamos instância nosso repositório. No entanto, teremos casos de usos que receberam mais que 5 dependências
+- Fábrica de criação de coisas comuns, ou seja, se tivermos um código que será utilizando em diferentes lugares, e este código tem várias dependências. Podemos aplicar o Factory Pattern.
+
 ## TDD (Test Driven Development)
 - Entender e desenvolver a regra de negócio de uma funcionalidade, 
 durante o desenvolvimento, tratando principalmente, de funcionalidades
@@ -113,3 +156,19 @@ complexas
 - Criação de dois tokens, um de 10 minutos e outro de 7 dias.
 - Verificar se usuário acesso a aplicação.
 - npm i @fastify/cookie
+
+## Respository Pattern
+- Isolar as operações do banco dos casos de uso, de forma que eventualmente, se for realizar a troca de ferramenta (prisma), apenas terá que alterar os arquivos de `repositories`
+
+## SOLID
+- D - Dependency Inversion Principle: na utilização, realizamos a instância da class, mas isso é ruim na hora de trocar o banco de dados. Portanto, criamos uma class com o método `constructor` para receber como parâmetro, a nossa conexão ao banco de dados
+
+## ENVIRONMENT:
+- Ambiente individualizado para execução de qualquer coisa
+- npm i vitest@latest vite-tsconfig-paths@latest @vitest/ui@latest @vitest/coverage-v8@latest -D
+- Alterar vite.config.js -> vite.config.mjs
+- "test": "vitest run --dir src/use-cases",
+
+## FAZER TESTES SIMULANDO O FRONT-END
+- npm i supertest -D
+- npm i @types/supertest -D

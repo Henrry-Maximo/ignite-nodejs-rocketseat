@@ -18,6 +18,9 @@ enum Role {
   MEMBER
 }
 
+// um @ para configurar o campo
+// dois @ para configurar a tabela
+
 model User {
   id            String   @id @default(uuid())
   name          String
@@ -28,7 +31,7 @@ model User {
 
   checkIns CheckIn[]
 
-  @@map("users")
+  @@map("users") // trocar nome da tabela no banco
 }
 
 model CheckIn {
@@ -66,3 +69,8 @@ model Gym {
 // validated_at -> Presente? / Quando?
 // vai e volta  -> Algoritmo de Criptografia
 // Hashing -> ir
+
+// 1 - 1 => um aluno pode ter um checkin 
+// 1 - n => uma acadêmia pode ter vários alunos
+// n - n => um grupo de alunos pode ter vários checkins, e os 
+// checkins podem ter vários alunos

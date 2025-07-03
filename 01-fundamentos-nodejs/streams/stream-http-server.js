@@ -31,7 +31,7 @@ const server = http.createServer( async (request, response) => {
 
     // concat(): unir vários pedacinhos em vários pedaços
     const fullStreamContent  = Buffer.concat(buffers).toString();
-    console.log(fullStreamContent);
+    console.log(fullStreamContent); // 12345
     return response.end(fullStreamContent);
 
   // try {

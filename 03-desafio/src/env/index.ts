@@ -1,13 +1,9 @@
-import "dotenv/config"; // carregar variáveis
+import "dotenv/config"; // object
 import { z } from "zod";
-
-// process.env: { NODE_ENV: 'dev', ... }
-// z.coerce: coverter o valor
 
 const envSchema = z.object({
   NODE_ENV: z.enum(["dev", "test", "production"]).default("dev"),
-  JWT_SECRET: z.string(),
-  PORT: z.coerce.number().default(5050),
+  SERVER_PORT: z.coerce.number().default(2424),
 });
 
 const _env = envSchema.safeParse(process.env);
