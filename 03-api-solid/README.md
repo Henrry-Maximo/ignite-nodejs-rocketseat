@@ -39,14 +39,35 @@ GymPass style app (course of rocketseat).
 
 ## Projeto:
 
-- npm init -y
-- pasta/arquivo ´src/server.ts´
-- npm install typescript @types/node tsx tsup -D(NodeJS not TS / TSUP for JS)
-- npx tsc --init (TSCONFIG - ESM2020)
+- Iniciar package:
+  - npm init -y
+
+- Criar pasta/arquivo:
+  - pasta/arquivo ´src/server.ts´
+
+- Instalando ts / tsx: converter código ts para js / tsup: criar a versão de build
+  - npm install typescript @types/node tsx tsup -D
+(NodeJS not TS / TSUP for JS)
+
+- Criar o arquivo tsconfig
+  - npx tsc --init (TSCONFIG - ESM2020)
+
 - npm install fastify
+
 - "start:dev": "tsx watch src/server.ts", "start": "node build/server.js", "build": "tsup src --out-dir build"
+
 - .npmrc - versões exatas: save-exact=true
-- npm install dotenv
+
+- Carregar o arquivo .env e transformar em variáveis de ambiente
+  - npm install dotenv
+
+- Precisamos validar variáveis, garantir fluxo:
+  - npm i zod
+
+- Configurar o formatador de código:
+  - npm i eslint -D
+  - npx eslint --init
+
 - "baseUrl": "./", module names. */ "paths": { "@/*": ["./src/*"]},
 
 ## Formas - Níveis de Abstração:
@@ -77,11 +98,17 @@ export class User {
 - Supported Languages: JS/TS
 - Supported Databases: PostgreSQL/MySQL/SQLite/SQLServer/MongoDB/CockroachDB
 - Automated Migrations
-- npm i prisma -D
-- npx prisma init
+- npm i prisma -D (interface de linha de comando)
+- npx: atalho (short handle) para executar scripts da pasta bin
+
+- npx prisma init (inicializar a conexão com o banco)
+
 - Extension Prisma and settings.json => "[prisma]": { "editor.formatOnSave": true }
+
 - npx prisma generate (criar tipagem, integração com o ts)
+
 - npm i @prisma/client (trabalhar com os arquivos gerados, depen. de prod)
+
 - wsl --list --online
 - wsl -l -v
 - wsl --install -d Ubuntu

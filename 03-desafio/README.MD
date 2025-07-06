@@ -1,9 +1,9 @@
-f## Orientações Desenvolvimento API
+## Orientações Desenvolvimento API
 - Regras e requisitos disponibilizados;
 - API para a adoção de animais;
 - Aplicação utilizando SOLID e testes.
 
-### Regras da aplicação
+### RFs (Requisitos Funcionais)
 
 - [] Deve ser possível cadastrar um pet
 - [] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
@@ -12,7 +12,7 @@ f## Orientações Desenvolvimento API
 - [] Deve ser possível se cadastrar como uma ORG
 - [] Deve ser possível realizar login como uma ORG
 
-### Regras de negócio
+### RNs (Regras de negócio)
 
 - [] Para listar os pets, obrigatoriamente precisamos informar a cidade
 - [] Uma ORG precisa ter um endereço e um número de WhatsApp
@@ -20,3 +20,5 @@ f## Orientações Desenvolvimento API
 - [] O usuário que quer adotar, entrará em contato com a ORG via WhatsApp
 - [] Todos os filtros, além da cidade, são opcionais
 - [] Para uma ORG acessar a aplicação como admin, ela precisa estar logada
+
+### RNFs (Requisitos não-funcionais)
