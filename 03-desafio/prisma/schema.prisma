@@ -6,12 +6,18 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+/**
+ * Model: uma estrutura onde iremos armazenar vários dados
+ * Regra: primeira letra sempre maiúscula, nunca no plural
+ */
 
 enum Age {
   FILHOTE
@@ -43,8 +49,8 @@ enum Ambience {
 }
 
 enum Status {
-  Disponível
-  Indisponível
+  DISPONÍVEL
+  INDISPONÍVEL
 }
 
 model User {

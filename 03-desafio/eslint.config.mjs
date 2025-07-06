@@ -1,22 +1,36 @@
+import js from "@eslint/js";
 import globals from "globals";
-import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
+import { defineConfig } from "eslint/config";
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
+export default defineConfig([
   {
+    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
+    plugins: { js },
+    extends: ["js/recommended"],
+  },
+  {
+    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
+    languageOptions: { globals: globals.node },
     rules: {
-      "indent": ["error", 2], // two spaces
-      "quotes": ["error", "double"], // ""
-      "semi": ["error", "always"], // ;
-      "max-len": ["error", { "code": 80 }], 
-      "eqeqeq": ["error", "always"], // identify type
-      "no-unused-vars": ["error", { "vars": "all", "args": "none" }], //not used
-      "no-var": "error",
+      // Vírgula obrigatória
+      "comma-dangle": ["error", "always-multiline"],
+
+      // Ponto e vírgula obrigatório
+      "semi": ["error", "always"],
+
+      // Aspas simples
+      "quotes": ["error", "double"],
+
+      // Indentação 2 espaços
+      "indent": ["error", 2],
+
+      // Sem espaços em branco no final
+      "no-trailing-spaces": "error",
+
+      // Linha em branco no final do arquivo
+      "eol-last": ["error", "always"],
     },
   },
-  {files: ["**/*.{js,mjs,cjs,ts}"]},
-  {languageOptions: { globals: globals.node }},
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-];
+  tseslint.configs.recommended,
+]);
