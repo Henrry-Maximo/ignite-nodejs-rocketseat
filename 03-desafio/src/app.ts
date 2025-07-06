@@ -1,18 +1,21 @@
 import fastify from "fastify";
-import { PrismaClient } from "generated/prisma";
+import { appRoutes } from "./http/routes";
 
 export const app = fastify();
 
-// Instanciando conexão de schama do banco de dados (tipagem completa)
-const prisma = new PrismaClient();
+app.register(appRoutes);
 
-prisma.user.create({
-  data: {
-    name: "Henrique",
-    email: "XXXXXXXXXXXXXXXXXX",
-    password_hash: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    address: "XXXXXXXXXXXXXXXXXX",
-    phone: "XXXXXXXXXXXXXXXXXX",
-    postal_code: "XXXXXXXXXXXXXXXXXX",
-  },
-});
+// Instanciando conexão de schama do banco de dados (tipagem completa)
+// const prisma = new PrismaClient();
+
+// prisma.org.create({
+//   data: {
+//     name: "xxxxxxxx",
+//     email: "xxxxxxxxxxxxxxxxxxxxx",
+//     password_hash: "xxxxxxxxxxxxxxx",
+//     address: "xxxxxxxxxxxxxxx",
+//     postal_code: "xxxxxxxxxxxxxxx",
+//     phone: "xxxxxxxxxxxxxxx",
+//     city: "xxxxxxxxxxxxxxx",
+//   },
+// });
