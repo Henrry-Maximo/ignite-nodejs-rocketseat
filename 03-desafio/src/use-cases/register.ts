@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
 import { randomInt } from "node:crypto";
+import { EmailAlreadyExists } from "./errors/email-already-exists";
+import { PrismaOrgsRepository } from "@/repositories/prisma-orgs-repository";
 
 interface registerUseCaseRequest {
   name: string,
@@ -21,6 +23,9 @@ export const registerUseCase = async ({
   postal_code,
   phone,
 }: registerUseCaseRequest) => {
+  /*
+    findUnique: encontrar item único da tebela
+  */
   const orgWithSameEmail = await prisma.org.findUnique({
     where: {
       email,
@@ -28,7 +33,7 @@ export const registerUseCase = async ({
   });
 
   if (orgWithSameEmail) {
-    throw new Error("Email already registered!");
+    throw new EmailAlreadyExists();
   }
 
   /*
@@ -38,15 +43,15 @@ export const registerUseCase = async ({
   const randomSalt = randomInt(6, 10);
   const password_hash = await hash(password, randomSalt);
 
-  await prisma.org.create({
-    data: {
-      name,
-      email,
-      password_hash,
-      address,
-      city,
-      postal_code,
-      phone,
-    },
+  const prismaOrgsRepository = new PrismaOrgsRepository();
+
+  prismaOrgsRepository.create({
+    name,
+    email,
+    password_hash,
+    address,
+    city,
+    postal_code,
+    phone,
   });
 };

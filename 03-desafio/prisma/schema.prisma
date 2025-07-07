@@ -4,7 +4,6 @@
 // Gerador do cliente Prisma
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma" // Cliente gerado em pasta customizada
 }
 
 // Configuração do banco PostgreSQL
