@@ -1,9 +1,9 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
-import { registerUseCase } from "@/use-cases/register";
+import { RegisterUseCase } from "@/use-cases/register";
 import { EmailAlreadyExists } from "@/use-cases/errors/email-already-exists";
-import { ServerInternalError } from "@/use-cases/errors/server-internal-error";
+import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
 
 export const register = async (req: FastifyRequest, reply: FastifyReply) => {
   const registerBodySchema = z.object({
@@ -24,7 +24,10 @@ export const register = async (req: FastifyRequest, reply: FastifyReply) => {
     por ErrorConstructor
   */
   try {
-    await registerUseCase({
+    const prismaOrgsRepository = new PrismaOrgsRepository();
+    const registerUseCase = new RegisterUseCase(prismaOrgsRepository);
+
+    await registerUseCase.execute({
       name,
       email,
       password,
@@ -42,9 +45,11 @@ export const register = async (req: FastifyRequest, reply: FastifyReply) => {
       return reply.status(409).send({ message: err.message });
     }
 
-    if (err instanceof ServerInternalError) {
-      return reply.status(500).send({ message: err.message });
-    }
+    // if (err instanceof ServerInternalError) {
+    //   return reply.status(500).send({ message: err.message });
+    // }
+
+    throw err;
   }
 
   // Operações de criação / atualização / remoção : não há necessidade de retorno

@@ -30,6 +30,9 @@ export default defineConfig([
 
       // Linha em branco no final do arquivo
       "eol-last": ["error", "always"],
+
+      // Desativar falso negativo
+      "no-useless-constructor": "off",
     },
   },
   tseslint.configs.recommended,
