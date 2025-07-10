@@ -2,8 +2,9 @@ import { hash } from "bcryptjs";
 import { randomInt } from "node:crypto";
 import { EmailAlreadyExists } from "./errors/email-already-exists";
 import { OrgsRepository } from "@/repositories/orgs-repository";
+import { Org } from "@prisma/client";
 
-interface registerUseCaseRequest {
+interface RegisterUseCaseRequest {
   name: string;
   email: string;
   password: string;
@@ -11,6 +12,10 @@ interface registerUseCaseRequest {
   city: string;
   postal_code: string;
   phone: string;
+}
+
+interface RegisterUseCaseResponse {
+  organization: Org;
 }
 
 /*
@@ -34,7 +39,7 @@ export class RegisterUseCase {
     city,
     postal_code,
     phone,
-  }: registerUseCaseRequest) {
+  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
     /*
     findUnique: encontrar item único da tebela
   */
@@ -53,7 +58,7 @@ export class RegisterUseCase {
 
     // const prismaOrgsRepository = new PrismaOrgsRepository();
 
-    await this.orgsRepository.create({
+    const organization = await this.orgsRepository.create({
       name,
       email,
       password_hash,
@@ -62,6 +67,9 @@ export class RegisterUseCase {
       postal_code,
       phone,
     });
+
+    // estrutura de retorno
+    return { organization };
   }
 }
 
