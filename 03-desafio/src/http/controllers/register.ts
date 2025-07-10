@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
 import { RegisterUseCase } from "@/use-cases/register";
-import { EmailAlreadyExists } from "@/use-cases/errors/email-already-exists";
+import { EmailAlreadyExistsError } from "@/use-cases/errors/email-already-exists";
 import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
 
 export const register = async (req: FastifyRequest, reply: FastifyReply) => {
@@ -37,9 +37,9 @@ export const register = async (req: FastifyRequest, reply: FastifyReply) => {
       phone,
     });
   } catch (err) {
-    // TYPE GUARD: Verifica se err é uma instância específica de EmailAlreadyExists
+    // TYPE GUARD: Verifica se err é uma instância específica de EmailAlreadyExistsError
     // Permite ao TypeScript saber o tipo exato e acessar propriedades com segurança
-    if (err instanceof EmailAlreadyExists) {
+    if (err instanceof EmailAlreadyExistsError) {
       // TYPE SAFETY: TypeScript garante que só acessamos propriedades que existem
       // Sem type guard, err.message daria erro porque err é 'unknown'
       return reply.status(409).send({ message: err.message });

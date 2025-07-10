@@ -1,6 +1,6 @@
 import { hash } from "bcryptjs";
 import { randomInt } from "node:crypto";
-import { EmailAlreadyExists } from "./errors/email-already-exists";
+import { EmailAlreadyExistsError } from "./errors/email-already-exists";
 import { OrgsRepository } from "@/repositories/orgs-repository";
 import { Org } from "@prisma/client";
 
@@ -46,7 +46,7 @@ export class RegisterUseCase {
     const orgWithSameEmail = await this.orgsRepository.findByEmail(email);
 
     if (orgWithSameEmail) {
-      throw new EmailAlreadyExists();
+      throw new EmailAlreadyExistsError();
     }
 
     /*
