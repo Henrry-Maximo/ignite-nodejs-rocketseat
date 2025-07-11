@@ -89,7 +89,7 @@ describe("Register Use Case", () => {
       phone: "11999999999",
     });
 
-    expect(() =>
+    await expect(() =>
       registerUseCase.execute({
         name: "Henrique Maximo",
         email,
