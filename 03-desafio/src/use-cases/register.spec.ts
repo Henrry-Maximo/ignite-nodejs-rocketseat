@@ -1,4 +1,4 @@
-import { describe, expect, it, test } from "vitest";
+import { describe, expect, it } from "vitest";
 import { RegisterUseCase } from "./register";
 import { compare } from "bcryptjs";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
@@ -8,9 +8,9 @@ import { EmailAlreadyExistsError } from "./errors/email-already-exists";
   Teste unitário: não existe dependência, tudo em memória.
 */
 
-test("check if it works", () => {
-  expect(2 + 2).toBe(4);
-});
+// test("check if it works", () => {
+//   expect(2 + 2).toBe(4);
+// });
 
 describe("Register Use Case", () => {
   it("should be able to register", async () => {
