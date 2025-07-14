@@ -2,6 +2,7 @@ import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-
 import { describe, expect, it } from "vitest";
 import { AuthenticateUseCase } from "./authenticate";
 import { hash } from "bcryptjs";
+import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
 
 describe("Authenticate Use Case", () => {
   it("should be able to authenticate", async () => {
@@ -27,5 +28,35 @@ describe("Authenticate Use Case", () => {
     });
 
     expect(org.id).toEqual(expect.any(String));
+  });
+
+  it("should not be able to authenticate with wrong email", async () => {
+    const orgsRepository = new InMemoryOrgsRepository();
+    const sut = new AuthenticateUseCase(orgsRepository);
+
+    expect(() => sut.execute({
+      email: "XXXXXXXXXXXXXX@gmail.com",
+      password: "123456",
+    })).rejects.toBeInstanceOf(InvalidCredentialsError);
+  });
+
+  it("should not be able to authenticate with wrong password", async () => {
+    const orgsRepository = new InMemoryOrgsRepository();
+    const sut = new AuthenticateUseCase(orgsRepository);
+
+    await orgsRepository.create({
+      name: "Pet Shop Animals",
+      email: "XXXXXXXXXXXXXX@gmail.com",
+      password_hash: await hash("123456", 6),
+      address: "Rua dos bobos",
+      city: "São Paulo",
+      postal_code: "12345678",
+      phone: "11999999999",
+    });
+
+    expect(() => sut.execute({
+      email: "XXXXXXXXXXXXXX@gmail.com",
+      password: "1234567",
+    })).rejects.toBeInstanceOf(InvalidCredentialsError);
   });
 });
