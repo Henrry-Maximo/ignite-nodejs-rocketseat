@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { RegisterUseCase } from "./register";
 import { compare } from "bcryptjs";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
@@ -12,12 +12,17 @@ import { EmailAlreadyExistsError } from "./errors/email-already-exists";
 //   expect(2 + 2).toBe(4);
 // });
 
-describe("Register Use Case", () => {
-  it("should be able to register", async () => {
-    const orgsRepository = new InMemoryOrgsRepository();
-    const registerUseCase = new RegisterUseCase(orgsRepository);
+let orgsRepository: InMemoryOrgsRepository;
+let sut: RegisterUseCase;
 
-    const { organization } = await registerUseCase.execute({
+describe("Register Use Case", () => {
+  beforeEach(() => {
+    orgsRepository = new InMemoryOrgsRepository();
+    sut = new RegisterUseCase(orgsRepository);
+  });
+
+  it("should be able to register", async () => {
+    const { organization } = await sut.execute({
       name: "Henrique Maximo",
       email: "henrylimadasilva@gmail.com",
       password: "123456",
@@ -33,8 +38,6 @@ describe("Register Use Case", () => {
   it("should hash user password upon registration", async () => {
     // const prismaOrgsRepository = new PrismaOrgsRepository();
     // enviar um objeto que imita prismaOrgsRepository
-    const orgsRepository = new InMemoryOrgsRepository();
-    const registerUseCase = new RegisterUseCase(orgsRepository);
     // const registerUseCase = new RegisterUseCase({
     //   async findByEmail() {
     //     return null;
@@ -55,7 +58,7 @@ describe("Register Use Case", () => {
     //   },
     // });
 
-    const { organization } = await registerUseCase.execute({
+    const { organization } = await sut.execute({
       name: "Henrique Maximo",
       email: "henrylimadasilva@gmail.com",
       password: "123456",
@@ -75,11 +78,8 @@ describe("Register Use Case", () => {
   });
 
   it("should not be able to register with same email twice", async () => {
-    const orgsRepository = new InMemoryOrgsRepository();
-    const registerUseCase = new RegisterUseCase(orgsRepository);
-
     const email = "henrylimadasilva@gmail.com";
-    await registerUseCase.execute({
+    await sut.execute({
       name: "Henrique Maximo",
       email,
       password: "123456",
@@ -90,7 +90,7 @@ describe("Register Use Case", () => {
     });
 
     await expect(() =>
-      registerUseCase.execute({
+      sut.execute({
         name: "Henrique Maximo",
         email,
         password: "123456",

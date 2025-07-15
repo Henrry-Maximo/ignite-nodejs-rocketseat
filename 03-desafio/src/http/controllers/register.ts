@@ -1,9 +1,8 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
-import { RegisterUseCase } from "@/use-cases/register";
 import { EmailAlreadyExistsError } from "@/use-cases/errors/email-already-exists";
-import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
+import { makeRegisterUseCase } from "@/use-cases/factories/make-register-use-case";
 
 export const register = async (req: FastifyRequest, reply: FastifyReply) => {
   const registerBodySchema = z.object({
@@ -24,8 +23,12 @@ export const register = async (req: FastifyRequest, reply: FastifyReply) => {
     por ErrorConstructor
   */
   try {
-    const prismaOrgsRepository = new PrismaOrgsRepository();
-    const registerUseCase = new RegisterUseCase(prismaOrgsRepository);
+    /*
+      * Sem necessidade de importar o repositório
+      * Sem necessidade de importar o caso de uso
+      * Usando Factory Pattern para centralizar uso de dependências (repositórios)
+    */
+    const registerUseCase = makeRegisterUseCase();
 
     await registerUseCase.execute({
       name,
