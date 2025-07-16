@@ -1,6 +1,6 @@
 import { hash } from "bcryptjs";
 import { randomInt } from "node:crypto";
-import { EmailAlreadyExistsError } from "./errors/email-already-exists";
+import { EmailAlreadyExistsError } from "./errors/email-already-exists-error";
 import { OrgsRepository } from "@/repositories/orgs-repository";
 import { Org } from "@prisma/client";
 

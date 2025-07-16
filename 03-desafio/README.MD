@@ -7,6 +7,7 @@
 
 - [x] Deve ser possível cadastrar uma organização
 - [x] Deve ser possível logar como uma organização
+- [] Deve ser possível obter o perfil de um usuário logado
 - [] Deve ser possível cadastrar um pet
 - [] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
 - [] Deve ser possível filtrar pets por suas características
@@ -25,3 +26,4 @@
 ### RNFs (Requisitos não-funcionais)
 
 - [x] A senha da organização precisa estar criptografada
+- [] A organização deve ser identificada por um JWT (JSON Web Token)

@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
-import { EmailAlreadyExistsError } from "@/use-cases/errors/email-already-exists";
+import { EmailAlreadyExistsError } from "@/use-cases/errors/email-already-exists-error";
 import { makeRegisterUseCase } from "@/use-cases/factories/make-register-use-case";
 
 export const register = async (req: FastifyRequest, reply: FastifyReply) => {

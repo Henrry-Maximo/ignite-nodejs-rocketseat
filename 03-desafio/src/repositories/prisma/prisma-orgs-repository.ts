@@ -18,6 +18,15 @@ import { OrgsRepository } from "../orgs-repository";
  * OrgsRepository: Contrato bem definido, tipagem correta
  */
 export class PrismaOrgsRepository implements OrgsRepository {
+  async findById(id: string) {
+    const org = await prisma.org.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return org;
+  }
   /**
    * Cria uma nova organização no banco de dados
    * @param data - Dados da organização seguindo schema do Prisma

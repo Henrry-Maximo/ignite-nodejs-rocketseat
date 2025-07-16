@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { RegisterUseCase } from "./register";
 import { compare } from "bcryptjs";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
-import { EmailAlreadyExistsError } from "./errors/email-already-exists";
+import { EmailAlreadyExistsError } from "./errors/email-already-exists-error";
 
 /*
   Teste unitário: não existe dependência, tudo em memória.
