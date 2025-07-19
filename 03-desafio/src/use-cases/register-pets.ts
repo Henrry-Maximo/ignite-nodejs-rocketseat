@@ -1,7 +1,9 @@
+
 import { PetsRepository } from "@/repositories/pets-repository";
 import { Pet } from "@prisma/client";
+import { PetWithoutAssociateWithOrg } from "./errors/pet-without-associate-with-org";
 
-interface RegisterPetUseCaseRequest {
+interface RegisterPetsUseCaseRequest {
   name: string;
   status: "DISPONÍVEL" | "INDISPONÍVEL";
   description: string;
@@ -14,11 +16,11 @@ interface RegisterPetUseCaseRequest {
   org: string
 }
 
-interface RegisterPetUseCaseResponse {
+interface RegisterPetsUseCaseResponse {
   pet: Pet;
 };
 
-export class RegisterPetUseCase {
+export class RegisterPetsUseCase {
   constructor(private petsRepository: PetsRepository) {
     this.petsRepository = petsRepository;
   };
@@ -34,8 +36,9 @@ export class RegisterPetUseCase {
     ambience,
     requisites,
     org,
-  }: RegisterPetUseCaseRequest): Promise<RegisterPetUseCaseResponse> {
-    if (!org) return null;
+  }: RegisterPetsUseCaseRequest): Promise<RegisterPetsUseCaseResponse> {
+
+    if (!org) throw new PetWithoutAssociateWithOrg();
 
     const pet = await this.petsRepository.create({
       name,
@@ -47,7 +50,11 @@ export class RegisterPetUseCase {
       independence,
       ambience,
       requisites,
-      org,
+      org: {
+        connect: {
+          id: org, // aqui org é o string com o id
+        },
+      },
     });
 
     return {
