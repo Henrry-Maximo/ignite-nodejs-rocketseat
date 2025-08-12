@@ -15,8 +15,7 @@ export const register = async (req: FastifyRequest, reply: FastifyReply) => {
     phone: z.string(),
   });
 
-  const { name, email, password, address, city, postal_code, phone } =
-    registerBodySchema.parse(req.body);
+  const data = registerBodySchema.parse(req.body);
 
   /*
     try {} catch () {} -> envolver use case para retornar o erro gerado
@@ -24,21 +23,13 @@ export const register = async (req: FastifyRequest, reply: FastifyReply) => {
   */
   try {
     /*
-      * Sem necessidade de importar o repositório
-      * Sem necessidade de importar o caso de uso
-      * Usando Factory Pattern para centralizar uso de dependências (repositórios)
-    */
+     * Sem necessidade de importar o repositório
+     * Sem necessidade de importar o caso de uso
+     * Usando Factory Pattern para centralizar uso de dependências (repositórios)
+     */
     const registerUseCase = makeRegisterUseCase();
 
-    await registerUseCase.execute({
-      name,
-      email,
-      password,
-      address,
-      city,
-      postal_code,
-      phone,
-    });
+    await registerUseCase.execute(data);
   } catch (err) {
     // TYPE GUARD: Verifica se err é uma instância específica de EmailAlreadyExistsError
     // Permite ao TypeScript saber o tipo exato e acessar propriedades com segurança

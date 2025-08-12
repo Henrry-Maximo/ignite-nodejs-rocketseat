@@ -38,6 +38,7 @@ export class RegisterPetsUseCase {
     org,
   }: RegisterPetsUseCaseRequest): Promise<RegisterPetsUseCaseResponse> {
 
+    // Abreviação
     if (!org) throw new PetWithoutAssociateWithOrg();
 
     const pet = await this.petsRepository.create({

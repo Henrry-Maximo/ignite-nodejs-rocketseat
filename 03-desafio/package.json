@@ -5,9 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start:dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
-    "build": "tsup src --out-dir build",
+    "start:dev": "tsx watch src/server.ts",
+    "start:build": "node build/server.js",
+    "generate:build": "tsup src --out-dir build",
     "start:test": "vitest run",
     "start:test:watch": "vitest",
     "start:test:coverage": "vitest run --coverage",

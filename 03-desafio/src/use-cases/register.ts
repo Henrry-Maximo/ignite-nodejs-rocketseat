@@ -56,6 +56,7 @@ export class RegisterUseCase {
     const randomSalt = randomInt(6, 10);
     const password_hash = await hash(password, randomSalt);
 
+    // deixando de instânciar para injetar
     // const prismaOrgsRepository = new PrismaOrgsRepository();
 
     const organization = await this.orgsRepository.create({

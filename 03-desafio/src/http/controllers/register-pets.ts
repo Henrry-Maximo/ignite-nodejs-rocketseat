@@ -17,34 +17,12 @@ export async function registerPets(req: FastifyRequest, reply: FastifyReply) {
     org: z.string(),
   });
 
-  const {
-    name,
-    description,
-    age,
-    size,
-    power,
-    independence,
-    ambience,
-    status,
-    requisites,
-    org,
-  } = createBodySchema.parse(req.body);
+  const data = createBodySchema.parse(req.body);
 
   try {
     const registerPetsUseCase = makeRegisterPetsUseCase();
 
-    const { pet } = await registerPetsUseCase.execute({
-      name,
-      description,
-      age,
-      size,
-      power,
-      independence,
-      ambience,
-      status,
-      requisites,
-      org,
-    });
+    const { pet } = await registerPetsUseCase.execute(data);
 
     return reply.status(201).send({ pet });
   } catch (err) {

@@ -7,6 +7,8 @@ export async function appRoutes(app: FastifyInstance) {
   app.post("/orgs", register);
   app.post("/pets", registerPets);
 
+  app.post("/me", registerPets);
+
   /*
     * não utilizar verbo, mas sim, semântico.
     * authenticate -> sessions.
