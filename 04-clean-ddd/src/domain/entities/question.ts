@@ -9,10 +9,12 @@ export class Question {
   public id: string;
   public title: string;
   public content: string;
+  public authorId: string;
 
-  constructor(title: string, content: string, id?: string) {
+  constructor(title: string, content: string, authorId: string, id?: string) {
     this.id = id ?? randomUUID();
     this.title = title;
+    this.authorId = authorId;
     this.content = content;
   }
 }

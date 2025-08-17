@@ -61,3 +61,7 @@ Comandos:
 
   - Verbo -> ação utilizada pelas entidades, os use-cases.
   - **Traduzir a conversa em código, de forma mais pura possível.**
+
+## Aviso
+- A estrutura utilizada com as entidades nem sempre sera a mesma no banco de dados. No caso, tendo duas entidades com IDs diferentes, mas que no banco de dados, fica tudo em uma só tabela.
+- Databases: banco relaciona, não relacional, estrutura de grafos.
