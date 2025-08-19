@@ -1,27 +1,36 @@
 import { Answer } from "../entities/answer.js";
+import { AnswersRepository } from "../repositories/answers-repository.js";
 
 // Com interface
 interface AnswerQuestionUseCaseRequest {
   instructorId: string;
   questionId: string;
-  content: string
+  content: string;
 }
 
 export class AnswerQuestionUseCase {
-  execute({ instructorId, questionId, content }: AnswerQuestionUseCaseRequest) {
+  constructor(private answersRepository: AnswersRepository) {}
+
+  async execute({
+    instructorId,
+    questionId,
+    content,
+  }: AnswerQuestionUseCaseRequest) {
     const answer = new Answer({
       content,
       authorId: instructorId,
-      questionId
+      questionId,
     });
+
+    await this.answersRepository.create(answer);
 
     return answer;
   }
 }
 
-// new AnswerQuestionUseCase().execute({ 
-//   instructorId: "1", 
-//   questionId: "2" 
+// new AnswerQuestionUseCase().execute({
+//   instructorId: "1",
+//   questionId: "2"
 // });
 
 /*

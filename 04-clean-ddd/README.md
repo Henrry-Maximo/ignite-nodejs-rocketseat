@@ -54,6 +54,9 @@ Comandos:
   -    (inicializar typescript)
   - npm i vitest -D
   - npx vitest run
+  - package:
+    - "start:test": "vitest run",
+    - "start:test:watch": "vitest" (observar qualquer alteração)
 
 ## Conversa
   - Como **instrutor**, sinto muita dificuldade em saber as //dúvidas// dos **alunos**
