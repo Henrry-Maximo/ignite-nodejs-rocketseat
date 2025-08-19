@@ -18,7 +18,7 @@ export class Slug {
       .replace(/\s+/g, "-") // Substitui espaços por hífen
       .replace(/[^\w-]+/g, "") // Remove tudo que não é palavra ou hífen
       .replace(/_/g, "-") // Substitui sublinhado por hífen
-      .replace(/-+/g, "-") // Substitui múltiplos hífen por um
+      .replace(/--+/g, "-") // Substitui múltiplos hífen por um
       .replace(/^-|-$/g, ""); // Remove hífen do início ou fim
 
     return new Slug(slugText);

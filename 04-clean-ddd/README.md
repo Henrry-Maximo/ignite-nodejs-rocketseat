@@ -68,3 +68,9 @@ Comandos:
 ## Aviso
 - A estrutura utilizada com as entidades nem sempre sera a mesma no banco de dados. No caso, tendo duas entidades com IDs diferentes, mas que no banco de dados, fica tudo em uma só tabela.
 - Databases: banco relaciona, não relacional, estrutura de grafos.
+
+## Propriedades (mais que programação)
+- Slug: representação do título da pergunta sem qualquer acentuação, sem caracteres especiais.
+  - Útil para indexação nas buscas por motores (SEO);
+  - O usuário compreende de primeiro através da URL (UX);
+  - Mais legível que número, possibilidade de compartilhamento.
