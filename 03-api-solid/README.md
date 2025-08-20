@@ -152,6 +152,7 @@ export class User {
 
 ## Testes
 - npm i vitest vite-tsconfig-paths -D
+- vite-tesconfig-paths: reconhecer as importações dos módulos
 
 ## Testes Unitários
 - Testa uma unidade isolada, testar de forma desconectada das dependências
