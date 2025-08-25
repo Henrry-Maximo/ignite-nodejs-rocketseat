@@ -3,7 +3,7 @@ name: desafio-03-server
 
 services:
   api-solid-faf:
-    image: bitnami/postgresql:13.16.0
+    image: bitnami/postgresql
     ports:
       - 5432:5432
     environment:
