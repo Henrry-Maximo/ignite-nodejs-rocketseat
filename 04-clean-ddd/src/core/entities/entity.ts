@@ -12,9 +12,10 @@ export class Entity<Props> {
     return this._id;
   }
 
-  constructor(props: Props, id?: string) {
+  // protected -> só pode ser chamado pela classe própria ou as que herdam
+  protected constructor(props: Props, id?: UniqueEntityID) {
     this.props = props;
     // this._id = id ?? randomUUID();
-    this._id = new UniqueEntityID(id);
+    this._id = id ?? new UniqueEntityID();
   }
 }
