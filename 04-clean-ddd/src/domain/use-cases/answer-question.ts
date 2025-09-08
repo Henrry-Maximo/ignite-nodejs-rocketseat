@@ -1,6 +1,7 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
-import { Answer } from "../entities/answer.js";
-import { AnswersRepository } from "../repositories/answers-repository.js";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { Answer } from "../entities/answer";
+import { AnswersRepository } from "../repositories/answers-repository";
+
 
 // Com interface
 interface AnswerQuestionUseCaseRequest {
