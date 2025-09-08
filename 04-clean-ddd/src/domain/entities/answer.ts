@@ -21,8 +21,56 @@ export class Answer extends Entity<AnswerProps> {
   // public authorId: string;
   // public questionId: string;
 
+  // Criação dos accessors (getters and setters): portas de entrada e saída
+  // get content() {
+  //   return this.props.content;
+  // }
+
+  // set content(content: string) {
+  //   // validação do conteúdo
+  //   if (content.length < 0) {
+  //     throw new Error("Content is required.");
+  //   }
+
+  //   // if (content.length > 2400) {
+  //   //   throw new Error("Invalid content length.");
+  //   // }
+
+  //   this.props.content = content;
+  // }
+
+  // getters para exibir informação
+  get authorId() {
+    return this.props.authorId;
+  }
+
+  get questionId() {
+    return this.props.questionId;
+  }
+
   get content() {
     return this.props.content;
+  }
+
+  get createdAt() {
+    return this.props.createdAt;
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt;
+  }
+
+  get excerpt() {
+    return this.content.substring(0, 120).trimEnd().concat("...");
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date();
+  }
+
+  set content(content: string) {
+    this.props.content = content;
+    this.touch();
   }
 
   static create(
