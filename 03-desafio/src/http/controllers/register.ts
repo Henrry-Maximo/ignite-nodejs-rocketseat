@@ -1,8 +1,8 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
-import z from "zod";
+import type { FastifyReply, FastifyRequest } from 'fastify';
+import z from 'zod';
 
-import { EmailAlreadyExistsError } from "@/use-cases/errors/email-already-exists-error";
-import { makeRegisterUseCase } from "@/use-cases/factories/make-register-use-case";
+import { EmailAlreadyExistsError } from '@/use-cases/errors/email-already-exists-error';
+import { makeRegisterUseCase } from '@/use-cases/factories/make-register-use-case';
 
 export const register = async (req: FastifyRequest, reply: FastifyReply) => {
   const registerBodySchema = z.object({
@@ -49,5 +49,5 @@ export const register = async (req: FastifyRequest, reply: FastifyReply) => {
   // Operações de criação / atualização / remoção : não há necessidade de retorno
   return reply
     .status(201)
-    .send({ message: "Organization registered successfully!" });
+    .send({ message: 'Organization registered successfully!' });
 };

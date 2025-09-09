@@ -1,6 +1,5 @@
-
-import { Org, Prisma } from "@prisma/client";
-import { OrgsRepository } from "../orgs-repository";
+import { Org, Prisma } from '@prisma/client';
+import { OrgsRepository } from '../orgs-repository';
 
 // interface orgsBodySchema {
 //   id?: string;
@@ -29,7 +28,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 
   async create(data: Prisma.OrgCreateInput) {
     const org = {
-      id: "user-1",
+      id: 'user-1',
       name: data.name,
       email: data.email,
       password_hash: data.password_hash,

@@ -1,6 +1,6 @@
-import { PetWithoutAssociateWithOrg } from "@/use-cases/errors/pet-without-associate-with-org";
-import { makeUserProfileUseCase } from "@/use-cases/factories/make-user-profile-use-case";
-import { FastifyReply, FastifyRequest } from "fastify";
+import { PetWithoutAssociateWithOrg } from '@/use-cases/errors/pet-without-associate-with-org';
+import { makeUserProfileUseCase } from '@/use-cases/factories/make-user-profile-use-case';
+import { FastifyReply, FastifyRequest } from 'fastify';
 
 export async function registerPets(_: FastifyRequest, reply: FastifyReply) {
   try {

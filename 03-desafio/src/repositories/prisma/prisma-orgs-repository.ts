@@ -1,7 +1,7 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from '@/lib/prisma';
 
-import { Prisma } from "@prisma/client";
-import { OrgsRepository } from "../orgs-repository";
+import { Prisma } from '@prisma/client';
+import { OrgsRepository } from '../orgs-repository';
 
 /**
  * REPOSITORY PATTERN - Data Access Layer
@@ -31,7 +31,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
    * Cria uma nova organização no banco de dados
    * @param data - Dados da organização seguindo schema do Prisma
    * @returns Organização criada com ID gerado
-  */
+   */
   async create(data: Prisma.OrgCreateInput) {
     const org = await prisma.org.create({
       data,

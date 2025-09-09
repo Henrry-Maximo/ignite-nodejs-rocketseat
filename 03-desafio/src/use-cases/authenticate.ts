@@ -1,7 +1,7 @@
-import { OrgsRepository } from "@/repositories/orgs-repository";
-import { InvalidCredentialsError } from "./errors/invalid-credentials-error";
-import { compare } from "bcryptjs";
-import { Org } from "@prisma/client";
+import { OrgsRepository } from '@/repositories/orgs-repository';
+import { InvalidCredentialsError } from './errors/invalid-credentials-error';
+import { compare } from 'bcryptjs';
+import { Org } from '@prisma/client';
 
 interface AuthenticateUseCaseRequest {
   email: string;
@@ -15,11 +15,12 @@ interface AuthenticateUseCaseResponse {
 }
 
 export class AuthenticateUseCase {
-  constructor(private orgsRepository: OrgsRepository) {
+  constructor(private orgsRepository: OrgsRepository) {}
 
-  }
-
-  async execute({ email, password }: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
+  async execute({
+    email,
+    password,
+  }: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
     // auth
     const org = await this.orgsRepository.findByEmail(email);
 

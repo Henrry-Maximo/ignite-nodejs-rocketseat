@@ -1,17 +1,19 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
-import z from "zod";
+import type { FastifyReply, FastifyRequest } from 'fastify';
+import z from 'zod';
 
-import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
-import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
+import { InvalidCredentialsError } from '@/use-cases/errors/invalid-credentials-error';
+import { makeAuthenticateUseCase } from '@/use-cases/factories/make-authenticate-use-case';
 
-export const authenticate = async (req: FastifyRequest, reply: FastifyReply) => {
+export const authenticate = async (
+  req: FastifyRequest,
+  reply: FastifyReply,
+) => {
   const authenticateBodySchema = z.object({
     email: z.string().email(),
     password: z.string().min(6).max(32),
   });
 
-  const { email, password} =
-    authenticateBodySchema.parse(req.body);
+  const { email, password } = authenticateBodySchema.parse(req.body);
 
   try {
     // const prismaOrgsRepository = new PrismaOrgsRepository();
@@ -31,7 +33,5 @@ export const authenticate = async (req: FastifyRequest, reply: FastifyReply) => 
   }
 
   // Operações de criação / atualização / remoção : não há necessidade de retorno
-  return reply
-    .status(200)
-    .send();
+  return reply.status(200).send();
 };

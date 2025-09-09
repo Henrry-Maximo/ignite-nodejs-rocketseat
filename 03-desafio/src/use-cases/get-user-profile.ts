@@ -1,6 +1,6 @@
-import { OrgsRepository } from "@/repositories/orgs-repository";
-import { Org } from "@prisma/client";
-import { ResourceNotFoundError } from "./errors/resource-not-found-error";
+import { OrgsRepository } from '@/repositories/orgs-repository';
+import { Org } from '@prisma/client';
+import { ResourceNotFoundError } from './errors/resource-not-found-error';
 
 interface GetUserProfileUseCaseRequest {
   orgId: string;
@@ -17,8 +17,9 @@ export class GetUserProfileUseCase {
     this.orgsRepository = orgsRepository;
   }
 
-  async execute({ orgId }: GetUserProfileUseCaseRequest): Promise<GetUserProfileUseCaseResponse> {
-    // auth
+  async execute({
+    orgId,
+  }: GetUserProfileUseCaseRequest): Promise<GetUserProfileUseCaseResponse> {
     const org = await this.orgsRepository.findById(orgId);
 
     if (!org) {
