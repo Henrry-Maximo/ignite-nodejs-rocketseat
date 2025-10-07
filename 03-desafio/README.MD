@@ -27,3 +27,26 @@
 
 - [x] A senha da organização precisa estar criptografada
 - [] A organização deve ser identificada por um JWT (JSON Web Token)
+
+## Commands
+- npm init -y
+- src -> server.ts
+- npm i typescript @types/node tsx tsup -D
+- npx tsc --init
+- es2020
+- npm install fastify
+- src -> app.ts
+- .gitignore
+- "scripts": { "start:dev": "tsx watch src/server.ts", "start": "node build/server.js", "build": "tsup src --out-dir build" }
+- .npmrc -> save-exact=true
+- .env (.env.example)
+- npm i dotenv
+- npm i eslint @rocketseat/esling-config -D
+- npm i eslint -D
+- npx eslint --init
+- .eslintrc.json
+- "extends": {
+    "@rocketseat/eslint-config/node"
+  }
+- .eslintignore -> node_modules / builds
+- tsconfig.json -> "baseUrl": "./" / "paths": { "@/*": ["./src/*"] }
