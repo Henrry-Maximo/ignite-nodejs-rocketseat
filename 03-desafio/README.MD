@@ -50,3 +50,10 @@
   }
 - .eslintignore -> node_modules / builds
 - tsconfig.json -> "baseUrl": "./" / "paths": { "@/*": ["./src/*"] }
+- npm o prisma -D
+- npx prisma -h
+- npx prisma init
+- extension: prisma
+- editor: "[prisma]": { "editor.formatOnSave": true }
+- npx prisma generate
+- npm i @prisma/client
