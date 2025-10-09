@@ -61,3 +61,6 @@
 - npx prisma migrate dev
 - npx prisma studio
 - docker-compose.yml -> containers
+- npm i bcryptjs
+- npm i -D @types/bcryptjs
+- "rules": { "camelcase": "off" }
