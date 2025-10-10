@@ -9,7 +9,6 @@ interface RegisterUseCaseRequest {
   email: string;
   password: string;
   address: string;
-  city: string;
   postal_code: string;
   phone: string;
 }
@@ -36,7 +35,6 @@ export class RegisterUseCase {
     email,
     password,
     address,
-    city,
     postal_code,
     phone,
   }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
@@ -64,7 +62,6 @@ export class RegisterUseCase {
       email,
       password_hash,
       address,
-      city,
       postal_code,
       phone,
     });

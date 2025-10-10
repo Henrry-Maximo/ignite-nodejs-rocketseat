@@ -1,105 +1,82 @@
-// Schema Prisma para API de Adoção de Pets
-// Baseado nos requisitos funcionais e regras de negócio definidas
-
-// Gerador do cliente Prisma
 generator client {
   provider = "prisma-client-js"
 }
 
-// Configuração do banco PostgreSQL
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // URL vem das variáveis de ambiente
+  url      = env("DATABASE_URL")
 }
 
-// === ENUMS PARA CARACTERÍSTICAS DOS PETS ===
-
-// Faixa etária do pet
-enum Age {
-  FILHOTE // Pet jovem
-  ADULTO // Pet maduro
-  IDOSO // Pet idoso
-}
-
-// Porte físico do pet
-enum Size {
-  PEQUENINO // Pets pequenos
-  MEDIANO // Pets médios
-  GRANDINHO // Pets grandes
-}
-
-// Nível de energia/atividade
-enum Power {
-  BAIXA // Pet calmo
-  MEDIA // Pet moderado
-  ALTA // Pet muito ativo
-}
-
-// Grau de independência
-enum Independence {
-  BAIXA // Precisa de muita atenção
-  MEDIA // Moderadamente independente
-  ALTA // Muito independente
-}
-
-// Tipo de ambiente necessário
-enum Ambience {
-  PEQUENO // Apartamentos, espaços pequenos
-  AMPLO // Casas, quintais, espaços grandes
-}
-
-// Status de disponibilidade para adoção
 enum Status {
-  DISPONÍVEL // Pet disponível para adoção
-  INDISPONÍVEL // Pet já adotado ou indisponível
+  AVAILABLE // Ready for adoption / use
+  ADOPTED // Already adopted / finalized
+  RESERVED // In reservation or adoption process
+  UNAVAILABLE // Temporarily unavailable
 }
 
-// === MODELO PET ===
-// Representa os animais disponíveis para adoção
+enum Age {
+  PUPPY // 0–1 year
+  YOUNG // 1–3 years
+  ADULT // 3–7 years
+  SENIOR // 7+ years
+}
+
+enum Size {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum Power {
+  LOW // Calm / quiet
+  MODERATE // Balanced energy
+  HIGH // Very active / energetic
+}
+
+enum Independence {
+  LOW // Requires attention / dependent
+  MEDIUM // Moderately independent
+  HIGH // Very independent
+}
+
+enum Ambience {
+  SMALL_SPACE // Apartments, small areas
+  MEDIUM_SPACE // Small to medium houses
+  LARGE_SPACE // Large houses, yards, farms
+}
+
 model Pet {
-  id           String       @id @default(uuid()) // ID único gerado automaticamente
-  name         String // Nome do pet
-  description  String // Descrição detalhada do pet
-  status       Status // Status de disponibilidade
-  age          Age // Faixa etária
-  size         Size // Porte físico
-  power        Power // Nível de energia
-  independence Independence // Grau de independência
-  ambience     Ambience // Ambiente necessário
+  id           String       @id @default(uuid())
+  name         String
+  description  String
+  status       Status       @default(AVAILABLE)
+  age          Age          @default(YOUNG) // Faixa etária
+  size         Size         @default(MEDIUM) // Porte físico
+  power        Power        @default(MODERATE) // Nível de energia
+  independence Independence @default(MEDIUM) // Grau de independência
+  ambience     Ambience     @default(MEDIUM_SPACE) // Ambiente necessário
+  path         String // Endereço da imagem
   requisites   String[] // Lista de requisitos para adoção (inserida pela ORG)
-  created_at   DateTime     @default(now()) // Data de cadastro automática
+  created_at   DateTime     @default(now())
 
   // Relacionamento: Pet pertence a uma ORG
   org    Org    @relation(fields: [org_id], references: [id])
-  org_id String // Chave estrangeira obrigatória
+  org_id String
 
   @@map("pet_pets") // Nome da tabela no banco
 }
 
-// === MODELO ORG ===
-// Representa as organizações responsáveis pelos pets
-// RN: Uma ORG precisa ter endereço e WhatsApp
-// RN: Para uma ORG acessar como admin, precisa estar logada
 model Org {
-  id            String   @id @default(uuid()) // ID único gerado automaticamente
-  name          String // Nome da organização
-  email         String   @unique // Email único para login
-  postal_code   String // CEP do endereço
-  address       String // Endereço completo
-  city          String // Cidade (obrigatório para filtros)
-  phone         String // WhatsApp para contato (obrigatório)
-  password_hash String // Senha criptografada para login
-  created_at    DateTime @default(now()) // Data de cadastro automática
+  id            String   @id @default(uuid())
+  name          String
+  password_hash String
+  email         String   @unique
+  postal_code   String
+  address       String
+  phone         String
+  created_at    DateTime @default(now())
 
-  // Relacionamento: ORG pode ter vários pets
-  pets Pet[]
+  Pet Pet[]
 
-  // Índice em city para otimizar consultas por localização
-  // RN: Para listar pets, obrigatoriamente precisamos informar a cidade
-  @@index([city])
-  @@map("pet_orgs") // Nome da tabela no banco
+  @@map("pet_orgs")
 }
-
-// Relacionamento: 1:N (One-to-Many)
-// 1 ORG → N Pets ✅
-// 1 Pet → 1 ORG ✅

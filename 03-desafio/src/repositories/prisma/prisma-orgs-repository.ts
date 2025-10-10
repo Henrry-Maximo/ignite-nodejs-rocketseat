@@ -17,6 +17,7 @@ import { OrgsRepository } from '../orgs-repository';
  * Arquitetura: Use Case → Repository → Database
  * OrgsRepository: Contrato bem definido, tipagem correta
  */
+
 export class PrismaOrgsRepository implements OrgsRepository {
   async findById(id: string) {
     const org = await prisma.org.findUnique({

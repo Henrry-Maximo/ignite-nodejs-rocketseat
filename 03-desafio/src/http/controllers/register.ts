@@ -7,11 +7,10 @@ import { makeRegisterUseCase } from '@/use-cases/factories/make-register-use-cas
 export const register = async (req: FastifyRequest, reply: FastifyReply) => {
   const registerBodySchema = z.object({
     name: z.string(),
-    email: z.string().email(),
     password: z.string().min(6).max(32),
-    address: z.string(),
-    city: z.string(),
+    email: z.string().email(),
     postal_code: z.string(),
+    address: z.string(),
     phone: z.string(),
   });
 
@@ -22,11 +21,6 @@ export const register = async (req: FastifyRequest, reply: FastifyReply) => {
     por ErrorConstructor
   */
   try {
-    /*
-     * Sem necessidade de importar o repositório
-     * Sem necessidade de importar o caso de uso
-     * Usando Factory Pattern para centralizar uso de dependências (repositórios)
-     */
     const registerUseCase = makeRegisterUseCase();
 
     await registerUseCase.execute(data);
