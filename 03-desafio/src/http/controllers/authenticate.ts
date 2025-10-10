@@ -1,12 +1,12 @@
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import z from 'zod';
+import type { FastifyReply, FastifyRequest } from "fastify";
+import z from "zod";
 
-import { InvalidCredentialsError } from '@/use-cases/errors/invalid-credentials-error';
-import { makeAuthenticateUseCase } from '@/use-cases/factories/make-authenticate-use-case';
+import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
+import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
 
 export const authenticate = async (
   req: FastifyRequest,
-  reply: FastifyReply,
+  reply: FastifyReply
 ) => {
   const authenticateBodySchema = z.object({
     email: z.string().email(),
@@ -16,14 +16,26 @@ export const authenticate = async (
   const { email, password } = authenticateBodySchema.parse(req.body);
 
   try {
-    // const prismaOrgsRepository = new PrismaOrgsRepository();
-    // const authenticateUseCase = new AuthenticateUseCase(prismaOrgsRepository);
     const authenticateUseCase = makeAuthenticateUseCase();
 
-    await authenticateUseCase.execute({
+    const { org } = await authenticateUseCase.execute({
       email,
       password,
     });
+
+    const token = await reply.jwtSign(
+      { sub: org.id, email: org.email },
+      { expiresIn: "7d" }
+    );
+
+    // reply.setCookie("token", token, {
+    //   path: "/",
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: true,
+    // })
+
+    return reply.status(200).send({ token });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(409).send({ message: err.message });

@@ -8,8 +8,6 @@ interface AuthenticateUseCaseRequest {
   password: string;
 }
 
-// return void
-// type AuthenticateUseCaseResponse = void;
 interface AuthenticateUseCaseResponse {
   org: Org;
 }
@@ -21,7 +19,6 @@ export class AuthenticateUseCase {
     email,
     password,
   }: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
-    // auth
     const org = await this.orgsRepository.findByEmail(email);
 
     if (!org) {

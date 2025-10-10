@@ -2,10 +2,15 @@ import fastify from 'fastify';
 import { appRoutes } from './http/routes';
 import { ZodError } from 'zod';
 import { env } from './env';
+import fastifyJwt from '@fastify/jwt';
 
 export const app = fastify();
 
 app.register(appRoutes);
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET
+})
 
 app.setErrorHandler((error, _request, reply) => {
   // Qualquer tipo de validação com o zod que dê errado

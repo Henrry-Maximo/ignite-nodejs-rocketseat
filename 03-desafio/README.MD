@@ -6,7 +6,20 @@
 ### RFs (Requisitos Funcionais)
 
 - [x] Deve ser possível cadastrar uma organização
+```sh
+{
+    "name": "Amor & Carinho",
+    "password": "123456",
+    "email": "amor_carinho1@gmail.com",
+    "postal_code": "06807-100",
+    "address": "embu das artes",
+    "phone": "(+55) 11 92424-242"
+}
+```
+
 - [x] Deve ser possível logar como uma organização
+
+
 - [] Deve ser possível obter o perfil de um usuário logado
 - [] Deve ser possível cadastrar um pet
 - [] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
