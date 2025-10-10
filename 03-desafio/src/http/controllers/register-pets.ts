@@ -7,13 +7,15 @@ export async function registerPets(req: FastifyRequest, reply: FastifyReply) {
   const createBodySchema = z.object({
     name: z.string(),
     description: z.string(),
-    age: z.enum(['FILHOTE', 'ADULTO', 'IDOSO']),
-    size: z.enum(['PEQUENINO', 'MEDIANO', 'GRANDINHO']),
-    power: z.enum(['BAIXA', 'MEDIA', 'ALTA']),
-    independence: z.enum(['BAIXA', 'MEDIA', 'ALTA']),
-    ambience: z.enum(['PEQUENO', 'AMPLO']),
-    status: z.enum(['DISPONÍVEL', 'INDISPONÍVEL']),
+    status: z.enum(["AVAILABLE", "ADOPTED", "RESERVED", "UNAVAILABLE"]),
+    age: z.enum(["PUPPY", "YOUNG", "ADULT", "SENIOR"]),
+    size: z.enum(["SMALL", "MEDIUM", "LARGE"]),
+    power: z.enum(["LOW", "MODERATE", "HIGH"]),
+    independence: z.enum(["LOW", "MEDIUM", "HIGH"]),
+    ambience: z.enum(["SMALL_SPACE", "MEDIUM_SPACE", "LARGE_SPACE"]),
+    path: z.string(),
     requisites: z.array(z.string()),
+
     org: z.string(),
   });
 

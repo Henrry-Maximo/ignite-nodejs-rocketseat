@@ -1,16 +1,17 @@
-import { PetsRepository } from '@/repositories/pets-repository';
-import { Pet } from '@prisma/client';
-import { PetWithoutAssociateWithOrg } from './errors/pet-without-associate-with-org';
+import { PetsRepository } from "@/repositories/pets-repository";
+import { Pet } from "@prisma/client";
+import { PetWithoutAssociateWithOrg } from "./errors/pet-without-associate-with-org";
 
 interface RegisterPetsUseCaseRequest {
   name: string;
-  status: 'DISPONÍVEL' | 'INDISPONÍVEL';
   description: string;
-  age: 'FILHOTE' | 'ADULTO' | 'IDOSO';
-  size: 'PEQUENINO' | 'MEDIANO' | 'GRANDINHO';
-  power: 'BAIXA' | 'MEDIA' | 'ALTA';
-  independence: 'BAIXA' | 'MEDIA' | 'ALTA';
-  ambience: 'PEQUENO' | 'AMPLO';
+  status: "AVAILABLE" | "ADOPTED" | "RESERVED" | "UNAVAILABLE";
+  age: "PUPPY" | "YOUNG" | "ADULT" | "SENIOR";
+  size: "SMALL" | "MEDIUM" | "LARGE";
+  power: "LOW" | "MODERATE" | "HIGH";
+  independence: "LOW" | "MEDIUM" | "HIGH";
+  ambience: "SMALL_SPACE" | "MEDIUM_SPACE" | "LARGE_SPACE";
+  path: string;
   requisites: string[];
   org: string;
 }
@@ -26,32 +27,33 @@ export class RegisterPetsUseCase {
 
   async execute({
     name,
-    status,
-    description,
     age,
-    size,
-    power,
-    independence,
     ambience,
-    requisites,
+    description,
+    independence,
     org,
+    path,
+    power,
+    requisites,
+    size,
+    status,
   }: RegisterPetsUseCaseRequest): Promise<RegisterPetsUseCaseResponse> {
-    // Abreviação
     if (!org) throw new PetWithoutAssociateWithOrg();
 
     const pet = await this.petsRepository.create({
       name,
-      status,
-      description,
       age,
-      size,
-      power,
-      independence,
       ambience,
+      description,
+      independence,
+      path,
+      power,
       requisites,
+      size,
+      status,
       org: {
         connect: {
-          id: org, // aqui org é o string com o id
+          id: org,
         },
       },
     });

@@ -3,6 +3,7 @@ import z from "zod";
 
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
+import { env } from "@/env";
 
 export const authenticate = async (
   req: FastifyRequest,
@@ -25,7 +26,7 @@ export const authenticate = async (
 
     const token = await reply.jwtSign(
       { sub: org.id, email: org.email },
-      { expiresIn: "7d" }
+      { expiresIn: env.JWT_EXPIRES_IN }
     );
 
     // reply.setCookie("token", token, {

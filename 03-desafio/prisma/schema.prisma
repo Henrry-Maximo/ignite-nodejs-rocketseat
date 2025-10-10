@@ -76,7 +76,7 @@ model Org {
   phone         String
   created_at    DateTime @default(now())
 
-  Pet Pet[]
+  pet Pet[]
 
   @@map("pet_orgs")
 }
