@@ -17,6 +17,9 @@ importers:
       '@nestjs/platform-express':
         specifier: ^11.0.1
         version: 11.1.7(@nestjs/common@11.1.7(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.7)
+      '@prisma/client':
+        specifier: ^6.18.0
+        version: 6.18.0(typescript@5.9.3)
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -410,6 +413,18 @@ packages:
   '@pkgr/core@0.2.9':
     resolution: {integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
+  '@prisma/client@6.18.0':
+    resolution: {integrity: sha512-jnL2I9gDnPnw4A+4h5SuNn8Gc+1mL1Z79U/3I9eE2gbxJG1oSA+62ByPW4xkeDgwE0fqMzzpAZ7IHxYnLZ4iQA==}
+    engines: {node: '>=18.18'}
+    peerDependencies:
+      prisma: '*'
+      typescript: '>=5.1.0'
+    peerDependenciesMeta:
+      prisma:
+        optional: true
+      typescript:
+        optional: true
 
   '@rocketseat/eslint-config@2.2.2':
     resolution: {integrity: sha512-kSWN4FOyhTEiD2O6OGL2OG89MHq8HSoDwOVvy6Xqdv1DytdMvOgZsD7xBYsAyYWvwD0P+YR1nIDluVGCV+GNxA==}
@@ -2902,6 +2917,10 @@ snapshots:
       consola: 3.4.2
 
   '@pkgr/core@0.2.9': {}
+
+  '@prisma/client@6.18.0(typescript@5.9.3)':
+    optionalDependencies:
+      typescript: 5.9.3
 
   '@rocketseat/eslint-config@2.2.2(@types/eslint@9.6.1)(eslint@8.57.1)(typescript@5.9.3)':
     dependencies:
