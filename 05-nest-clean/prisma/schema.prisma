@@ -14,9 +14,9 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  name String
-  email String @unique
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
   password String
 
   questions Question[]
@@ -25,15 +25,15 @@ model User {
 }
 
 model Question {
-  id String @id @default(uuid())
-  title String
-  slug String @unique
-  content String
-  createdAt DateTime @default(now()) @map("created_at")
-  updateAt DateTime? @updateAt @map("update_at")
-  authorId String @map("author_id")
+  id        String    @id @default(uuid())
+  title     String
+  slug      String    @unique
+  content   String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updateAt  DateTime? @map("update_at") @updateAt
+  authorId  String    @map("author_id")
 
   author User @relation(fields: [authorId], references: [id])
-  
+
   @@map("questions")
 }
