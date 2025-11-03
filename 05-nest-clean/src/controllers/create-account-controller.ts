@@ -1,4 +1,5 @@
-import { Body, Controller, HttpCode, Post } from "@nestjs/common";
+import { Body, ConflictException, Controller, HttpCode, Post } from "@nestjs/common";
+import { hash } from "bcryptjs";
 import { PrismaService } from "src/prisma/prisma.service";
 
 interface IBody {
@@ -16,6 +17,18 @@ export class CreateAccountController {
   async handle(@Body() body: IBody) {
     const { name, email, password } = body;
 
+    const userWithSameEmail = await this.prisma.user.findUnique({
+      where: {
+        email
+      },
+    });
+
+    if (userWithSameEmail) {
+      throw new ConflictException("User with same e-mail address already exists.");
+    }
+
+    const hashedPassword = await hash(password, 8);
+
     // const name = 'Henrique';
     // const email = 'henrrylimadasilva@gmail.com';
     // const password = '123456';
@@ -24,7 +37,7 @@ export class CreateAccountController {
       data: {
         name,
         email,
-        password,
+        password: hashedPassword,
       }
     });
   }
