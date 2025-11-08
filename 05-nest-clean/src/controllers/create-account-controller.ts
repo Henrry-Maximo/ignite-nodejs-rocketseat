@@ -1,12 +1,24 @@
-import { Body, ConflictException, Controller, HttpCode, Post } from "@nestjs/common";
+import { Body, ConflictException, Controller, HttpCode, Post, UsePipes } from "@nestjs/common";
 import { hash } from "bcryptjs";
+import { ZodValidationPipe } from "src/pipes/zod-validation-pipe";
 import { PrismaService } from "src/prisma/prisma.service";
 
-interface IBody {
-  name: string;
-  email: string;
-  password: string;
-}
+import { z } from 'zod';
+
+const createAccountBodySchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string()
+});
+
+// is possible infer typing typescript, without necessary write
+type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
+
+// interface IBody {
+//   name: string;
+//   email: string;
+//   password: string;
+// }
 
 @Controller('/accounts')
 export class CreateAccountController {
@@ -14,7 +26,8 @@ export class CreateAccountController {
 
   @Post()
   @HttpCode(201)
-  async handle(@Body() body: IBody) {
+  @UsePipes(new ZodValidationPipe(createAccountBodySchema)) // not more necessary use parse, its is validation
+  async handle(@Body() body: CreateAccountBodySchema) {
     const { name, email, password } = body;
 
     const userWithSameEmail = await this.prisma.user.findUnique({
