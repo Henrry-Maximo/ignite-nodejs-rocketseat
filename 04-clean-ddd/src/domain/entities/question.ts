@@ -48,6 +48,7 @@ export class Question extends Entity<QuestionProps> {
     return this.props.updatedAt;
   }
 
+  // criando propriedade nova
   get isNew(): boolean {
     return dayjs().diff(this.createdAt, "days") <= 3;
   }
@@ -56,6 +57,7 @@ export class Question extends Entity<QuestionProps> {
     return this.content.substring(0, 120).trimEnd().concat("...");
   }
 
+  // atualizar a data de modificação quando chamado
   private touch() {
     this.props.updatedAt = new Date();
   }

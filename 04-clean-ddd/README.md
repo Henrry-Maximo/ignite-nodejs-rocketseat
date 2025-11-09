@@ -1,6 +1,8 @@
 # DDD (Domain-driven Design)
 
 - Design dirigido à domínio
+  - Transformar um problema real em software
+  - Domínio: área de entendimento (todas as pessoas compreendem)
 
 ## Domínio
 
@@ -52,6 +54,7 @@ Comandos:
   - npm init -y (criar package)
   - npm i typescript @types/node -D (instalar o typescript)
   -    (inicializar typescript)
+  - npx tsc --init
   - npm i vitest -D
   - npx vitest run
   - package:
@@ -74,3 +77,12 @@ Comandos:
   - Útil para indexação nas buscas por motores (SEO);
   - O usuário compreende de primeiro através da URL (UX);
   - Mais legível que número, possibilidade de compartilhamento.
+
+## Pastas:
+
+- Domain: todo o código da aplicação, camada mais interna sem acoplamento de estrutura de persistência, framework, http, mensageria, qualquer coisa que seja das camadas externas.
+
+## Identificador único:
+
+- Email, SnowFlakeID, UUID, SEOID.
+
