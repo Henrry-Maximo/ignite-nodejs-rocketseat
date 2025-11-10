@@ -1,21 +1,21 @@
-import { UniqueEntityID } from "./unique-entity-id";
+import { UniqueEntityID } from './unique-entity-id'
 
 // class base of entity
 export class Entity<Props> {
   // arquivos de foram não podem alterar o id da entidade
-  private _id: UniqueEntityID;
+  private _id: UniqueEntityID
 
-  protected props: Props;
+  protected props: Props
 
   // método para acessar o id
   get id() {
-    return this._id;
+    return this._id
   }
 
   // protected -> só pode ser chamado pela classe própria ou as que herdam
   protected constructor(props: Props, id?: UniqueEntityID) {
-    this.props = props;
+    this.props = props
     // this._id = id ?? randomUUID();
-    this._id = id ?? new UniqueEntityID();
+    this._id = id ?? new UniqueEntityID()
   }
 }
