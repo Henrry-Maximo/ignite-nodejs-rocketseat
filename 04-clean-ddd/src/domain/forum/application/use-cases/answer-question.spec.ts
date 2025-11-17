@@ -1,6 +1,6 @@
+import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository.js'
 import { AnswerQuestionUseCase } from './answer-question.js'
-import { AnswersRepository } from '../repositories/answers-repository.js'
-import { Answer } from '../entities/answer.js'
+import { Answer } from '../../enterprise/entities/answer.js'
 
 /*
 create: async function (answer: Answer): Promise<void> {
