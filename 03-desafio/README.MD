@@ -18,8 +18,6 @@
 ```
 
 - [x] Deve ser possível logar como uma organização
-
-
 - [] Deve ser possível obter o perfil de um usuário logado
 - [] Deve ser possível cadastrar um pet
 - [] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
