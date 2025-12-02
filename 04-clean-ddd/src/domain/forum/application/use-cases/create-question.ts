@@ -26,6 +26,7 @@ export class CreateQuestionUseCase {
       content,
     })
 
+    // salvar question no repositório
     await this.questionsRepository.create(question)
 
     return {
