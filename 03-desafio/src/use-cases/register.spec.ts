@@ -27,7 +27,6 @@ describe('Register Use Case', () => {
       email: 'henrylimadasilva@gmail.com',
       password: '123456',
       address: 'Rua dos bobos',
-      city: 'São Paulo',
       postal_code: '12345678',
       phone: '11999999999',
     });
@@ -63,7 +62,6 @@ describe('Register Use Case', () => {
       email: 'henrylimadasilva@gmail.com',
       password: '123456',
       address: 'Rua dos bobos',
-      city: 'São Paulo',
       postal_code: '12345678',
       phone: '11999999999',
     });
@@ -84,7 +82,6 @@ describe('Register Use Case', () => {
       email,
       password: '123456',
       address: 'Rua dos bobos',
-      city: 'São Paulo',
       postal_code: '12345678',
       phone: '11999999999',
     });
@@ -95,7 +92,6 @@ describe('Register Use Case', () => {
         email,
         password: '123456',
         address: 'Rua dos bobos',
-        city: 'São Paulo',
         postal_code: '12345678',
         phone: '11999999999',
       }),
