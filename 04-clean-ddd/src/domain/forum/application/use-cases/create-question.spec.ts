@@ -31,6 +31,7 @@ describe("Create Question", () => {
     })
   
     expect(question.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
+    expect(inMemoryQuestionsRepository.items[0].id).toEqual(question.id) // verificar no array se o id coincide com o que foi cadastrado 
   });
 
 })
