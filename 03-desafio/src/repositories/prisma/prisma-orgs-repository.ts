@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma';
 
-import { Prisma } from '@prisma/client';
+import { Org, Prisma } from '@prisma/client';
 import { OrgsRepository } from '../orgs-repository';
 
 /**
@@ -49,6 +49,18 @@ export class PrismaOrgsRepository implements OrgsRepository {
     });
 
     return org;
+  }
+
+  async searchMany(name?: string): Promise<Org[]> {
+    const orgs = await prisma.org.findMany({
+      where: {
+        name: {
+          contains: name
+        }
+      }
+    });
+
+    return orgs;
   }
 }
 

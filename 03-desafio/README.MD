@@ -67,6 +67,7 @@
 - extension: prisma
 - editor: "[prisma]": { "editor.formatOnSave": true }
 - npx prisma generate
+- docker compose up -d
 - npm i @prisma/client
 - docker run --name api-solid-pg -e POSTGRESQL_USERNAME=docker -e POSTGRESQL_PASSWORD=docker -e POSTGRESQL_DATABASE=apisolid -p 5432:5432 bitnami/postgresql
 - npx prisma migrate dev
