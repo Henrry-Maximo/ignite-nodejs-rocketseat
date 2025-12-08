@@ -8,13 +8,13 @@ interface RegisterOrgsUseCaseRequest {
   name: string;
   email: string;
   password: string;
-  address: string;
-  postal_code: string;
   phone: string;
+  postal_code: string;
+  address: string;
 }
 
 interface RegisterOrgsUseCaseResponse {
-  organization: Org;
+  org: Org;
 }
 export class RegisterUseCase {
   constructor(private orgsRepository: OrgsRepository) {
@@ -38,7 +38,7 @@ export class RegisterUseCase {
     const randomSalt = randomInt(6, 10);
     const password_hash = await hash(password, randomSalt);
 
-    const organization = await this.orgsRepository.create({
+    const org = await this.orgsRepository.create({
       name,
       email,
       password_hash,
@@ -47,6 +47,6 @@ export class RegisterUseCase {
       phone,
     });
 
-    return { organization };
+    return { org };
   }
 }

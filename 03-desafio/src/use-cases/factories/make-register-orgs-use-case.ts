@@ -4,7 +4,7 @@ import { RegisterUseCase } from '../register';
 /*
  * Centralizador de criação do caso de uso
  */
-export function makeRegisterUseCase() {
+export function makeRegisterOrgsUseCase() {
   const prismaOrgsRepository = new PrismaOrgsRepository();
   const registerUseCase = new RegisterUseCase(prismaOrgsRepository);
 

@@ -20,7 +20,9 @@
 - [] Deve ser possível logar como uma organização
 - [] Deve ser possível obter o perfil de um usuário logado
 - [] Deve ser possível cadastrar um pet
+- [x] Deve ser possível cadastrar uma organização
 - [] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
+- [x] Deve ser possível listar todos as organizações
 - [] Deve ser possível filtrar pets por suas características
 - [] Deve ser possível visualizar detalhes de um pet para adoção
 

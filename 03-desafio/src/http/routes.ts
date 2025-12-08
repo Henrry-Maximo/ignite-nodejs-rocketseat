@@ -1,13 +1,15 @@
 import { FastifyInstance } from 'fastify';
+
 import { search } from './controllers/orgs/search';
+import { register } from './controllers/orgs/register';
+
 import { authenticate } from './controllers/users/authenticate';
 import { registerPets } from './controllers/users/register-pets';
 
 export async function appRoutes(app: FastifyInstance) {
   app.get('/orgs', search);
+  app.post('/orgs', register);
 
-  
-  // app.post('/orgs', register);
   // app.put('/orgs', register);
   // app.patch('/orgs', register);
   // app.delete('/orgs', register);
