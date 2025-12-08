@@ -17,10 +17,33 @@
 }
 ```
 
-- [] Deve ser possível logar como uma organização
+- [x] Deve ser possível logar como uma organização
+```sh
+{
+    "email": "amor_carinho12@gmail.com",
+    "password": "123456"
+}
+```
+
 - [] Deve ser possível obter o perfil de um usuário logado
-- [] Deve ser possível cadastrar um pet
-- [x] Deve ser possível cadastrar uma organização
+
+- [x] Deve ser possível cadastrar um pet
+```sh
+{
+  "name": "Roberto",
+  "description": "É um gato macho e peludo.",
+  "status": "AVAILABLE",
+  "age": "ADULT",
+  "size": "MEDIUM",
+  "power": "MODERATE",
+  "independence": "MEDIUM",
+  "ambience": "SMALL_SPACE",
+  "path": "/images/roberto.png",
+  "requisites": ["É necessário ter um salário superior a 2500R$"],
+  "org": "657xxx"
+}
+```
+
 - [] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
 - [x] Deve ser possível listar todos as organizações
 - [] Deve ser possível filtrar pets por suas características
@@ -28,7 +51,7 @@
 
 ### RNs (Regras de negócio)
 
-- [] A organização não deve poder se cadastrar com um e-mail duplicado
+- [x] A organização não deve poder se cadastrar com um e-mail duplicado
 - [] Para listar os pets, obrigatoriamente precisamos informar a cidade
 - [] Uma ORG precisa ter um endereço e um número de WhatsApp
 - [] Um pet deve estar ligado a uma ORG

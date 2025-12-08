@@ -1,25 +1,29 @@
 import { FastifyInstance } from 'fastify';
 
-import { search } from './controllers/orgs/search';
-import { register } from './controllers/orgs/register';
+import { search as searchOrgs } from './controllers/orgs/search';
+import { register as registerOrgs } from './controllers/orgs/register';
 
-import { authenticate } from './controllers/users/authenticate';
-import { registerPets } from './controllers/users/register-pets';
+import { search as searchPets } from './controllers/pets/search';
+import { register as registerPets } from './controllers/pets/register';
+
+import { authenticate } from './controllers/orgs/authenticate';
+import { profile } from './controllers/orgs/profile';
+import { verifyJWT } from './middlewares/verify-jwt';
 
 export async function appRoutes(app: FastifyInstance) {
-  app.get('/orgs', search);
-  app.post('/orgs', register);
+  app.get('/orgs', searchOrgs);
+  app.post('/orgs', registerOrgs);
+
+  app.get('/pets', searchPets);
+  app.post('/pets', registerPets);
+
+  app.post('/me', { onRequest: [verifyJWT] }, profile);
+  app.post('/sessions', authenticate);
 
   // app.put('/orgs', register);
   // app.patch('/orgs', register);
   // app.delete('/orgs', register);
-
-  // app.get('/pets', registerPets);
-  app.post('/pets', registerPets);
   // app.put('/pets', registerPets);
   // app.patch('/pets', registerPets);
   // app.delete('/pets', registerPets);
-
-  app.post('/me', registerPets);
-  app.post('/sessions', authenticate);
 }

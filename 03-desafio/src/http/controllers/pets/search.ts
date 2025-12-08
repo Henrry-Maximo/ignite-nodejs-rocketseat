@@ -2,12 +2,12 @@ import { makeSearchOrgsUseCase } from "@/use-cases/factories/make-search-orgs-us
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
-const searchOrgsQuerySchema = z.object({
+const searchPetsQuerySchema = z.object({
   name: z.string().optional(),
 });
 
 export const search = async (req: FastifyRequest, reply: FastifyReply) => {
-  const { name } = searchOrgsQuerySchema.parse(req.query);
+  const { name } = searchPetsQuerySchema.parse(req.query);
 
   try {
     const searchOrgsBodyUseCase = makeSearchOrgsUseCase();

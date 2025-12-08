@@ -25,16 +25,16 @@ export const authenticate = async (
     });
 
     const token = await reply.jwtSign(
-      { sub: org.id, email: org.email },
-      { expiresIn: env.JWT_EXPIRES_IN }
+      { sub: org.email },
+      { sign: { sub: org.id } }
     );
 
     // reply.setCookie("token", token, {
-    //   path: "/",
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: true,
-    // })
+    //     path: "/",
+    //     httpOnly: true,
+    //     secure: true,
+    //     sameSite: true,
+    //   });
 
     return reply.status(200).send({ token });
   } catch (err) {
