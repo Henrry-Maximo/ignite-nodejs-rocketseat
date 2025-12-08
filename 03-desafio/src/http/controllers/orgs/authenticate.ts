@@ -24,9 +24,18 @@ export const authenticate = async (
       password,
     });
 
+    // const token = await reply.jwtSign(
+    //   { sub: org.email },
+    //   { sign: { sub: org.id } }
+    // );
+
     const token = await reply.jwtSign(
-      { sub: org.email },
-      { sign: { sub: org.id } }
+      {},
+      {
+        sign: {
+          sub: org.id,
+        },
+      }
     );
 
     // reply.setCookie("token", token, {

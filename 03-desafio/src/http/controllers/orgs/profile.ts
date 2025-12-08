@@ -5,7 +5,7 @@ export async function profile(req: FastifyRequest, reply: FastifyReply) {
   const getOrgProfile = makeGetOrgProfileUseCase();
 
   const { org } = await getOrgProfile.execute({
-    orgId: req.org
+    orgId: req.user.sub
   });
 
   return reply.status(201).send({
