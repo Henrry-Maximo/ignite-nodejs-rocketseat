@@ -1,7 +1,7 @@
-import { prisma } from '@/lib/prisma';
+import { prisma } from "@/lib/prisma";
 
-import { Org, Prisma } from '@prisma/client';
-import { OrgsRepository } from '../orgs-repository';
+import { Org, Prisma } from "@prisma/client";
+import { OrgsRepository } from "../orgs-repository";
 
 /**
  * REPOSITORY PATTERN - Data Access Layer
@@ -53,11 +53,13 @@ export class PrismaOrgsRepository implements OrgsRepository {
 
   async searchMany(name?: string): Promise<Org[]> {
     const orgs = await prisma.org.findMany({
+      
       where: {
         name: {
-          contains: name
+          contains: name,
         }
       }
+
     });
 
     return orgs;

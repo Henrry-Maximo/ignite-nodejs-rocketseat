@@ -5,6 +5,8 @@ import { registerPets } from './controllers/users/register-pets';
 
 export async function appRoutes(app: FastifyInstance) {
   app.get('/orgs', search);
+
+  
   // app.post('/orgs', register);
   // app.put('/orgs', register);
   // app.patch('/orgs', register);

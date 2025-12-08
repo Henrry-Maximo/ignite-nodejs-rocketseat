@@ -12,9 +12,7 @@ interface SearchOrgsUseCaseResponse {
 export class SearchOrgsUseCase {
   constructor(private orgRepository: OrgsRepository) {}
 
-  async execute({
-    name
-  }: SearchOrgsUseCaseRequest): Promise<SearchOrgsUseCaseResponse> {
+  async execute({ name }: SearchOrgsUseCaseRequest): Promise<SearchOrgsUseCaseResponse> {
     const orgs = await this.orgRepository.searchMany(name);
 
     return { orgs };

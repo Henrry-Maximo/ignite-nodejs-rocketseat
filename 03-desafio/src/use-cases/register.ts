@@ -4,7 +4,7 @@ import { EmailAlreadyExistsError } from './errors/email-already-exists-error';
 import { OrgsRepository } from '@/repositories/orgs-repository';
 import { Org } from '@prisma/client';
 
-interface RegisterUseCaseRequest {
+interface RegisterOrgsUseCaseRequest {
   name: string;
   email: string;
   password: string;
@@ -13,19 +13,10 @@ interface RegisterUseCaseRequest {
   phone: string;
 }
 
-interface RegisterUseCaseResponse {
+interface RegisterOrgsUseCaseResponse {
   organization: Org;
 }
-
-/*
-  Aplicação: D - Dependency Inversion Principle
-*/
-
 export class RegisterUseCase {
-  // private orgsRepository: any;
-
-  // private, public, protected
-
   constructor(private orgsRepository: OrgsRepository) {
     this.orgsRepository = orgsRepository;
   }
@@ -37,25 +28,15 @@ export class RegisterUseCase {
     address,
     postal_code,
     phone,
-  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
-    /*
-    findUnique: encontrar item único da tebela
-  */
+  }: RegisterOrgsUseCaseRequest): Promise<RegisterOrgsUseCaseResponse> {
     const orgWithSameEmail = await this.orgsRepository.findByEmail(email);
 
     if (orgWithSameEmail) {
       throw new EmailAlreadyExistsError();
     }
 
-    /*
-    randomInt -> gerar um número aleatório entre 6 e 10
-    hash -> gerar hash baseado no salt (quanto maior, mais pesado será)
-  */
     const randomSalt = randomInt(6, 10);
     const password_hash = await hash(password, randomSalt);
-
-    // deixando de instânciar para injetar
-    // const prismaOrgsRepository = new PrismaOrgsRepository();
 
     const organization = await this.orgsRepository.create({
       name,
@@ -66,49 +47,6 @@ export class RegisterUseCase {
       phone,
     });
 
-    // estrutura de retorno
     return { organization };
   }
 }
-
-// export const registerUseCase = async ({
-//   name,
-//   email,
-//   password,
-//   address,
-//   city,
-//   postal_code,
-//   phone,
-// }: registerUseCaseRequest) => {
-//   /*
-//     findUnique: encontrar item único da tebela
-//   */
-//   const orgWithSameEmail = await prisma.org.findUnique({
-//     where: {
-//       email,
-//     },
-//   });
-
-//   if (orgWithSameEmail) {
-//     throw new EmailAlreadyExists();
-//   }
-
-//   /*
-//     randomInt -> gerar um número aleatório entre 6 e 10
-//     hash -> gerar hash baseado no salt (quanto maior, mais pesado será)
-//   */
-//   const randomSalt = randomInt(6, 10);
-//   const password_hash = await hash(password, randomSalt);
-
-//   const prismaOrgsRepository = new PrismaOrgsRepository();
-
-//   await prismaOrgsRepository.create({
-//     name,
-//     email,
-//     password_hash,
-//     address,
-//     city,
-//     postal_code,
-//     phone,
-//   });
-// };
