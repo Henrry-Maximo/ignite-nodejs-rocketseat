@@ -1,4 +1,5 @@
 import { makeSearchOrgsUseCase } from "@/use-cases/factories/make-search-orgs-use-case";
+import { makeSearchPetsUseCase } from "@/use-cases/factories/make-search-pets-use-case";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
@@ -10,18 +11,14 @@ export const search = async (req: FastifyRequest, reply: FastifyReply) => {
   const { name } = searchPetsQuerySchema.parse(req.query);
 
   try {
-    const searchOrgsBodyUseCase = makeSearchOrgsUseCase();
+    const searchPetsUseCase = makeSearchPetsUseCase();
 
-    const { orgs } = await searchOrgsBodyUseCase.execute({ name });
+    const { pets } = await searchPetsUseCase.execute({ name });
 
-    if (!orgs) {
-      throw new SearchOrgsNonError();
-    }
-
-    return reply.status(200).send({ orgs });
+    return reply.status(200).send({ pets });
   } catch (err) {
-    if (err instanceof SearchOrgsNonError) {
-      return reply.status(400).send({ message: err.message });
+    if (err instanceof SearchPetsNonError) {
+      return reply.status(404).send({ message: err.message });
     }
 
     return reply.status(500).send("Server internal error.")
