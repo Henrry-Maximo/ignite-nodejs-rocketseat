@@ -6,7 +6,7 @@ interface SearchOrgsUseCaseRequest {
 }
 
 interface SearchOrgsUseCaseResponse {
-  orgs: Org[] // retornar lista de organizações
+  orgs: Org[]
 }
 
 export class SearchOrgsUseCase {

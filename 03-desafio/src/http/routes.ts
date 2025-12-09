@@ -17,7 +17,7 @@ export async function appRoutes(app: FastifyInstance) {
   app.get('/pets', searchPets);
   app.post('/pets', registerPets);
 
-  app.post('/me', { onRequest: [verifyJWT] }, profile);
+  app.post('/me', { onRequest: [verifyJWT] }, profile); 
   app.post('/sessions', authenticate);
 
   // app.put('/orgs', register);

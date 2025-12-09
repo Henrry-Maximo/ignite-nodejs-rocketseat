@@ -3,7 +3,6 @@ import z from "zod";
 
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
-import { env } from "@/env";
 
 export const authenticate = async (
   req: FastifyRequest,
@@ -53,7 +52,4 @@ export const authenticate = async (
 
     throw err;
   }
-
-  // Operações de criação / atualização / remoção : não há necessidade de retorno
-  return reply.status(200).send();
 };

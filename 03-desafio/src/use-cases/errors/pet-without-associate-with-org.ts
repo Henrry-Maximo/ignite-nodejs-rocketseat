@@ -1,5 +1,5 @@
 export class PetWithoutAssociateWithOrg extends Error {
   constructor() {
-    super('Pet without associate with org');
+    super('Pet without associate with organization.');
   }
 }

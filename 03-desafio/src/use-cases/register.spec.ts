@@ -4,14 +4,6 @@ import { compare } from 'bcryptjs';
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository';
 import { EmailAlreadyExistsError } from './errors/email-already-exists-error';
 
-/*
-  Teste unitário: não existe dependência, tudo em memória.
-*/
-
-// test("check if it works", () => {
-//   expect(2 + 2).toBe(4);
-// });
-
 let orgsRepository: InMemoryOrgsRepository;
 let sut: RegisterUseCase;
 
@@ -35,28 +27,6 @@ describe('Register Use Case', () => {
   });
 
   it('should hash user password upon registration', async () => {
-    // const prismaOrgsRepository = new PrismaOrgsRepository();
-    // enviar um objeto que imita prismaOrgsRepository
-    // const registerUseCase = new RegisterUseCase({
-    //   async findByEmail() {
-    //     return null;
-    //   },
-
-    //   async create(data) {
-    //     return {
-    //       id: "user-1",
-    //       name: data.name,
-    //       email: data.email,
-    //       password_hash: data.password_hash,
-    //       address: data.address,
-    //       city: data.city,
-    //       postal_code: data.postal_code,
-    //       phone: data.phone,
-    //       created_at: new Date(),
-    //     };
-    //   },
-    // });
-
     const { organization } = await sut.execute({
       name: 'Henrique Maximo',
       email: 'henrylimadasilva@gmail.com',

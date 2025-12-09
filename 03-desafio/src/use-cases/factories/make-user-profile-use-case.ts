@@ -1,9 +1,9 @@
 import { PrismaOrgsRepository } from '@/repositories/prisma/prisma-orgs-repository';
-import { GetUserProfileUseCase } from '../get-user-profile';
+import { GetOrgProfileUseCase } from '../get-user-profile';
 
 export function makeGetOrgProfileUseCase() {
   const prismaOrgsRepository = new PrismaOrgsRepository();
-  const profileUseCase = new GetUserProfileUseCase(prismaOrgsRepository);
+  const profileUseCase = new GetOrgProfileUseCase(prismaOrgsRepository);
 
   return profileUseCase;
 }
