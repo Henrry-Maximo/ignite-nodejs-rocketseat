@@ -25,7 +25,7 @@
 }
 ```
 
-- [] Deve ser possível obter o perfil de um usuário logado
+- [x] Deve ser possível obter o perfil de um usuário logado
 
 - [x] Deve ser possível cadastrar um pet
 ```sh
