@@ -1,4 +1,4 @@
-class SearchPetsNonError extends Error {
+export class SearchPetsNonError extends Error {
   constructor() {
     super("Search pets non.");
   }

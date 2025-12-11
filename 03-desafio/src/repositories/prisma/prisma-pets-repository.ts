@@ -3,11 +3,13 @@ import { PetsRepository } from '../pets-repository';
 import { prisma } from '@/lib/prisma';
 
 export class PrismaPetsRepository implements PetsRepository {
-  async searchMany(name?: string): Promise<Pet[]> {
+  async searchMany(city: string): Promise<Pet[]> {
     const pets = await prisma.pet.findMany({
       where: {
-        name: {
-          equals: name
+        org: {
+          address: {
+            equals: city
+          }
         }
       }
     });

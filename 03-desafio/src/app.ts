@@ -4,6 +4,7 @@ import { ZodError } from "zod";
 import { env } from "./env";
 import fastifyJwt from "@fastify/jwt";
 import { EmailAlreadyExistsError } from "./use-cases/errors/email-already-exists-error";
+import { SearchPetsNonError } from "./use-cases/errors/search-pets-non-error";
 
 export const app = fastify();
 

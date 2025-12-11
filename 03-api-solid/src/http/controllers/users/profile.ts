@@ -3,12 +3,12 @@ import { FastifyReply, FastifyRequest } from "fastify";
 
 export async function profile(req: FastifyRequest, reply: FastifyReply) {
   // console.log(request.headers);
-  // await req.j wtVerify(); garantir autenticidade
+  // await req.jwtVerify(); garantir autenticidade
 
   const getUserProfile = makeGetUserProfileUseCase();
 
   const { user } = await getUserProfile.execute({
-    userId: req.user.,
+    userId: req.user.sub
   });
 
   return reply.status(200).send({

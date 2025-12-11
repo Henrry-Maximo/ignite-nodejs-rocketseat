@@ -1,8 +1,9 @@
 import { PetsRepository } from "@/repositories/pets-repository";
 import { Pet } from "@prisma/client";
+import { SearchPetsNonError } from "./errors/search-pets-non-error";
 
 interface SearchPetsUseCaseRequest {
-  name?: string
+  city: string
 }
 
 interface SearchPetsUseCaseResponse {
@@ -12,10 +13,10 @@ interface SearchPetsUseCaseResponse {
 export class SearchPetsUseCase {
   constructor(private petRepository: PetsRepository) {}
 
-  async execute({ name }: SearchPetsUseCaseRequest): Promise<SearchPetsUseCaseResponse> {
-    const pets = await this.petRepository.searchMany(name);
+  async execute({ city }: SearchPetsUseCaseRequest): Promise<SearchPetsUseCaseResponse> {
+    const pets = await this.petRepository.searchMany(city);
 
-    if (!pets) {
+    if (!pets.length) {
       throw new SearchPetsNonError();
     }
 

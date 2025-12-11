@@ -1,19 +1,18 @@
-import { makeSearchOrgsUseCase } from "@/use-cases/factories/make-search-orgs-use-case";
 import { makeSearchPetsUseCase } from "@/use-cases/factories/make-search-pets-use-case";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
 const searchPetsQuerySchema = z.object({
-  name: z.string().optional(),
+  city: z.string(),
 });
 
 export const search = async (req: FastifyRequest, reply: FastifyReply) => {
-  const { name } = searchPetsQuerySchema.parse(req.query);
+  const { city } = searchPetsQuerySchema.parse(req.query);
 
   try {
     const searchPetsUseCase = makeSearchPetsUseCase();
 
-    const { pets } = await searchPetsUseCase.execute({ name });
+    const { pets } = await searchPetsUseCase.execute({ city });
 
     return reply.status(200).send({ pets });
   } catch (err) {
