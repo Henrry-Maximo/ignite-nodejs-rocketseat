@@ -1,24 +1,33 @@
 import { PetsRepository } from "@/repositories/pets-repository";
-import { Pet } from "@prisma/client";
-import { SearchPetsNonError } from "./errors/search-pets-non-error";
+import { Pet, Age, Size, Status, Power, Independence, Ambience } from "@prisma/client";
 
 interface SearchPetsUseCaseRequest {
-  city: string
+  city: string;
+  status?: Status;
+  age?: Age;
+  size?: Size;
+  power?: Power;
+  independence?: Independence;
+  ambience?: Ambience;
 }
 
 interface SearchPetsUseCaseResponse {
-  pets: Pet[]
+  pets: Pet[];
 }
 
 export class SearchPetsUseCase {
   constructor(private petRepository: PetsRepository) {}
 
-  async execute({ city }: SearchPetsUseCaseRequest): Promise<SearchPetsUseCaseResponse> {
-    const pets = await this.petRepository.searchMany(city);
-
-    if (!pets.length) {
-      throw new SearchPetsNonError();
-    }
+  async execute(data: SearchPetsUseCaseRequest): Promise<SearchPetsUseCaseResponse> {
+    const pets = await this.petRepository.searchMany({
+      city: data.city,
+      status: data.status,
+      age: data.age,
+      size: data.size,
+      power: data.power,
+      independence: data.independence,
+      ambience: data.ambience
+    });
 
     return { pets }
   }
