@@ -1,16 +1,19 @@
 import { PetsRepository } from "@/repositories/pets-repository";
 import { Pet } from "@prisma/client";
 import { PetWithoutAssociateWithOrg } from "./errors/pet-without-associate-with-org";
+import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
+import { OrganizationNotExists } from "./errors/organization-not-exists";
 
 interface RegisterPetsUseCaseRequest {
   name: string;
   description: string;
-  status: "AVAILABLE" | "ADOPTED" | "RESERVED" | "UNAVAILABLE";
-  age: "PUPPY" | "YOUNG" | "ADULT" | "SENIOR";
-  size: "SMALL" | "MEDIUM" | "LARGE";
-  power: "LOW" | "MODERATE" | "HIGH";
-  independence: "LOW" | "MEDIUM" | "HIGH";
-  ambience: "SMALL_SPACE" | "MEDIUM_SPACE" | "LARGE_SPACE";
+  status: "available" | "adopted" | "reserved" | "unavailable";
+  age: "puppy" | "young" | "adult";
+  size: "small" | "medium" | "large";
+  power: "low" | "moderate" | "high";
+  independence: "low" | "medium" | "high";
+  ambience: "small" | "medium" | "large";
   path: string;
   requisites: string[];
   org: string;
@@ -38,7 +41,12 @@ export class RegisterPetsUseCase {
     size,
     status,
   }: RegisterPetsUseCaseRequest): Promise<RegisterPetsUseCaseResponse> {
-    if (!org) throw new PetWithoutAssociateWithOrg();
+    const prismaOrgsRepository = new PrismaOrgsRepository();
+    const orgId = await prismaOrgsRepository.findById(org);
+
+    if (!orgId) {
+      throw new OrganizationNotExists
+    }
 
     const pet = await this.petsRepository.create({
       name,

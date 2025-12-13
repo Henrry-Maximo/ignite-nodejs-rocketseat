@@ -1,10 +1,12 @@
-import fastify from "fastify";
-import { appRoutes } from "./http/routes";
-import { ZodError } from "zod";
-import { env } from "./env";
 import fastifyJwt from "@fastify/jwt";
+import fastify from "fastify";
+
+import { appRoutes } from "./http/routes";
+import { env } from "./env";
+
+import { ZodError } from "zod";
 import { EmailAlreadyExistsError } from "./use-cases/errors/email-already-exists-error";
-import { SearchPetsNonError } from "./use-cases/errors/search-pets-non-error";
+import { PetWithoutAssociateWithOrg } from "./use-cases/errors/pet-without-associate-with-org";
 
 export const app = fastify();
 
@@ -22,11 +24,7 @@ app.setErrorHandler((error, _request, reply) => {
       .send({ message: "Validation error.", issues: error.format() });
   }
 
-  if (error instanceof EmailAlreadyExistsError) {
-    return reply
-      .status(409)
-      .send({ message: "Email already exists." });
-  }
+  
 
   if (env.NODE_ENV !== "production") {
     console.error(error);

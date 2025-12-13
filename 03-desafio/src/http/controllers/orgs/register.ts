@@ -1,8 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
-import { makeRegisterOrgsUseCase } from "@/use-cases/factories/make-register-orgs-use-case";
+import { EmailAlreadyExistsError } from "@/use-cases/errors/email-already-exists-error";
 import { ResourceNotFoundError } from "@/use-cases/errors/resource-not-found-error";
+import { makeRegisterOrgsUseCase } from "@/use-cases/factories/make-register-orgs-use-case";
 
 export async function register(req: FastifyRequest, reply: FastifyReply) {
   const createOrgsBodySchema = z.object({
@@ -37,6 +38,10 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message });
+    }
+
+    if (err instanceof EmailAlreadyExistsError) {
+      return reply.status(409).send({ message: "Email already exists." });
     }
 
     throw err;

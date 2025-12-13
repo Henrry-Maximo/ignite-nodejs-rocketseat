@@ -1,4 +1,4 @@
-import { PetWithoutAssociateWithOrg } from '@/use-cases/errors/pet-without-associate-with-org';
+import { OrganizationNotExists } from '@/use-cases/errors/organization-not-exists';
 import { makeRegisterPetsUseCase } from '@/use-cases/factories/make-register-pets-use-case';
 import { FastifyReply, FastifyRequest } from 'fastify';
 import z from 'zod';
@@ -7,12 +7,12 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
   const createBodySchema = z.object({
     name: z.string(),
     description: z.string(),
-    status: z.enum(["AVAILABLE", "ADOPTED", "RESERVED", "UNAVAILABLE"]),
-    age: z.enum(["PUPPY", "YOUNG", "ADULT", "SENIOR"]),
-    size: z.enum(["SMALL", "MEDIUM", "LARGE"]),
-    power: z.enum(["LOW", "MODERATE", "HIGH"]),
-    independence: z.enum(["LOW", "MEDIUM", "HIGH"]),
-    ambience: z.enum(["SMALL_SPACE", "MEDIUM_SPACE", "LARGE_SPACE"]),
+    status: z.enum(["available", "adopted", "reserved", "unavailable"]),
+    age: z.enum(["puppy", "young", "adult"]),
+    size: z.enum(["small", "medium", "large"]),
+    power: z.enum(["low", "moderate", "high"]),
+    independence: z.enum(["low", "medium", "high"]),
+    ambience: z.enum(["small", "medium", "large"]),
     path: z.string(),
     requisites: z.array(z.string()),
 
@@ -28,10 +28,10 @@ export async function register(req: FastifyRequest, reply: FastifyReply) {
 
     return reply.status(201).send({ pet });
   } catch (err) {
-    if (err instanceof PetWithoutAssociateWithOrg) {
-      return reply.status(409).send({ message: err.message });
+    if (err instanceof OrganizationNotExists) {
+      return reply.status(404).send({ message: err.message })
     }
 
-    throw err;
+    throw err; // erros pro handler global
   }
 }
