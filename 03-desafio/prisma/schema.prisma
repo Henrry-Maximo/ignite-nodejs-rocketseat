@@ -8,53 +8,52 @@ datasource db {
 }
 
 enum Status {
-  AVAILABLE // Ready for adoption / use
-  ADOPTED // Already adopted / finalized
-  RESERVED // In reservation or adoption process
-  UNAVAILABLE // Temporarily unavailable
+  available // Ready for adoption / use
+  adopted // Already adopted / finalized
+  reserved // In reservation or adoption process
+  unavailable // Temporarily unavailable
 }
 
 enum Age {
-  PUPPY // 0–1 year
-  YOUNG // 1–3 years
-  ADULT // 3–7 years
-  SENIOR // 7+ years
+  puppy // 0–1 year
+  young // 1–3 years
+  adult // 3–7 years
 }
 
 enum Size {
-  SMALL
-  MEDIUM
-  LARGE
+  small
+  medium
+  large
 }
 
 enum Power {
-  LOW // Calm / quiet
-  MODERATE // Balanced energy
-  HIGH // Very active / energetic
+  low // Calm / quiet
+  moderate // Balanced energy
+  high // Very active / energetic
 }
 
 enum Independence {
-  LOW // Requires attention / dependent
-  MEDIUM // Moderately independent
-  HIGH // Very independent
+  low // Requires attention / dependent
+  medium // Moderately independent
+  high // Very independent
 }
 
 enum Ambience {
-  SMALL_SPACE // Apartments, small areas
-  MEDIUM_SPACE // Small to medium houses
-  LARGE_SPACE // Large houses, yards, farms
+  small // Apartments, small areas
+  medium // Small to medium houses
+  large // Large houses, yards, farms
 }
 
 model Pet {
   id           String       @id @default(uuid())
   name         String
   description  String
-  status       Status       @default(AVAILABLE)
-  age          Age          @default(YOUNG) // Faixa etária
-  size         Size         @default(MEDIUM) // Porte físico
-  power        Power        @default(MODERATE) // Nível de energia
-  independence Independence @default(MEDIUM) // Grau de independência
-  ambience     Ambience     @default(MEDIUM_SPACE) // Ambiente necessário
+  status       Status       @default(available)
+  age          Age          @default(young) // Faixa etária
+  size         Size         @default(medium) // Porte físico
+  power        Power        @default(moderate) // Nível de energia
+  independence Independence @default(medium) // Grau de independência
+  ambience     Ambience     @default(medium) // Ambiente necessário
   path         String // Endereço da imagem
   requisites   String[] // Lista de requisitos para adoção (inserida pela ORG)
   created_at   DateTime     @default(now())
