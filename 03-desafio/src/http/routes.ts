@@ -9,6 +9,7 @@ import { register as registerPets } from './controllers/pets/register';
 import { authenticate } from './controllers/orgs/authenticate';
 import { profile } from './controllers/orgs/profile';
 import { verifyJWT } from './middlewares/verify-jwt';
+import { handle } from './controllers/pets/contact-org';
 
 export async function appRoutes(app: FastifyInstance) {
   app.get('/orgs', searchOrgs);
@@ -16,6 +17,7 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.get('/pets', searchPets);
   app.post('/pets', registerPets);
+  app.get('/pets/:petId/contact', handle)
 
   app.post('/me', { onRequest: [verifyJWT] }, profile); 
   app.post('/sessions', authenticate);

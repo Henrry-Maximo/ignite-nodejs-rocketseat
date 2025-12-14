@@ -3,7 +3,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
 const searchPetsQuerySchema = z.object({
-  id: z.string(),
+  id: z.string().optional(),
   city: z.string(),
   status: z
     .enum(["available", "adopted", "reserved", "unavailable"])
