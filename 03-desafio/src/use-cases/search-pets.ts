@@ -2,6 +2,7 @@ import { PetsRepository } from "@/repositories/pets-repository";
 import { Pet, Age, Size, Status, Power, Independence, Ambience } from "@prisma/client";
 
 interface SearchPetsUseCaseRequest {
+  id?: string;
   city: string;
   status?: Status;
   age?: Age;
@@ -20,6 +21,7 @@ export class SearchPetsUseCase {
 
   async execute(data: SearchPetsUseCaseRequest): Promise<SearchPetsUseCaseResponse> {
     const pets = await this.petRepository.searchMany({
+      id: data.id,
       city: data.city,
       status: data.status,
       age: data.age,

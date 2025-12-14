@@ -5,8 +5,6 @@ import { appRoutes } from "./http/routes";
 import { env } from "./env";
 
 import { ZodError } from "zod";
-import { EmailAlreadyExistsError } from "./use-cases/errors/email-already-exists-error";
-import { PetWithoutAssociateWithOrg } from "./use-cases/errors/pet-without-associate-with-org";
 
 export const app = fastify();
 
