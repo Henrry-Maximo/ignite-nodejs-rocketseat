@@ -1,3 +1,4 @@
+import { SearchOrgsNonError } from "@/use-cases/errors/search-orgs-non-error";
 import { makeSearchOrgsUseCase } from "@/use-cases/factories/make-search-orgs-use-case";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
