@@ -57,7 +57,7 @@
 - [x] Um pet deve estar ligado a uma ORG
 - [x] O usuário que quer adotar, entrará em contato com a ORG via WhatsApp
 - [x] Todos os filtros, além da cidade, são opcionais
-- [] Garantir que o acesso de administrador da ORG seja restrito a usuários logados
+- [x] Garantir que o acesso de administrador da ORG seja restrito a usuários logados
 
 ### RNFs (Requisitos não-funcionais)
 
