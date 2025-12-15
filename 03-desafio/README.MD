@@ -57,12 +57,13 @@
 - [x] Um pet deve estar ligado a uma ORG
 - [x] O usuário que quer adotar, entrará em contato com a ORG via WhatsApp
 - [x] Todos os filtros, além da cidade, são opcionais
-- [] Para uma ORG acessar a aplicação como admin, ela precisa estar logada
+- [] Garantir que o acesso de administrador da ORG seja restrito a usuários logados
 
 ### RNFs (Requisitos não-funcionais)
 
-- [] A senha da organização precisa estar criptografada
-- [] A organização deve ser identificada por um JWT (JSON Web Token)
+- [x] A senha da organização precisa estar criptografada
+- [x] A organização deve ser identificada por um JWT (JSON Web Token)
+- [] Criar testes para validar as funcionalidades e regras de negócio
 
 ## Commands
 - npm init -y
