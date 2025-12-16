@@ -2,33 +2,8 @@ import { Org, Prisma } from '@prisma/client';
 import { OrgsRepository } from '../orgs-repository';
 import { randomUUID } from 'node:crypto';
 
-// interface orgsBodySchema {
-//   id?: string;
-//   name: string;
-//   email: string;
-//   postal_code: string;
-//   address: string;
-//   city: string;
-//   phone: string;
-//   password_hash: string;
-//   created_at?: Date | string;
-// };
-
 export class InMemoryOrgsRepository implements OrgsRepository {
-  searchMany(name?: string): Promise<Org[]> {
-    throw new Error('Method not implemented.');
-  }
   public items: Org[] = [];
-
-  async findById(id: string) {
-    const org = this.items.find((item) => item.id === id);
-
-    if (!org) {
-      return null;
-    }
-
-    return org;
-  }
 
   async create(data: Prisma.OrgCreateInput) {
     const org = {
@@ -43,6 +18,17 @@ export class InMemoryOrgsRepository implements OrgsRepository {
     };
 
     this.items.push(org);
+    
+    return org;
+  }
+
+  async findById(id: string) {
+    const org = this.items.find((item) => item.id === id);
+
+    if (!org) {
+      return null;
+    }
+
     return org;
   }
 
@@ -56,9 +42,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
     return org;
   }
 
-  // public orgs: orgsBodySchema[] = [];
-
-  // async create(data: Prisma.OrgCreateInput) {
-  //   this.orgs.push(data);
-  // }
+  searchMany(name?: string): Promise<Org[]> {
+    throw new Error('Method not implemented.');
+  }
 }

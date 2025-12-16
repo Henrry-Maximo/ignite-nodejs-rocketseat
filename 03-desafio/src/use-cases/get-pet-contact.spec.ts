@@ -15,8 +15,10 @@ describe("Get Pet Org Contact Use Case", () => {
     sut = new GetPetContactUseCase(petsRepository);
   });
 
-  it("should be able to get user profile", async () => {
-    const { id } = await orgsRepository.create({
+  it("should be able to get contact of organization though pet", async () => {
+    const orgsRepository = new InMemoryOrgsRepository();
+
+    const org = await orgsRepository.create({
       name: "Pet Shop Animals",
       email: "XXXXXXXXXXXXXX@gmail.com",
       password_hash: await hash("123456", 6),
@@ -25,18 +27,35 @@ describe("Get Pet Org Contact Use Case", () => {
       phone: "11999999999",
     });
 
-    const { org } = await sut.execute({
-      orgId: id,
+    const { id } = await petsRepository.create({
+      name: "Billy",
+      description: "É um cachorro macho e peludo.",
+      status: "unavailable",
+      age: "young",
+      size: "small",
+      power: "low",
+      independence: "high",
+      ambience: "medium",
+      path: "/images/roberto.png",
+      requisites: ["É necessário ter um salário superior a 500R$"],
+      org: {
+        connect: {
+          id: org.id,
+        },
+      },
     });
 
-    expect(org.id).toEqual(expect.any(String));
-    expect(org.name).toEqual("Pet Shop Animals");
+    const { whatsappUrl } = await sut.execute({
+      id,
+    });
+
+    expect(whatsappUrl).toEqual(expect.any(String));
   });
 
   it("should not be able to get user profile with wrong id", async () => {
     await expect(() =>
       sut.execute({
-        orgId: "non-existing-id",
+        id: "non-existing-id",
       })
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
