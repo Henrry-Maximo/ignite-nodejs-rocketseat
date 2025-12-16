@@ -1,5 +1,6 @@
 import { Org, Prisma } from '@prisma/client';
 import { OrgsRepository } from '../orgs-repository';
+import { randomUUID } from 'node:crypto';
 
 // interface orgsBodySchema {
 //   id?: string;
@@ -14,6 +15,9 @@ import { OrgsRepository } from '../orgs-repository';
 // };
 
 export class InMemoryOrgsRepository implements OrgsRepository {
+  searchMany(name?: string): Promise<Org[]> {
+    throw new Error('Method not implemented.');
+  }
   public items: Org[] = [];
 
   async findById(id: string) {
@@ -28,7 +32,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 
   async create(data: Prisma.OrgCreateInput) {
     const org = {
-      id: 'user-1',
+      id: String(randomUUID()),
       name: data.name,
       email: data.email,
       password_hash: data.password_hash,

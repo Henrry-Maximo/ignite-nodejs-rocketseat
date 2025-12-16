@@ -14,20 +14,20 @@ describe('Register Use Case', () => {
   });
 
   it('should be able to register', async () => {
-    const { organization } = await sut.execute({
+    const { org } = await sut.execute({
       name: 'Henrique Maximo',
-      email: 'henrylimadasilva@gmail.com',
       password: '123456',
+      email: 'henrylimadasilva@gmail.com',
+      postal_code: '06807-100',
       address: 'Rua dos bobos',
-      postal_code: '12345678',
       phone: '11999999999',
     });
 
-    expect(organization.id).toEqual(expect.any(String));
+    expect(org.id).toEqual(expect.any(String));
   });
 
   it('should hash user password upon registration', async () => {
-    const { organization } = await sut.execute({
+    const { org } = await sut.execute({
       name: 'Henrique Maximo',
       email: 'henrylimadasilva@gmail.com',
       password: '123456',
@@ -36,10 +36,9 @@ describe('Register Use Case', () => {
       phone: '11999999999',
     });
 
-    console.log(organization.password_hash);
     const isPasswordCorrectlyHashed = await compare(
       '123456',
-      organization.password_hash,
+      org.password_hash,
     );
 
     expect(isPasswordCorrectlyHashed).toBe(true);
@@ -47,6 +46,7 @@ describe('Register Use Case', () => {
 
   it('should not be able to register with same email twice', async () => {
     const email = 'henrylimadasilva@gmail.com';
+    
     await sut.execute({
       name: 'Henrique Maximo',
       email,

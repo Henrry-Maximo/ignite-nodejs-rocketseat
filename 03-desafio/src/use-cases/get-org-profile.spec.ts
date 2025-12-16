@@ -1,16 +1,16 @@
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { hash } from 'bcryptjs';
-import { GetUserProfileUseCase } from './get-user-profile';
+import { GetOrgProfileUseCase } from './get-org-profile';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
 
 let orgsRepository: InMemoryOrgsRepository;
-let sut: GetUserProfileUseCase;
+let sut: GetOrgProfileUseCase;
 
 describe('Get User Profile Use Case', () => {
   beforeEach(() => {
     orgsRepository = new InMemoryOrgsRepository();
-    sut = new GetUserProfileUseCase(orgsRepository);
+    sut = new GetOrgProfileUseCase(orgsRepository);
   });
 
   it('should be able to get user profile', async () => {
@@ -19,7 +19,6 @@ describe('Get User Profile Use Case', () => {
       email: 'XXXXXXXXXXXXXX@gmail.com',
       password_hash: await hash('123456', 6),
       address: 'Rua dos bobos',
-      city: 'São Paulo',
       postal_code: '12345678',
       phone: '11999999999',
     });
