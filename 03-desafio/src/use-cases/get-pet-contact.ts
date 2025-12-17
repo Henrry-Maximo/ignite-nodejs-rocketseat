@@ -19,7 +19,7 @@ export class GetPetContactUseCase {
   async execute({
     id,
   }: GetPetContactUseCaseRequest): Promise<GetPetContactUseCaseResponse> {
-  const pet = await this.petsRepository.findById(id)
+  const pet = await this.petsRepository.findById(id);
   
   if (!pet) {
     throw new ResourceNotFoundError();

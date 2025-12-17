@@ -2,23 +2,24 @@ import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-
 import { hash } from "bcryptjs";
 import { beforeEach, describe, expect, it } from "vitest";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
-import { GetOrgProfileUseCase } from "./get-org-profile";
 import { InMemoryPetsRepository } from "@/repositories/in-memory/in-memory-pets-repository";
 import { GetPetContactUseCase } from "./get-pet-contact";
+import { randomUUID } from "node:crypto";
 
+let orgsRepository: InMemoryOrgsRepository;
 let petsRepository: InMemoryPetsRepository;
 let sut: GetPetContactUseCase;
 
 describe("Get Pet Org Contact Use Case", () => {
   beforeEach(() => {
+    orgsRepository = new InMemoryOrgsRepository();
     petsRepository = new InMemoryPetsRepository();
     sut = new GetPetContactUseCase(petsRepository);
   });
 
   it("should be able to get contact of organization though pet", async () => {
-    const orgsRepository = new InMemoryOrgsRepository();
-
     const org = await orgsRepository.create({
+      id: randomUUID(),
       name: "Pet Shop Animals",
       email: "XXXXXXXXXXXXXX@gmail.com",
       password_hash: await hash("123456", 6),
@@ -27,7 +28,10 @@ describe("Get Pet Org Contact Use Case", () => {
       phone: "11999999999",
     });
 
+    console.log(org);
+
     const { id } = await petsRepository.create({
+      id: randomUUID(),
       name: "Billy",
       description: "É um cachorro macho e peludo.",
       status: "unavailable",
@@ -45,6 +49,8 @@ describe("Get Pet Org Contact Use Case", () => {
       },
     });
 
+    console.log(id);
+
     const { whatsappUrl } = await sut.execute({
       id,
     });
@@ -55,7 +61,7 @@ describe("Get Pet Org Contact Use Case", () => {
   it("should not be able to get user profile with wrong id", async () => {
     await expect(() =>
       sut.execute({
-        id: "non-existing-id",
+        id: randomUUID(),
       })
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });

@@ -1,13 +1,14 @@
 import { Pet, Prisma } from '@prisma/client';
 import { FindManyPetsParams, PetsRepository } from '../pets-repository';
 import { randomUUID } from 'node:crypto';
+import { prisma } from '@/lib/prisma';
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = [];
 
   async create(data: Prisma.PetCreateInput): Promise<Pet> {
     const pet = {
-      id: randomUUID(),
+      id: data.id ?? randomUUID(),
       name: data.name,
       status: data.status!,
       description: data.description,
@@ -27,16 +28,21 @@ export class InMemoryPetsRepository implements PetsRepository {
     return pet;
   }
 
-  searchMany(params: FindManyPetsParams): Promise<Pet[]> {
-    throw new Error('Method not implemented.');
-  }
-  
-  findById(id: string): Promise<Pet | null> {
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<Pet | null> {
+    const pet = await prisma.pet.findUnique({
+      where: {
+        id
+      }
+    });
+
+    return pet;
   }
 
   delete(id: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
+  searchMany(params: FindManyPetsParams): Promise<Pet[]> {
+    throw new Error('Method not implemented.');
+  }
 }
