@@ -11,7 +11,6 @@ export interface FindManyPetsParams {
   ambience?: Ambience;
 }
 
-
 export interface PetsRepository {
   create(data: Prisma.PetCreateInput): Promise<Pet>;
   searchMany(params: FindManyPetsParams): Promise<Pet[]>

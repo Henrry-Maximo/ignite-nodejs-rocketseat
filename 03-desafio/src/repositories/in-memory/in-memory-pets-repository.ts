@@ -1,7 +1,6 @@
 import { Pet, Prisma } from '@prisma/client';
 import { FindManyPetsParams, PetsRepository } from '../pets-repository';
 import { randomUUID } from 'node:crypto';
-import { prisma } from '@/lib/prisma';
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = [];
@@ -19,7 +18,7 @@ export class InMemoryPetsRepository implements PetsRepository {
       ambience: data.ambience!,
       path: data.path!,
       requisites: data.requisites as string[],
-      org_id: data.org! as string,
+      org_id: (data.org as any)?.connect?.id || data.org,
       created_at: new Date(),
     };
 
@@ -29,11 +28,9 @@ export class InMemoryPetsRepository implements PetsRepository {
   }
 
   async findById(id: string): Promise<Pet | null> {
-    const pet = await prisma.pet.findUnique({
-      where: {
-        id
-      }
-    });
+    const pet = this.items.find((item) => item.id === id);
+
+    if (!pet) return null;
 
     return pet;
   }

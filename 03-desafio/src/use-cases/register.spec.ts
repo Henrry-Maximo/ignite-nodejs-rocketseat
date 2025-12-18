@@ -1,16 +1,17 @@
-import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
-import { compare } from "bcryptjs";
 import { beforeEach, describe, expect, it } from "vitest";
-import { EmailAlreadyExistsError } from "./errors/email-already-exists-error";
-import { RegisterUseCase } from "./register";
+import { compare } from "bcryptjs";
 
-let orgsRepository: InMemoryOrgsRepository;
+import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
+import { RegisterUseCase } from "./register";
+import { EmailAlreadyExistsError } from "./errors/email-already-exists-error";
+
+let inMemoryOrgsRepository: InMemoryOrgsRepository;
 let sut: RegisterUseCase;
 
 describe("Register Use Case", () => {
   beforeEach(() => {
-    orgsRepository = new InMemoryOrgsRepository();
-    sut = new RegisterUseCase(orgsRepository);
+    inMemoryOrgsRepository = new InMemoryOrgsRepository();
+    sut = new RegisterUseCase(inMemoryOrgsRepository);
   });
 
   it("should be able to register", async () => {
