@@ -36,7 +36,8 @@ export class InMemoryPetsRepository implements PetsRepository {
   }
 
   delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+    this.items = this.items.filter(item => item.id !== id)
+    return Promise.resolve()
   }
 
   searchMany(params: FindManyPetsParams): Promise<Pet[]> {
