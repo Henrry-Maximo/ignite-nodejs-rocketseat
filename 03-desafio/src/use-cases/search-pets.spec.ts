@@ -4,7 +4,7 @@ describe("Search Pets Use Case", () => {
   beforeEach(() => {
   });
 
-  it("", async () => {
+  it.skip("", async () => {
 
   });
 

@@ -4,7 +4,7 @@ describe("Search Orgs Use Case", () => {
   beforeEach(() => {
   });
 
-  it("", async () => {
+  it.skip("", async () => {
 
   });
 
