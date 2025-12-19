@@ -2,6 +2,7 @@ import { PetsRepository } from "@/repositories/pets-repository";
 import { Pet } from "@prisma/client";
 import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
 import { OrganizationNotExists } from "./errors/organization-not-exists";
+import { OrgsRepository } from "@/repositories/orgs-repository";
 
 interface RegisterPetsUseCaseRequest {
   name: string;
@@ -22,8 +23,12 @@ interface RegisterPetsUseCaseResponse {
 }
 
 export class RegisterPetsUseCase {
-  constructor(private petsRepository: PetsRepository) {
+  constructor(
+    private petsRepository: PetsRepository,
+    private orgsRepository: OrgsRepository
+  ) {
     this.petsRepository = petsRepository;
+    this.orgsRepository = orgsRepository;
   }
 
   async execute({
@@ -39,11 +44,10 @@ export class RegisterPetsUseCase {
     size,
     status,
   }: RegisterPetsUseCaseRequest): Promise<RegisterPetsUseCaseResponse> {
-    const prismaOrgsRepository = new PrismaOrgsRepository();
-    const orgId = await prismaOrgsRepository.findById(org);
+    const orgId = await this.orgsRepository.findById(org);
 
     if (!orgId) {
-      throw new OrganizationNotExists
+      throw new OrganizationNotExists();
     }
 
     const pet = await this.petsRepository.create({
