@@ -40,7 +40,9 @@ export class InMemoryPetsRepository implements PetsRepository {
     return Promise.resolve()
   }
 
-  searchMany(params: FindManyPetsParams): Promise<Pet[]> {
-    throw new Error('Method not implemented.');
+  async searchMany(params: FindManyPetsParams): Promise<Pet[]> {
+    const pets = this.items.filter((item) => item.name.includes(params.name ?? ''));
+
+    return pets;
   }
 }

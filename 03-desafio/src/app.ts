@@ -21,9 +21,7 @@ app.setErrorHandler((error, _request, reply) => {
       .status(400)
       .send({ message: "Validation error.", issues: error.format() });
   }
-
   
-
   if (env.NODE_ENV !== "production") {
     console.error(error);
   } else {

@@ -2,6 +2,7 @@ import { Pet, Prisma, Age, Size, Status, Power, Independence, Ambience } from '@
 
 export interface FindManyPetsParams {
   id?: string;
+  name?: string;
   city: string;
   status?: Status;
   age?: Age;

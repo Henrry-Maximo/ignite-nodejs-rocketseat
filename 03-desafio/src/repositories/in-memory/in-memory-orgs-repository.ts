@@ -42,7 +42,9 @@ export class InMemoryOrgsRepository implements OrgsRepository {
     return org;
   }
 
-  searchMany(name?: string): Promise<Org[]> {
-    throw new Error('Method not implemented.');
+  async searchMany(name?: string): Promise<Org[]> {
+    const orgs = this.items.filter((item) => item.name.includes(name ?? ''));
+
+    return orgs;
   }
 }
