@@ -31,7 +31,11 @@ export class GetPetContactUseCase {
 
     const orgId = await this.orgsRepository.findById(pet.org_id);
 
-    if (!orgId?.phone) {
+    if (!orgId) {
+      throw new ResourceNotFoundError();
+    }
+
+    if (!orgId.phone) {
       throw new OrgnizationNotHavePhoneError();
     }
 
