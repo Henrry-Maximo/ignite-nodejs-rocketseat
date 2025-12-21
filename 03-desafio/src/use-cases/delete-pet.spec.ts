@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { DeletePetUseCase } from "./delete-pet";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { hash } from "bcryptjs";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 let orgsRepository: InMemoryOrgsRepository;
 let petsRepository: InMemoryPetsRepository;
@@ -41,8 +42,18 @@ describe("Delete Pets Use Case", () => {
       org: { connect: { id: org.id } },
     });
 
-    const pet = await sut.execute({ id });
+    expect(await sut.execute({ id }));
 
-    await expect(petsRepository.findById(id)).resolves.toBeNull();
+    const pet = await petsRepository.findById(id);
+
+    expect(pet).toBeNull();
   });
+  
+  it("Should not be able delete pet that not exists", async () => {
+    await expect(() =>
+      sut.execute({
+        id: "non-existing-id",
+      })
+    ).rejects.toBeInstanceOf(ResourceNotFoundError);
+  })
 });
