@@ -102,3 +102,14 @@
 - npm i bcryptjs
 - npm i -D @types/bcryptjs
 - "rules": { "camelcase": "off" }
+
+# Comandos para instalar o coverage
+
+## Artigo usando pelo instrutor
+- npm un @vitest/coverage-c8
+
+## Novo coverage usando v8:
+- npm i @vitest/coverage-v8 -D
+
+## Atualizações de dependências para utilizar o test environment
+- npm i vitest@latest vite-tsconfig-paths@latest @vitest/ui@latest -D
