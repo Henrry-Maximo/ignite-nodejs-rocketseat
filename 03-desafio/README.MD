@@ -113,3 +113,22 @@
 
 ## Atualizações de dependências para utilizar o test environment
 - npm i vitest@latest vite-tsconfig-paths@latest @vitest/ui@latest -D
+
+## Biblioteca para realizar requisições HTTP nos testes (sem precisar subir o app)
+- npm i supertest -D
+- npm i @types/supertest -D (necessário para TypeScript)
+
+## Passando parâmetros para scripts npm
+Ao executar scripts com `npm run`, os parâmetros são tratados da seguinte forma:
+
+- Sem `--`: os parâmetros são interpretados pelo **npm**
+- Com `--`: os parâmetros são repassados para o comando interno do script
+
+Exemplos:
+- `npm run test -h` → mostra o help do **npm**
+- `npm run test -- -h` → mostra o help do **Vitest**
+
+## Frase:
+```
+Testes end-to-end são usados para garantir que os principais fluxos da aplicação funcionam corretamente em um cenário real de uso, evitando duplicação de validações já cobertas por testes unitários.
+```
