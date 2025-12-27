@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import request from "supertest";
 import { app } from "@/app";
 
-describe("Search Organization (e2e)", () => {
+describe("Search Organizations (e2e)", () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -53,6 +53,6 @@ describe("Search Organization (e2e)", () => {
 
       ])
     );
-    
+
   });
 });
