@@ -1,36 +1,37 @@
-// import { FastifyRequest, FastifyReply } from "fastify";
+import { FastifyRequest, FastifyReply } from "fastify";
 
-// export async function refresh(req: FastifyRequest, reply: FastifyReply) {
-//   await req.jwtVerify({ onlyCookie: true });
+export async function refresh(req: FastifyRequest, reply: FastifyReply) {
+  await req.jwtVerify({ onlyCookie: true }); // Valida o refreshToken armazenado no cookie (não aceita token do header)
 
-//   const { sub } = req.user;
+  // Gera um novo access token (curta duração, usado nas requisições)
+  const token = await reply.jwtSign(
+    {},
+    {
+      sign: {
+        sub: req.user.sub, // dados do usuário (extraído do refreshToken validado)
+      },
+    },
+  );
 
-//   const token = await reply.jwtSign(
-//     {},
-//     {
-//       sign: {
-//         sub: req.user.sub,
-//       },
-//     },
-//   );
+  // Gera um novo refreshToken (longa duração, 7 dias)
+  const refreshToken = await reply.jwtSign(
+    {  },
+    {
+      sign: {
+        sub: req.user.sub,
+        expiresIn: "7d",
+      },
+    },
+  );
 
-//   const refreshToken = await reply.jwtSign(
-//     {  },
-//     {
-//       sign: {
-//         sub: req.user.sub,
-//         expiresIn: "7d",
-//       },
-//     },
-//   );
-
-//   return reply
-//     .setCookie("refreshToken", refreshToken, {
-//       path: "/",
-//       secure: true,
-//       sameSite: true,
-//       httpOnly: true,
-//     })
-//     .status(200)
-//     .send({ token });
-// }
+  // Armazena o novo refreshToken no cookie e retorna o access token
+  return reply
+    .setCookie("refreshToken", refreshToken, {
+      path: "/",
+      secure: true,
+      sameSite: true,
+      httpOnly: true,
+    })
+    .status(200)
+    .send({ token });
+}

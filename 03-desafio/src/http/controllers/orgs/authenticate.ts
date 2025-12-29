@@ -23,11 +23,6 @@ export const authenticate = async (
       password,
     });
 
-    // const token = await reply.jwtSign(
-    //   { sub: org.email },
-    //   { sign: { sub: org.id } }
-    // );
-
     const token = await reply.jwtSign(
       {},
       {
@@ -37,14 +32,22 @@ export const authenticate = async (
       }
     );
 
-    // reply.setCookie("token", token, {
-    //     path: "/",
-    //     httpOnly: true,
-    //     secure: true,
-    //     sameSite: true,
-    //   });
+    const refreshToken = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: org.id,
+          expiresIn: '7d'
+        },
+      }
+    );
 
-    return reply.status(200).send({ token });
+    return reply.setCookie('refreshToken',refreshToken, {
+      path: '/', // quais rotas podem ter acesso ao cookie (/ - todo back)
+      secure: true, // defini que o cookie será encripitado utilizando o HTTPS (tá usando? / não valor primitivo)
+      sameSite: true, // acessado somente pelo mesmo domínio da aplicação
+      httpOnly: true, // só poderá ser acessado pelo backend, não fica salvo no cliente
+    }).status(200).send({ token });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(409).send({ message: err.message });

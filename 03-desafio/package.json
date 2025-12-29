@@ -20,6 +20,7 @@
   "author": "Henrry-Maximo",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cookie": "11.0.2",
     "@fastify/jwt": "10.0.0",
     "@prisma/client": "6.11.1",
     "@types/supertest": "6.0.3",

@@ -11,6 +11,7 @@ import { profile } from './controllers/orgs/profile';
 import { verifyJWT } from './middlewares/verify-jwt';
 import { handle } from './controllers/pets/contact-org';
 import { deletePets } from './controllers/pets/delete';
+import { refresh } from './controllers/pets/refresh';
 
 export async function appRoutes(app: FastifyInstance) {
   app.get('/orgs', searchOrgs);
@@ -23,6 +24,8 @@ export async function appRoutes(app: FastifyInstance) {
 
   app.post('/me', { onRequest: [verifyJWT] }, profile); 
   app.post('/sessions', authenticate);
+
+  app.patch('/token/refresh', refresh); // atualização de uma informação única
 
   // app.put('/orgs', register);
   // app.patch('/orgs', register);

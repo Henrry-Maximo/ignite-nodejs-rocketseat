@@ -5,12 +5,22 @@ import { appRoutes } from "./http/routes";
 import { env } from "./env";
 
 import { ZodError } from "zod";
+import fastifyCookie from "@fastify/cookie";
 
 export const app = fastify();
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: 'refreshToken',
+    signed: false // não é um cookie assinado (processo de hash, pra validação)
+  },
+  sign: {
+    expiresIn: '10m' // tempo pra expirar o primeiro token
+  }
 });
+
+app.register(fastifyCookie); // habilitar cookies na aplicação
 
 app.register(appRoutes);
 
