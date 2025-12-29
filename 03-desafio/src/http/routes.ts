@@ -11,7 +11,7 @@ import { profile } from './controllers/orgs/profile';
 import { verifyJWT } from './middlewares/verify-jwt';
 import { handle } from './controllers/pets/contact-org';
 import { deletePets } from './controllers/pets/delete';
-import { refresh } from './controllers/pets/refresh';
+import { refresh } from './controllers/orgs/refresh';
 
 export async function appRoutes(app: FastifyInstance) {
   app.get('/orgs', searchOrgs);
