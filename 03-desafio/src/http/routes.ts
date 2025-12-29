@@ -12,6 +12,7 @@ import { verifyJWT } from './middlewares/verify-jwt';
 import { handle } from './controllers/pets/contact-org';
 import { deletePets } from './controllers/pets/delete';
 import { refresh } from './controllers/orgs/refresh';
+import { verifyUserRole } from './middlewares/verify-user-role';
 
 export async function appRoutes(app: FastifyInstance) {
   app.get('/orgs', searchOrgs);
@@ -20,7 +21,7 @@ export async function appRoutes(app: FastifyInstance) {
   app.get('/pets', searchPets);
   app.post('/pets', { onRequest: [verifyJWT] }, registerPets);
   app.get('/pets/:petId/contact', handle);
-  app.delete('/pets/:id', { onRequest: [verifyJWT] }, deletePets);
+  app.delete('/pets/:id', { onRequest: [verifyJWT, verifyUserRole('ADMIN')] }, deletePets);
 
   app.post('/me', { onRequest: [verifyJWT] }, profile); 
   app.post('/sessions', authenticate);

@@ -3,6 +3,7 @@ import z from "zod";
 
 import { InvalidCredentialsError } from "@/use-cases/errors/invalid-credentials-error";
 import { makeAuthenticateUseCase } from "@/use-cases/factories/make-authenticate-use-case";
+import { userInfo } from "node:os";
 
 export const authenticate = async (
   req: FastifyRequest,
@@ -24,7 +25,9 @@ export const authenticate = async (
     });
 
     const token = await reply.jwtSign(
-      {},
+      {
+        role: org.role, // armazena role da organização no token (payload)
+      },
       {
         sign: {
           sub: org.id,
@@ -33,7 +36,9 @@ export const authenticate = async (
     );
 
     const refreshToken = await reply.jwtSign(
-      {},
+      {
+        role: org.role, // armazena role da organização para o refresh token
+      },
       {
         sign: {
           sub: org.id,

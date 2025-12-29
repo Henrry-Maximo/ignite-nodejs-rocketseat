@@ -65,6 +65,11 @@ model Pet {
   @@map("pet_pets") // Nome da tabela no banco
 }
 
+enum Role {
+  ADMIN
+  MEMBER
+}
+
 model Org {
   id            String   @id @default(uuid())
   name          String
@@ -73,6 +78,7 @@ model Org {
   postal_code   String
   address       String
   phone         String
+  role          Role     @default(MEMBER)
   created_at    DateTime @default(now())
 
   pet Pet[]
