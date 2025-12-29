@@ -54,6 +54,6 @@ describe("Register Pets (e2e)", () => {
       name: "Billy",
       status: "unavailable",
       age: "young"
-    }))
+    }));
   });
 });
