@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import request from "supertest";
 import { app } from "@/app";
+import { createAndAuthenticateOrg } from "@/utils/test/create-and-authenticate-org";
 
 describe("Delete Pets (e2e)", () => {
   beforeAll(async () => {
@@ -13,22 +14,7 @@ describe("Delete Pets (e2e)", () => {
   });
 
   it("Should be able to delete pets", async () => {
-    const responseOrg = await request(app.server).post("/orgs").send({
-      name: "Amor & Carinho",
-      password: "123456",
-      email: "wesley@gmail.com",
-      postal_code: "06807-100",
-      address: "embu das artes",
-      phone: "6581112120",
-    });
-
-    const responseAuth = await request(app.server).post("/sessions").send({
-      email: "wesley@gmail.com",
-      password: "123456",
-    });
-
-    const { org } = responseOrg.body;
-    const { token } = responseAuth.body;
+    const { token, id } = await createAndAuthenticateOrg(app, true);
 
     const responsePet = await request(app.server)
       .post("/pets")
@@ -44,7 +30,7 @@ describe("Delete Pets (e2e)", () => {
         ambience: "medium",
         path: "/images/roberto.png",
         requisites: ["É necessário ter um salário superior a 500R$"],
-        org: org.id,
+        org: id,
       });
 
     const { pet } = responsePet.body;
