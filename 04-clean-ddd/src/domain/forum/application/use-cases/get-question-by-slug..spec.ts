@@ -1,9 +1,7 @@
 import { InMemoryQuestionsRepository } from "test/repositories/in-memory-questions-repository";
-import { CreateQuestionUseCase } from "./create-question";
 import { GetQuestionBySlugUseCase } from "./get-question-by-slug.js";
-import { Question } from "../../enterprise/entities/question";
-import { Slug } from "../../enterprise/entities/value-objects/slug";
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { makeQuestion } from "test/factories/make-question";
+import { Slug } from "../../enterprise/entities/value-objects/slug.js";
 
 /*
 create: async function (answer: Answer): Promise<void> {
@@ -27,18 +25,15 @@ describe("Get Question By Slug", () => {
 
   it('should be able to get a question by slug', async () => {
     // const createQuestion = new CreateQuestionUseCase(fakeQuestionsRepository)
-    const newQuestion = Question.create({
-      authorId: new UniqueEntityID,
-      title: 'example-question',
-      slug: Slug.create('example-question'),
-      content: 'example content question'
-    })
+    const newQuestion = makeQuestion({ 
+      slug: Slug.create('example-question')
+     }); // factorie para criação de uma questão (utilização em outros arquivos)
 
-    await inMemoryQuestionsRepository.create(newQuestion)
+    await inMemoryQuestionsRepository.create(newQuestion);
   
     const { question } = await sut.execute({
       slug: 'example-question'
-    })
+    });
   
     expect(question.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
     expect(question.title).toEqual('Example question')

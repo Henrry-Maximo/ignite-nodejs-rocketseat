@@ -40,27 +40,27 @@ export class Answer extends Entity<AnswerProps> {
   // }
 
   // getters para exibir informação
-  get authorId() {
+  public get authorId() {
     return this.props.authorId
   }
 
-  get questionId() {
+  public get questionId() {
     return this.props.questionId
   }
 
-  get content() {
+  public get content() {
     return this.props.content
   }
 
-  get createdAt() {
+  public get createdAt() {
     return this.props.createdAt
   }
 
-  get updatedAt() {
+  public get updatedAt() {
     return this.props.updatedAt
   }
 
-  get excerpt() {
+  public get excerpt() {
     return this.content.substring(0, 120).trimEnd().concat('...')
   }
 

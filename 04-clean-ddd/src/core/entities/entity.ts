@@ -8,7 +8,7 @@ export class Entity<Props> {
   protected props: Props
 
   // método para acessar o id
-  get id() {
+  public get id() {
     return this._id
   }
 
