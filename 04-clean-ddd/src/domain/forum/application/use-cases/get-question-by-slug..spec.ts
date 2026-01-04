@@ -36,7 +36,7 @@ describe('Get Question By Slug', () => {
     });
 
     // verificar retorno por causa da biblioteca faker (geração de dados)
-    console.log(question);
+    // console.log(question);
 
     expect(question.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
     expect(question.title).toEqual(newQuestion.title)
