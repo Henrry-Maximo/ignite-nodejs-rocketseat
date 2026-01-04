@@ -8,24 +8,24 @@ let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: AnswerQuestionUseCase
 // sut: system under test
 
-describe("Create Answer", () => {
+describe('Create Answer', () => {
   beforeEach(() => {
-    inMemoryAnswersRepository = new InMemoryAnswersRepository();
-    sut = new AnswerQuestionUseCase(inMemoryAnswersRepository);
+    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    sut = new AnswerQuestionUseCase(inMemoryAnswersRepository)
   })
 
   it('should be able to create an answer', async () => {
     // const createQuestion = new CreateQuestionUseCase(fakeQuestionsRepository)
-  
+
     const { answer } = await sut.execute({
       questionId: '1',
       instructorId: '1',
       content: 'Conteúdo da pergunta',
     })
-  
+
     expect(answer.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
-    expect(inMemoryAnswersRepository.items[0].id).toEqual(answer.id) // verificar no array se o id coincide com o que foi cadastrado 
-  });
+    expect(inMemoryAnswersRepository.items[0].id).toEqual(answer.id) // verificar no array se o id coincide com o que foi cadastrado
+  })
 
 })
 
