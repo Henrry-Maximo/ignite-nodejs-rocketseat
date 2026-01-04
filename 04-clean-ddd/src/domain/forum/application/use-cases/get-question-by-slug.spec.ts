@@ -27,13 +27,13 @@ describe('Get Question By Slug', () => {
     // const createQuestion = new CreateQuestionUseCase(fakeQuestionsRepository)
     const newQuestion = makeQuestion({
       slug: Slug.create('example-question'),
-    }); // factorie para criação de uma questão (utilização em outros arquivos)
+    }) // factorie para criação de uma questão (utilização em outros arquivos)
 
-    await inMemoryQuestionsRepository.create(newQuestion);
+    await inMemoryQuestionsRepository.create(newQuestion)
 
     const { question } = await sut.execute({
       slug: 'example-question',
-    });
+    })
 
     // verificar retorno por causa da biblioteca faker (geração de dados)
     // console.log(question);
