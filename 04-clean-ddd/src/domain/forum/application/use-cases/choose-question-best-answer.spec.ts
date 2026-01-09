@@ -2,7 +2,6 @@
 import { makeQuestion } from 'test/factories/make-question'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository.js'
-import { DeleteAnswerUseCase } from './delete-answer.js'
 import { makeAnswer } from 'test/factories/make-answer.js'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository.js'
 import { ChooseQuestionBestAnswerUseCase } from './choose-question-best-answer.js'
