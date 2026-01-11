@@ -14,7 +14,7 @@ interface CommentOnAnswerUseCaseResponse {
 };
 
 export class CommentOnAnswerUseCase {
-  constructor(private answersRepository: AnswersRepository, private answersCommentsRepository: AnswerCommentsRepository) { }
+  constructor(private answersRepository: AnswersRepository, private answerCommentsRepository: AnswerCommentsRepository) { }
 
   async execute({
     authorId,
@@ -33,7 +33,7 @@ export class CommentOnAnswerUseCase {
       content
     });
 
-    await this.answersCommentsRepository.create(answerComment);
+    await this.answerCommentsRepository.create(answerComment);
 
     return {
       answerComment,

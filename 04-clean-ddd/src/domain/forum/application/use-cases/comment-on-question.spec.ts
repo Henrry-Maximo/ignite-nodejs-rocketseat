@@ -1,20 +1,23 @@
 
 import { makeQuestion } from 'test/factories/make-question'
-import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository.js'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository.js'
 import { CommentOnQuestionUseCase } from './comment-on-question.js'
-import { InMemoryQuestionsCommentsRepository } from 'test/repositories/in-memory-question-comments-repository.js'
+import { InMemoryQuestionCommentsRepository } from 'test/repositories/in-memory-question-comments-repository';
+
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let inMemoryQuestionCommentsRepository: InMemoryQuestionsCommentsRepository;
+let inMemoryQuestionCommentsRepository: InMemoryQuestionCommentsRepository;
 let sut: CommentOnQuestionUseCase;
 
 describe('Comment on Question', () => {
   beforeEach(() => {
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
-    inMemoryQuestionCommentsRepository = new InMemoryAnswersRepository();
+    inMemoryQuestionCommentsRepository = new InMemoryQuestionCommentsRepository();
 
-    sut = new CommentOnQuestionUseCase(inMemoryQuestionsRepository, inMemoryQuestionCommentsRepository)
+    sut = new CommentOnQuestionUseCase(
+      inMemoryQuestionsRepository,
+      inMemoryQuestionCommentsRepository
+    )
   })
 
   it('should be able to comment on question', async () => {
@@ -28,7 +31,7 @@ describe('Comment on Question', () => {
       content: "Comentário teste"
     });
 
-    expect(inMemoryQuestionsRepository.items[0].content).toEqual("Comentário teste");
+    expect(inMemoryQuestionCommentsRepository.items[0].content).toEqual("Comentário teste");
   });
 
 })

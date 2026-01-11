@@ -1,8 +1,8 @@
 
-import { makeAnswer } from 'test/factories/make-answer';
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository.js';
 import { CommentOnAnswerUseCase } from './comment-on-answer.js';
 import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository.js';
+import { makeAnswer } from 'test/factories/make-answer.js';
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository;
@@ -27,7 +27,7 @@ describe('Comment on Answer', () => {
       content: "Comentário teste"
     });
 
-    expect(inMemoryAnswersRepository.items[0].content).toEqual("Comentário teste");
+    expect(inMemoryAnswerCommentsRepository.items[0].content).toEqual("Comentário teste");
   });
 
 })
