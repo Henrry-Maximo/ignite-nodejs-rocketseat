@@ -1,7 +1,4 @@
-import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository.js'
 import { AnswerQuestionUseCase } from './answer-question.js'
-import { Answer } from '../../enterprise/entities/answer.js'
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository.js'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository.js'
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository
@@ -24,7 +21,7 @@ describe('Create Answer', () => {
     })
 
     expect(result.isRight()).toBe(true);
-    expect(inMemoryAnswersRepository.items[0].id).toEqual(result.value?.answer);
+    expect(inMemoryAnswersRepository.items[0]).toEqual(result.value?.answer);
 
     // expect(answer.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
     // expect(inMemoryAnswersRepository.items[0].id).toEqual(answer.id) // verificar no array se o id coincide com o que foi cadastrado

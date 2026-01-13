@@ -25,7 +25,7 @@ describe('Fetch Answer Comments', () => {
     expect(result.value?.answerComments).toHaveLength(3);
   });
 
-  it('should be able to fetch paginated paginated comments', async () => {
+  it('should be able to fetch paginated comments', async () => {
     for (let i = 1; i <= 22; i++) {
       await inMemoryAnswerCommentsRepository.create(makeAnswerComment({ answerId: new UniqueEntityID('answer-1') }));
     }

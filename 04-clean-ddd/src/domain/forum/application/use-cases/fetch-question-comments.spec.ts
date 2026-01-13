@@ -23,10 +23,10 @@ describe('Fetch Questions Comments', () => {
       page: 1
     });
   
-    expect(result.value?.questionComments).toHaveLength(3);
+    expect(result.value).toHaveLength(3);
   });
 
-  it('should be able to fetch paginated paginated comments', async () => {
+  it('should be able to fetch paginated comments', async () => {
     for (let i = 1; i <= 22; i++) {
       await inMemoryQuestionCommentsRepository.create(makeQuestionComment({ questionId: new UniqueEntityID('question-1') }));
     }
@@ -36,7 +36,7 @@ describe('Fetch Questions Comments', () => {
       page: 2
     });
   
-    expect(result.value?.questionComments).toHaveLength(2);
+    expect(result.value).toHaveLength(2);
   });
 
 })
