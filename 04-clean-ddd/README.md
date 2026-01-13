@@ -88,3 +88,32 @@ Comandos:
 
 - Email, SnowFlakeID, UUID, SEOID.
 
+# Conceitos (aplicação DDD)
+## Pattern 
+
+- AggregateRoot (Aggregate): conjunto de entidadas que são manipuladas ao mesmo tempo, compondo algo maior, que chamamos de "agregados". Podendo ser na criação, remoção, atualização, etc... se comparado a entidades simples, o agregado pode fazer, tem o direito de executar certas ações.
+- WatchedList: lista observada - question -> attachment[], se estamos criando uma questão e permitimos a criação de anexos, configuramos como agregados. Ou seja, ambos serão persistido ao mesmo tempo, e se optarmos por editar, também podemos alterar os anexos.
+
+## Exemplo
+
+- Order (entidade principal) -> OrderItem[] (subentidade)
+- Order -> Shipping
+
+### Criação
+
+- Título
+- Conteúdo
+- Anexos: para cada anexo, eu crio um registro na tabela de anexos (quantidade 3)
+
+### Edição
+
+- Título
+- Conteúdo
+
+- Anexo: 
+  - adicionar um novo anexo (create), 
+  - remover o segundo anexo que tinha sido criado previamente (delete), 
+  - editar um anexo existente (update);
+
+- WatchedList: Uma classe que permite ter mais informações sobre itens de uma lista, sabendo diferença
+o que foi alterado (novo/modificado). Sabemos os caminhos que podemos traçar para obter a melhor performance trabalhando com agregados que tem um watchedlist, ou seja, um array de itens.

@@ -31,15 +31,15 @@ describe('Get Question By Slug', () => {
 
     await inMemoryQuestionsRepository.create(newQuestion)
 
-    const { question } = await sut.execute({
+    const result = await sut.execute({
       slug: 'example-question',
     })
 
     // verificar retorno por causa da biblioteca faker (geração de dados)
     // console.log(question);
 
-    expect(question.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
-    expect(question.title).toEqual(newQuestion.title)
+    expect(result.value?.question.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
+    expect(result.value?.question.title).toEqual(newQuestion.title)
   })
 
 })

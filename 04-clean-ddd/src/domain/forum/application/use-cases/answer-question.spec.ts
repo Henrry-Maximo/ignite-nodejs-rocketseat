@@ -17,14 +17,17 @@ describe('Create Answer', () => {
   it('should be able to create an answer', async () => {
     // const createQuestion = new CreateQuestionUseCase(fakeQuestionsRepository)
 
-    const { answer } = await sut.execute({
+    const result = await sut.execute({
       questionId: '1',
       instructorId: '1',
       content: 'Conteúdo da pergunta',
     })
 
-    expect(answer.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
-    expect(inMemoryAnswersRepository.items[0].id).toEqual(answer.id) // verificar no array se o id coincide com o que foi cadastrado
+    expect(result.isRight()).toBe(true);
+    expect(inMemoryAnswersRepository.items[0].id).toEqual(result.value?.answer);
+
+    // expect(answer.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
+    // expect(inMemoryAnswersRepository.items[0].id).toEqual(answer.id) // verificar no array se o id coincide com o que foi cadastrado
   })
 
 })
