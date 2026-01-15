@@ -1,7 +1,7 @@
 import { UniqueEntityID } from './unique-entity-id'
 
 // class base of entity
-export class Entity<Props> {
+export abstract class Entity<Props> {
   // arquivos de foram não podem alterar o id da entidade
   private _id: UniqueEntityID
 
