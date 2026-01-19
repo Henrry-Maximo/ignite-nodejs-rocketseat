@@ -7,7 +7,7 @@ import { UniqueEntityID } from "@/core/entities/unique-entity-id";
   * Motivo: na camada de domínio, serve como um caminho intermediário que possibilita realizar a conexão entre duas entidades.
 */
 
-interface QuestionAttachmentProps {
+export interface QuestionAttachmentProps {
   questionId: UniqueEntityID;
   attachmentId: UniqueEntityID;
 }
