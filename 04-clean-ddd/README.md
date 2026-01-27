@@ -118,3 +118,38 @@ Comandos:
 
 - WatchedList: Uma classe que permite ter mais informações sobre itens de uma lista, sabendo diferença
 o que foi alterado (novo/modificado). Sabemos os caminhos que podemos traçar para obter a melhor performance trabalhando com agregados que tem um watchedlist, ou seja, um array de itens.
+
+# Subdomínios
+
+- Core: o que dá dinheiro
+- Supporting: Dá suporte para o core funcionar
+- Generic: Precisa deles, mas não são tão importantes
+
+Analogia: um software para a empresa, podendo dizer que "subdomínios" são os setores (departamentos). Mas, também, um setor da empresa pode ser vários subdomínios. Além de temas que estão fora da empresa, também podem ser subdomínio.
+
+## Exemplos
+
+### Core
+
+- Compra
+- Catálogo
+- Pagamento
+- Entrega
+- Faturamento
+
+Obs.: não se pode chamar a função de um subdomínio dentro de outro subdomínio.
+O subdomínio (código) deve ser independete, podendo ser excluído eventualmente, e não afetará nenhum outro subdomínio.
+
+Resultado: teremos que ter uma estrutura de comunicação entre os subdomínios, que ficará responsável em avisar, assim sendo possível o subdomínio realizar a ação que deseja. Ou seja, avisar o subdomínio de faturamento quando houve uma compra, pra então realizar uma ação naquela compra. 
+
+### Supporting
+
+- Estoque
+
+### Generic
+
+- Notificação ao Cliente
+- Promoções
+- Chat
+
+Obs.: pode substítui-las por coisas prontas, não são essenciais para o negócio continuar funcionando.
