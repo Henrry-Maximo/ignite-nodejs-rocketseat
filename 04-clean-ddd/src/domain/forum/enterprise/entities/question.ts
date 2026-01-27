@@ -71,7 +71,7 @@ export class Question extends AggregateRoot<QuestionProps> {
   set title(title: string) {
     this.props.title = title
     this.props.slug = Slug.createFromText(title)
-    this.touch()
+    this.touch() // marcar o updateAt
   }
 
   set content(content: string) {
@@ -81,6 +81,7 @@ export class Question extends AggregateRoot<QuestionProps> {
 
   set attachments(attachments: QuestionAttachmentList) {
     this.props.attachments = attachments;
+    this.touch();
   }
 
   set bestAnswerId(bestAnswerId: UniqueEntityID | undefined) {

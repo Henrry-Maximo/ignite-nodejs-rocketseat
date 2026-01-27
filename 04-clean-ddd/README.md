@@ -62,6 +62,7 @@ Comandos:
     - "start:test:watch": "vitest" (observar qualquer alteração)
   - @faker-js/faker -D: pacote para gerar dados fictícios aleatórios para utilizar nos testes.
   - Purify - Functional Programming Library for TypeScript
+  - npx tsx --noEmit
 
 ## Conversa
   - Como **instrutor**, sinto muita dificuldade em saber as //dúvidas// dos **alunos**

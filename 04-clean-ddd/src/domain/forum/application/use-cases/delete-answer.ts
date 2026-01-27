@@ -1,5 +1,5 @@
 import { Either, left, right } from '@/core/either';
-import { AnswersRepository } from '../repositories/answers-repository'
+import { AnswersRepository } from '../repositories/answers-repository';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
 import { NotAllowedError } from './errors/not-allowed-error';
 
@@ -27,7 +27,7 @@ export class DeleteAnswerUseCase {
       return left(new NotAllowedError());
     }
 
-    await this.answersRepository.delete(answer)
+    await this.answersRepository.delete(answer);
 
     return right({ });
   }

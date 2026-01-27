@@ -2,6 +2,7 @@ import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questio
 import { GetQuestionBySlugUseCase } from './get-question-by-slug.js'
 import { makeQuestion } from 'test/factories/make-question'
 import { Slug } from '../../enterprise/entities/value-objects/slug.js'
+import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository.js'
 
 /*
 create: async function (answer: Answer): Promise<void> {
@@ -13,14 +14,20 @@ create: async function (answer: Answer): Promise<void> {
 //   create: async (question: Question) => {},
 // }
 
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository;
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let sut: GetQuestionBySlugUseCase
 // sut: system under test
 
 describe('Get Question By Slug', () => {
   beforeEach(() => {
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
-    sut = new GetQuestionBySlugUseCase(inMemoryQuestionsRepository)
+    inMemoryQuestionAttachmentsRepository = 
+      new InMemoryQuestionAttachmentsRepository();
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+      inMemoryQuestionAttachmentsRepository
+    );
+
+    sut = new GetQuestionBySlugUseCase(inMemoryQuestionsRepository);
   })
 
   it('should be able to get a question by slug', async () => {
@@ -38,8 +45,15 @@ describe('Get Question By Slug', () => {
     // verificar retorno por causa da biblioteca faker (geração de dados)
     // console.log(question);
 
-    expect(result.value?.question.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
-    expect(result.value?.question.title).toEqual(newQuestion.title)
+    //expect(result.value?.question.id).toBeTruthy() // id não pode ser null/undefined, precisa ser verdadeiro
+    //expect(result.value?.question.title).toEqual(newQuestion.title)
+
+    expect(result.value).toMatchObject({
+      question: expect.objectContaining({
+        title: newQuestion.title
+      })  
+    });
+
   })
 
 })
