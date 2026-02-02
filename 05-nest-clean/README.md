@@ -12,3 +12,8 @@
 (tsconfig.json)
 - "strict": true,
 - "strictNullChecks": true,
+
+## generate rsa256 private and public keys on windows.
+- openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:2048
+- openssl rsa -pubout -in private.key -out public.key
+- base64 -w 0 private.key > private_key-base64.txt
