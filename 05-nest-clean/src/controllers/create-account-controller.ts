@@ -28,6 +28,7 @@ export class CreateAccountController {
   @HttpCode(201)
   @UsePipes(new ZodValidationPipe(createAccountBodySchema)) // not more necessary use parse, its is validation
   async handle(@Body() body: CreateAccountBodySchema) {
+    // const { name, email, password } = createAccountBodySchema.parse(body);
     const { name, email, password } = body;
 
     const userWithSameEmail = await this.prisma.user.findUnique({
