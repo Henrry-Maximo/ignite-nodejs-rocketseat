@@ -22,7 +22,7 @@ and the module is imported in the main.ts
     }),
     AuthModule,
   ],
-  controllers: [CreateAccountController, AuthenticateController],
+  controllers: [CreateAccountController, AuthenticateController, CreateAccountController],
   providers: [PrismaService],
 })
 export class AppModule { }
