@@ -17,3 +17,10 @@
 - openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:2048
 - openssl rsa -pubout -in private.key -out public.key
 - base64 -w 0 private.key > private_key-base64.txt
+
+## Correção de código
+
+- pnpm tsc --noEmit
+  - Checar se há erro de typescript
+
+- pnpm lint
