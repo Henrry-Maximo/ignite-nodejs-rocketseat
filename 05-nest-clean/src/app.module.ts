@@ -18,12 +18,17 @@ and the module is imported in the main.ts
 @Module({
   imports: [
     ConfigModule.forRoot({
-      validate: env => envSchema.parse(env),
-      isGlobal: true
+      validate: (env) => envSchema.parse(env),
+      isGlobal: true,
     }),
     AuthModule,
   ],
-  controllers: [CreateAccountController, AuthenticateController, CreateAccountController, FetchRecentQuestionsController],
+  controllers: [
+    CreateAccountController,
+    AuthenticateController,
+    CreateAccountController,
+    FetchRecentQuestionsController,
+  ],
   providers: [PrismaService],
 })
-export class AppModule { }
+export class AppModule {}

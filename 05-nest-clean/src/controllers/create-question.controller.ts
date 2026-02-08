@@ -1,48 +1,44 @@
-import { Body, Controller, Post, UseGuards, UsePipes } from "@nestjs/common";
-import { CurrentUser } from "@/auth/current-user-decorator";
-import { JwtAuthGuard } from "@/auth/jwt-auth.guard";
-import { type UserPayload } from "@/auth/jwt.strategy";
-import { ZodValidationPipe } from "@/pipes/zod-validation-pipe";
-import { PrismaService } from "@/prisma/prisma.service";
-import z from "zod";
+import { Body, Controller, Post, UseGuards, UsePipes } from '@nestjs/common'
+import { CurrentUser } from '@/auth/current-user-decorator'
+import { JwtAuthGuard } from '@/auth/jwt-auth.guard'
+import { type UserPayload } from '@/auth/jwt.strategy'
+import { ZodValidationPipe } from '@/pipes/zod-validation-pipe'
+import { PrismaService } from '@/prisma/prisma.service'
+import z from 'zod'
 
 const createQuestionBodySchema = z.object({
   title: z.string(),
   content: z.string(),
-});
+})
 
-type CreateQuestionBodySchema = z.infer<typeof createQuestionBodySchema>;
+type CreateQuestionBodySchema = z.infer<typeof createQuestionBodySchema>
 
-const bodyValidationPipe = new ZodValidationPipe(createQuestionBodySchema);
+const bodyValidationPipe = new ZodValidationPipe(createQuestionBodySchema)
 
 @Controller('/questions')
 @UseGuards(JwtAuthGuard)
 export class CreateQuestionController {
-  constructor(
-    private prisma: PrismaService
-  ) {};
-  
-  
+  constructor(private prisma: PrismaService) {}
+
   @Post()
-  // @UsePipes(new ZodValidationPipe(createQuestionBodySchema)) // not more necessary use 
+  // @UsePipes(new ZodValidationPipe(createQuestionBodySchema)) // not more necessary use
   async handle(
     @Body(bodyValidationPipe) body: CreateQuestionBodySchema,
-    @CurrentUser() user: UserPayload
+    @CurrentUser() user: UserPayload,
   ) {
-    const { title, content } = body;
-    const { sub: userId } = user;
+    const { title, content } = body
+    const { sub: userId } = user
 
-    const slug = this.convertToSlug(title);
+    const slug = this.convertToSlug(title)
 
     await this.prisma.question.create({
       data: {
         authorId: userId,
         title,
         content,
-        slug
-      }
-    });
-    
+        slug,
+      },
+    })
   }
 
   private convertToSlug(title: string): string {
@@ -61,6 +57,6 @@ export class CreateQuestionController {
 // @Post()
 // async handle(@Req() request: Request) {
 //   console.log(request.user);
-  
+
 //   return 'ok';
 // }

@@ -2,32 +2,31 @@
 //   expect(1 + 1).toBe(2);
 // })
 
-import { AppModule } from "@/app.module";
-import { PrismaService } from "@/prisma/prisma.service";
-import { INestApplication } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { Test } from "@nestjs/testing";
-import request from "supertest";
+import { AppModule } from '@/app.module'
+import { PrismaService } from '@/prisma/prisma.service'
+import { INestApplication } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+import { Test } from '@nestjs/testing'
+import request from 'supertest'
 
 describe('Create question (E2E)', () => {
-  let app: INestApplication;
-  let prisma: PrismaService;
-  let jwt: JwtService;
+  let app: INestApplication
+  let prisma: PrismaService
+  let jwt: JwtService
 
   beforeAll(async () => {
     // subir a aplicação de forma programática
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    }).compile()
 
-    app = moduleRef.createNestApplication();
+    app = moduleRef.createNestApplication()
 
-    prisma = moduleRef.get(PrismaService);
-    jwt = moduleRef.get(JwtService);
+    prisma = moduleRef.get(PrismaService)
+    jwt = moduleRef.get(JwtService)
 
-    await app.init();
-  });
-
+    await app.init()
+  })
 
   test('[POST] /questions', async () => {
     const user = await prisma.user.create({
@@ -35,25 +34,27 @@ describe('Create question (E2E)', () => {
         name: 'John Doe',
         email: 'johndoe@example.com',
         password: '123456',
-      }
-    });
+      },
+    })
 
-    const accessToken = jwt.sign({ sub: user.id });
+    const accessToken = jwt.sign({ sub: user.id })
 
-    const response = await request(app.getHttpServer()).post('/questions').set('Authorization', `Bearer ${accessToken}`).send({
-      title: 'New Question',
-      content: "Question content"
-    });
+    const response = await request(app.getHttpServer())
+      .post('/questions')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        title: 'New Question',
+        content: 'Question content',
+      })
 
-    expect(response.statusCode).toBe(201);
+    expect(response.statusCode).toBe(201)
 
     const userOnDatabase = await prisma.question.findFirst({
       where: {
         title: 'New Question',
-      }
-    });
+      },
+    })
 
-    expect(userOnDatabase).toBeTruthy();
-  });
-
+    expect(userOnDatabase).toBeTruthy()
+  })
 })

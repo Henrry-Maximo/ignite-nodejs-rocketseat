@@ -1,0 +1,38 @@
+import { Entity } from '@/core/entities/entity'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+
+export interface CommentProps {
+  authorId: UniqueEntityID
+  content: string
+  createdAt: Date
+  updatedAt?: Date
+}
+
+export abstract class Comment<
+  Props extends CommentProps,
+> extends Entity<Props> {
+  public get authorId() {
+    return this.props.authorId
+  }
+
+  public get content() {
+    return this.props.content
+  }
+
+  set content(content: string) {
+    this.props.content = content
+    this.touch()
+  }
+
+  public get createdAt() {
+    return this.props.createdAt
+  }
+
+  public get updatedAt() {
+    return this.props.updatedAt
+  }
+
+  private touch() {
+    this.props.updatedAt = new Date()
+  }
+}
