@@ -18,28 +18,75 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 
     if (!question) {
       return null;
-    }
+    };
 
     return PrismaQuestionMapper.toDomain(question);
   }
 
-  findBySlug(slug: string): Promise<Question | null> {
-    throw new Error("Method not implemented.");
+  async findBySlug(slug: string): Promise<Question | null> {
+    const question = await this.prisma.question.findUnique({
+      where: {
+        slug
+      },
+    });
+
+    if (!question) {
+      return null;
+    };
+
+    return PrismaQuestionMapper.toDomain(question);
   }
 
-  findManyRecent(page: PaginationParams): Promise<Question[]> {
-    throw new Error("Method not implemented.");
+  async findManyRecent({ page }: PaginationParams): Promise<Question[]> {
+    const questions = await this.prisma.question.findManyRecent({
+      orderBy: {
+        createdAt: 'desc', // mais recentes primeiro
+      },
+      take: 20,
+      skip: (page - 1) * 20
+    });
+
+    // versão 1
+    // return questions.map(question => {
+    //   return PrismaQuestionMapper.toDomain(question);
+    // });
+
+    // versão 2
+    return questions.map(PrismaQuestionMapper.toDomain);
   }
 
-  save(question: Question): Promise<void> {
-    throw new Error("Method not implemented.");
+  async create(question: Question): Promise<void> {
+    const data = PrismaQuestionMapper.toPrisma(question);
+
+    await this.prisma.question.create({
+      data,
+      // opção 1 (quebrando o mapper)
+      // data: {
+      //   title: question.title,
+      //   slug: question.slug.value
+      // }
+    });
   }
 
-  create(answers: Question): Promise<void> {
-    throw new Error("Method not implemented.");
+  async save(question: Question): Promise<void> {
+    const data = PrismaQuestionMapper.toPrisma(question);
+
+    await this.prisma.question.update({
+      where: {
+        id: data.id
+      },
+      data
+    });
   }
 
-  delete(question: Question): Promise<void> {
-    throw new Error("Method not implemented.");
+  async delete(question: Question): Promise<void> {
+    const data = PrismaQuestionMapper.toPrisma(question);
+
+    await this.prisma.question.delete({
+      where: {
+        id: data.id
+      },
+    });
+
   }
 }
