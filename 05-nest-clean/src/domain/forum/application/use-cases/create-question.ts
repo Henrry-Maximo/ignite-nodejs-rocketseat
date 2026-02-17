@@ -1,9 +1,10 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Question } from '../../enterprise/entities/question'
-import { QuestionsRepository } from '../repositories/questions-repository'
 import { Either, right } from '@/core/either'
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
+import { Injectable } from '@nestjs/common'
+import { QuestionsRepository } from '../repositories/questions-repository'
 
 /*
  * Upload de arquivos: *
@@ -29,6 +30,18 @@ type CreateQuestionUseCaseResponse = Either<
   }
 >
 
+/* 
+
+Opção 1: Adicionando um código de um framework dentro da parte de domínio da aplicação (fere a regra de desacoplamento da clean archtecture)
+@Injectable()  
+
+Obs.: não prejudica o comportamento da classe
+
+Opção 2: Criar uma repsentação do caso de uso dentro da camada de infra. Por exemplo, "nest-create-question-use-case", e será uma classe que extende a CreateQuestionUseCase, não tendo qualquer tipo de implementação, apenas um constructor. Aplicando no constructor a dependência em questão, que refere-se ao uso do use-case. Utilizando o método super para sobreescrever com a dependência.
+
+*/
+
+@Injectable()  
 export class CreateQuestionUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
 
