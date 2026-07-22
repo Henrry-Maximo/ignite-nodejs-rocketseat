@@ -3,6 +3,7 @@ import { Question } from '../../enterprise/entities/question'
 
 // build do javascript não enxerga interface, utilizar uma classe abstrata
 
+// utilizar a classe como um token no nestjs após sua compilação, um identificador.
 export abstract class QuestionsRepository {
   abstract findById(id: string): Promise<Question | null>
   abstract findBySlug(slug: string): Promise<Question | null> // se a slug enviada não existir, retornar null
