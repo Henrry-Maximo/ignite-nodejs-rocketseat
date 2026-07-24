@@ -32,6 +32,7 @@ Ou seja, não há necessidade de pensar em qual ferramenta utilizar, apenas chec
 - pnpm prisma init
 - pnpm prisma migrate dev
 - pnpm i bcryptjs
+- pnpm add @types/bcryptjs -D
 - pnpm i zod
 - pnpm i zod-validation-error
 - rest client -> # POST http://localhost:3000/accounts
@@ -40,6 +41,8 @@ Ou seja, não há necessidade de pensar em qual ferramenta utilizar, apenas chec
 (tsconfig.json)
 - "strict": true,
 - "strictNullChecks": true,
+
+- pnpm add @nestjs/passport @nestjs/jwt
 
 ## generate rsa256 private and public keys on windows.
 - openssl genpkey -algorithm RSA -out private.key -pkeyopt rsa_keygen_bits:2048
