@@ -37,7 +37,7 @@ model Question {
   slug         String    @unique
   content      String
   createdAt    DateTime  @default(now()) @map("created_at")
-  updateAt     DateTime? @map("update_at")
+  updatedAt    DateTime? @map("update_at")
   authorId     String    @map("author_id")
   bestAnswerId String?   @unique @map("best_answer_id")
 

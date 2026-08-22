@@ -5,6 +5,7 @@ import { CreateAccountController } from "./controllers/create-account.controller
 import { FetchRecentQuestionsController } from "./controllers/fetch-recent-questions.controller";
 import { DatabaseModule } from "../database/database.module";
 import { CreateQuestionUseCase } from "@/domain/forum/application/use-cases/create-question";
+import { FetchRecentQuestionsUseCase } from "@/domain/forum/application/use-cases/fetch-recent-questions";
 
 
 @Module({
@@ -17,7 +18,10 @@ import { CreateQuestionUseCase } from "@/domain/forum/application/use-cases/crea
     CreateAccountController,
     FetchRecentQuestionsController,
   ],
-  providers: [CreateQuestionUseCase]
+  providers: [
+    CreateQuestionUseCase, 
+    FetchRecentQuestionsUseCase
+  ],
   // providers: [
   //   PrismaService
   // ]

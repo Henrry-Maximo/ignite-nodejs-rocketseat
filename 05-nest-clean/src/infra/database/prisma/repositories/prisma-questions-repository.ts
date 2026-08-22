@@ -38,7 +38,7 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
   }
 
   async findManyRecent({ page }: PaginationParams): Promise<Question[]> {
-    const questions = await this.prisma.question.findManyRecent({
+    const questions = await this.prisma.question.findMany({
       orderBy: {
         createdAt: 'desc', // mais recentes primeiro
       },
