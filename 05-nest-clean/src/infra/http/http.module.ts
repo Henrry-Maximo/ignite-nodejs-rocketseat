@@ -22,6 +22,11 @@ import { CryptographyModule } from "../cryptography/cryptography.module";
     FetchRecentQuestionsController,
   ],
   providers: [
+    // {
+    //   // registrar guard de maneira global
+    //   provide: APP_GUARD,
+    //   useClass: JwtAuthGuard
+    // },
     CreateQuestionUseCase, 
     FetchRecentQuestionsUseCase,
     RegisterStudentUseCase,
