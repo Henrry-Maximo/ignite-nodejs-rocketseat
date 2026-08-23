@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common'
-import { PrismaService } from './database/prisma/prisma.service'
 import { ConfigModule } from '@nestjs/config'
-import { envSchema } from './env'
+import { envSchema } from './env/env'
 import { AuthModule } from './auth/auth.module'
 import { HttpModule } from './http/http.module'
+import { EnvModule } from './env/env.module'
 
 /*
 
@@ -21,7 +21,9 @@ and the module is imported in the main.ts
     }),
     AuthModule,
     HttpModule,
+    EnvModule, // app conheça as variáveis de ambiente
   ],
+  // providers: [EnvService]
   // controllers: [
   //   CreateAccountController,
   //   AuthenticateController,
