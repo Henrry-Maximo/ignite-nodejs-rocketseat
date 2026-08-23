@@ -1,19 +1,23 @@
 import {
+  BadRequestException,
   Body,
   Controller,
-  Post, UsePipes
-} from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import z from 'zod'
-import { AuthenticateStudentUseCase } from '@/domain/forum/application/use-cases/authenticate-student'
+  Post,
+  UnauthorizedException,
+  UsePipes,
+} from "@nestjs/common";
+import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
+import z from "zod";
+import { AuthenticateStudentUseCase } from "@/domain/forum/application/use-cases/authenticate-student";
+import { WrongCredentialsError } from "@/domain/forum/application/use-cases/errors/wrong-credentials-error";
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
   password: z.string(),
-})
+});
 
 // // is possible infer typing typescript, without necessary write
-type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>
+type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>;
 
 // interface IBody {
 //   name: string;
@@ -21,10 +25,10 @@ type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>
 //   password: string;
 // }
 
-@Controller('/sessions')
+@Controller("/sessions")
 export class AuthenticateController {
   constructor(
-    private authenticateStudent: AuthenticateStudentUseCase
+    private authenticateStudent: AuthenticateStudentUseCase,
     // private prisma: PrismaService,
     // private jwt: JwtService,
   ) {}
@@ -32,15 +36,27 @@ export class AuthenticateController {
   @Post()
   @UsePipes(new ZodValidationPipe(authenticateBodySchema))
   async handle(@Body() body: AuthenticateBodySchema) {
-    const { email, password } = body
+    const { email, password } = body;
 
     const result = await this.authenticateStudent.execute({
       email,
-      password
+      password,
     });
 
     if (result.isLeft()) {
-      throw new Error()
+      // armazenar o erro que ocorreu
+      const error = result.value;
+
+      switch (error.constructor) {
+        case WrongCredentialsError:
+          // resposta com status code 401 (credênciais inválidas)
+          throw new UnauthorizedException(error.message);
+        default:
+          // um erro padrão (400 - erro esperado)
+          throw new BadRequestException(error.message);
+      }
+
+      // se for erro 500, o próprio nestjs vai retornar erro 500 (sem tratativa)
     }
 
     const { accessToken } = result.value;
@@ -48,7 +64,7 @@ export class AuthenticateController {
     // underscore
     return {
       access_token: accessToken,
-    }
+    };
   }
 }
 
