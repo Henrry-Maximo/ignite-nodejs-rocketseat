@@ -87,6 +87,5 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
         id: data.id
       },
     });
-
   }
 }
