@@ -1,3 +1,4 @@
+import { Slug } from "@/domain/forum/enterprise/entities/value-objects/slug";
 import { AppModule } from "@/infra/app.module";
 import { DatabaseModule } from "@/infra/database/database.module";
 import { PrismaService } from "@/infra/database/prisma/prisma.service";
@@ -5,18 +6,20 @@ import { INestApplication } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
+import { QuestionFactory } from "test/factories/make-question";
 import { StudentFactory } from "test/factories/make-student";
 
 describe("Get question by slug (E2E)", () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let studentFactory: StudentFactory
+  let questionFactory: QuestionFactory
   let jwt: JwtService;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
-      providers: [StudentFactory, DatabaseModule]
+      providers: [StudentFactory, QuestionFactory, DatabaseModule]
     }).compile();
 
     app = moduleRef.createNestApplication();
@@ -24,6 +27,7 @@ describe("Get question by slug (E2E)", () => {
     // injeção da dependência
     prisma = moduleRef.get(PrismaService);
     studentFactory = moduleRef.get(StudentFactory)
+    questionFactory = moduleRef.get(QuestionFactory)
     jwt = moduleRef.get(JwtService);
 
     await app.init();
@@ -44,14 +48,20 @@ describe("Get question by slug (E2E)", () => {
 
     // utilizando o mapper para converter os dados da camada de domínio para de persistência
     // const question = makeQuestion();
-    await prisma.question.create({
-      data: {
-        title: "Question 01",
-        slug: "question-01",
-        content: "Question content",
-        authorId: user.id.toString(),
-      },
-      // data: PrismaQuestionMapper.toPrisma(question)
+    // await prisma.question.create({
+    //   data: {
+    //     title: "Question 01",
+    //     slug: "question-01",
+    //     content: "Question content",
+    //     authorId: user.id.toString(),
+    //   },
+    //   // data: PrismaQuestionMapper.toPrisma(question)
+    // });
+
+    await questionFactory.makePrismaQuestion({
+      authorId: user.id,
+      title: 'Question-01',
+      slug: Slug.create('question-01'),
     });
 
     const response = await request(app.getHttpServer())
