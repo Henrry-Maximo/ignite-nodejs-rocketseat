@@ -9,6 +9,8 @@ import { FetchRecentQuestionsUseCase } from "@/domain/forum/application/use-case
 import { RegisterStudentUseCase } from "@/domain/forum/application/use-cases/register-student";
 import { AuthenticateStudentUseCase } from "@/domain/forum/application/use-cases/authenticate-student";
 import { CryptographyModule } from "../cryptography/cryptography.module";
+import { GetQuestionBySlugUseCase } from "@/domain/forum/application/use-cases/get-question-by-slug";
+import { GetQuestionBySlugController } from "./controllers/get-question-by-slug.controller";
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { CryptographyModule } from "../cryptography/cryptography.module";
     AuthenticateController,
     CreateAccountController,
     FetchRecentQuestionsController,
+    GetQuestionBySlugController
   ],
   providers: [
     // {
@@ -31,6 +34,7 @@ import { CryptographyModule } from "../cryptography/cryptography.module";
     FetchRecentQuestionsUseCase,
     RegisterStudentUseCase,
     AuthenticateStudentUseCase,
+    GetQuestionBySlugUseCase
   ],
   // providers: [
   //   PrismaService
