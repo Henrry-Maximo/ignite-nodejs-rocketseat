@@ -31,7 +31,8 @@ import { AnswerQuestionUseCase } from "@/domain/forum/application/use-cases/answ
     GetQuestionBySlugController,
     EditQuestionController,
     DeleteQuestionController,
-    AnswerQuestionController
+    AnswerQuestionController,
+    EditQuestionController,
   ],
   providers: [
     // {
@@ -46,7 +47,8 @@ import { AnswerQuestionUseCase } from "@/domain/forum/application/use-cases/answ
     GetQuestionBySlugUseCase,
     EditQuestionUseCase,
     DeleteQuestionUseCase,
-    AnswerQuestionUseCase
+    AnswerQuestionUseCase,
+    EditQuestionUseCase
   ],
   // providers: [
   //   PrismaService
