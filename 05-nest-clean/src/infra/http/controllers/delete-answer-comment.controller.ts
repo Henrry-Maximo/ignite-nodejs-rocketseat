@@ -7,22 +7,22 @@ import {
 } from "@nestjs/common";
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import { type UserPayload } from "@/infra/auth/jwt.strategy";
-import { DeleteQuestionCommentUseCase } from "@/domain/forum/application/use-cases/delete-question-comment";
+import { DeleteAnswerCommentUseCase } from "@/domain/forum/application/use-cases/delete-answer-comment";
 
-@Controller("/questions/comments/:id")
-export class DeleteQuestionCommentController {
-  constructor(private deleteQuestionComment: DeleteQuestionCommentUseCase) {}
+@Controller("/answers/comments/:id")
+export class DeleteAnswerCommentController {
+  constructor(private deleteAnswerComment: DeleteAnswerCommentUseCase) {}
 
   @Delete()
   @HttpCode(204)
   async handle(
     @CurrentUser() user: UserPayload,
-    @Param("id") questionCommentId: string,
+    @Param("id") answerCommentId: string,
   ) {
     const { sub: userId } = user;
 
-    const result = await this.deleteQuestionComment.execute({
-      questionCommentId,
+    const result = await this.deleteAnswerComment.execute({
+      answerCommentId,
       authorId: userId,
     });
 

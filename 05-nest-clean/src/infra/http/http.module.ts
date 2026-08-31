@@ -29,6 +29,8 @@ import { DeleteQuestionCommentController } from "./controllers/delete-question-c
 import { DeleteQuestionCommentUseCase } from "@/domain/forum/application/use-cases/delete-question-comment";
 import { CommentOnAnswerController } from "./controllers/comment-on-answer.controller";
 import { CommentOnAnswerUseCase } from "@/domain/forum/application/use-cases/comment-on-answer";
+import { DeleteAnswerCommentController } from "./controllers/delete-answer-comment.controller";
+import { DeleteAnswerCommentUseCase } from "@/domain/forum/application/use-cases/delete-answer-comment";
 
 @Module({
   imports: [
@@ -50,7 +52,8 @@ import { CommentOnAnswerUseCase } from "@/domain/forum/application/use-cases/com
     ChooseQuestionBestAnswerController,
     CommentOnQuestionController,
     DeleteQuestionCommentController,
-    CommentOnAnswerController
+    CommentOnAnswerController,
+    DeleteAnswerCommentController
   ],
   providers: [
     // {
@@ -72,7 +75,8 @@ import { CommentOnAnswerUseCase } from "@/domain/forum/application/use-cases/com
     ChooseQuestionBestAnswerUseCase,
     CommentOnQuestionUseCase,
     DeleteQuestionCommentUseCase,
-    CommentOnAnswerUseCase
+    CommentOnAnswerUseCase,
+    DeleteAnswerCommentUseCase
   ],
   // providers: [
   //   PrismaService
