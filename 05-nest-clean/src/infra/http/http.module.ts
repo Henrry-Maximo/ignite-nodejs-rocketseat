@@ -19,6 +19,8 @@ import { AnswerQuestionController } from "./controllers/answer-question.controll
 import { AnswerQuestionUseCase } from "@/domain/forum/application/use-cases/answer-question";
 import { DeleteAnswerController } from "./controllers/delete-answer.controller";
 import { DeleteAnswerUseCase } from "@/domain/forum/application/use-cases/delete-answer";
+import { FetchQuestionAnswersController } from "./controllers/fetch-question-answers.controller";
+import { FetchQuestionsAnswersUseCase } from "@/domain/forum/application/use-cases/fetch-question-answers";
 
 @Module({
   imports: [
@@ -35,7 +37,8 @@ import { DeleteAnswerUseCase } from "@/domain/forum/application/use-cases/delete
     DeleteQuestionController,
     AnswerQuestionController,
     EditQuestionController,
-    DeleteAnswerController
+    DeleteAnswerController,
+    FetchQuestionAnswersController
   ],
   providers: [
     // {
@@ -52,7 +55,8 @@ import { DeleteAnswerUseCase } from "@/domain/forum/application/use-cases/delete
     DeleteQuestionUseCase,
     AnswerQuestionUseCase,
     EditQuestionUseCase,
-    DeleteAnswerUseCase
+    DeleteAnswerUseCase,
+    FetchQuestionsAnswersUseCase
   ],
   // providers: [
   //   PrismaService
