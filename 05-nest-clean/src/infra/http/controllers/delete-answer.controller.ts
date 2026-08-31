@@ -1,8 +1,9 @@
 import {
-  BadRequestException, Controller,
+  BadRequestException,
+  Controller,
   Delete,
   HttpCode,
-  Param
+  Param,
 } from "@nestjs/common";
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import { type UserPayload } from "@/infra/auth/jwt.strategy";
@@ -16,18 +17,21 @@ export class DeleteAnswerController {
   @HttpCode(204)
   async handle(
     @CurrentUser() user: UserPayload,
-    @Param('id') answerId: string
+    @Param("id") answerId: string,
   ) {
     const { sub: userId } = user;
 
-    const result = await this.deleteAnswer.execute({
-      answerId,
-      authorId: userId,
-    });
+    try {
+      const result = await this.deleteAnswer.execute({
+        answerId,
+        authorId: userId,
+      });
 
-    if (result.isLeft()) {
-      throw new BadRequestException();
+      if (result.isLeft()) {
+        throw new BadRequestException();
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 }
-
